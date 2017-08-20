@@ -1,4 +1,7 @@
 = Getting started with jQAssistant in a Maven Project
+Oliver B. Fischer <o.b.fischer@swe-blog.net>
+
+:numbered:
 
 [.lead]
 This tutorial shows you how you can use jQAssistant in Maven project
