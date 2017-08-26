@@ -4,8 +4,10 @@ Oliver B. Fischer <o.b.fischer@swe-blog.net>
 :numbered:
 
 [.lead]
+// tag::lead[]
 This tutorial shows you how you can use jQAssistant in Maven project
 by integrating the jQAssistant Plugin for Maven in a project.
+// end::lead[]
 
 NOTE: This tutorial is written for version 1.3.0 of jQAssistant. In
       further versions of jQAssistant some aspects might changed.
