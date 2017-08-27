@@ -40,13 +40,14 @@
         <artifactId>jqassistant-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>scan-and-analyze</id>
+            <id>default</id>
             <goals>
               <goal>scan</goal>
               <goal>analyze</goal>
             </goals>
             <configuration>
-              <failOnSeverity>INFO</failOnSeverity>
+              <warnOnSeverity>INFO</warnOnSeverity>
+              <failOnSeverity>MAJOR</failOnSeverity>
             </configuration>
           </execution>
         </executions>

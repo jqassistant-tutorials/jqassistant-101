@@ -59,7 +59,7 @@ during a normal Maven build.
 $ mvn clean install
 ...
 [INFO]
-[INFO] --- jqassistant-maven-plugin:1.3.0:scan (scan-and-analyze) @ parent ---
+[INFO] --- jqassistant-maven-plugin:1.3.0:scan (default) @ parent ---
 [INFO] Loaded jQAssistant plugins [CDI, Common, Common Test, Core Analysis, EJB3, GraphML, JAX-RS, JPA 2, JSON, JUnit, Java, Java 8, Java EE 6, Maven 3, OSGi, RDBMS, TestNG, Tycho, XML, YAML].
 [INFO] Connecting to store at 'file:/Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/jqassistant/store/'
 [INFO] Resetting store.
