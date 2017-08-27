@@ -1,12 +1,9 @@
 # The 101 of jQAssistant
 
 [.lead]
-This site contains a collection of short tutorials on
-https://jqassistant.org[jQAssistant]. These tutorials
-are indentend to support the users of jQAssitant
-in the daily usage of jQAssistant. For more
-information and documentation visit https://jqassistant.org[^]
-please.
+This site contains a collection of short tutorials on https://jqassistant.org[jQAssistant].
+These tutorials are intended to support the users of jQAssistant in their daily work.
+For more information and documentation visit https://jqassistant.org[^] please.
 
 ## Currently available tutorials
 
@@ -15,7 +12,5 @@ please.
 // May we should raise an issue for this problem?
 // Oliver B. Fischer, 2017-ß8-26
 // * <<integrating-jqa-maven-plugin/readme.adoc#header,Getting started with jQAssistant in a Maven Project>>
-* link:integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project] +
+link:integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
 include::integrating-jqa-maven-plugin/readme.adoc[tag=lead]
-
-
