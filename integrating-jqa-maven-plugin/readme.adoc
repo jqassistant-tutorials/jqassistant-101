@@ -5,21 +5,18 @@ Oliver B. Fischer <o.b.fischer@swe-blog.net>
 
 [.lead]
 // tag::lead[]
-This tutorial shows you how you can use jQAssistant in Maven project
-by integrating the jQAssistant Plugin for Maven in a project.
+This tutorial shows you how you can use jQAssistant in a Maven project by integrating the jQAssistant Plugin.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.3.0 of jQAssistant. In
-      further versions of jQAssistant some aspects might changed.
+NOTE: This tutorial is written for version 1.3.0 of jQAssistant.
+In further versions of jQAssistant some aspects might changed.
 
 
 == Add the Plugin to the Maven POM
 
-Open the top-level `pom.xml` of your project in any editor and
-add a property called `jqassistant.version` to the properties
-of your Maven project. It is a good pratice to managed version information
-with the help of properties. So you can change a version only by
-chaging a property.
+Open the top-level `pom.xml` of your project in any editor and add a property called `jqassistant.version` to the properties of your Maven project. It is a good pratice to managed version information
+with the help of properties.
+So you can migrate to a newer version by just changing the property value.
 
 .Definition of the jQAssistant version to use
 [source,xml]
@@ -27,8 +24,7 @@ chaging a property.
 include::pom.xml[tag=prop,indent=0]
 ----
 
-Now add the plugin to the plugin managemenent section of
-the `pom.xml`.
+Now add the plugin to the plugin management section of the `pom.xml`.
 
 .Declaration of the jQAssistant Maven plugin
 [source,xml]
@@ -36,11 +32,13 @@ the `pom.xml`.
 include::pom.xml[tag=pm,indent=0]
 ----
 
-Now Maven knows that you would like to use the jQAssistant Plugin
-for Maven and which version of it.
+Now Maven knows that you would like to use the jQAssistant Plugin for Maven and which version of it.
+Furthermore basic configuration is provided
 
-To run the plugin during the build you must at the plugin also
-to plugin section.
+* the goals that should be executed by default
+* the severities for log warnings or failing about if rules have failed during analysis
+
+To activate the plugin during the build you must add it to the plugin section.
 
 .Configuration of the jQAssistant Maven plugin
 [source,xml]
@@ -50,8 +48,7 @@ include::pom.xml[tag=plugin,indent=0]
 
 == Running the plugin during the build
 
-With the shown configuration jQAssistant will be executed
-during a normal Maven build.
+Using the shown configuration jQAssistant will be executed during a normal Maven build.
 
 .Running a build including the jQAssistant Maven plugin
 [source,text]
@@ -59,7 +56,7 @@ during a normal Maven build.
 $ mvn clean install
 ...
 [INFO]
-[INFO] --- jqassistant-maven-plugin:1.3.0:scan (scan-and-analyze) @ parent ---
+[INFO] --- jqassistant-maven-plugin:1.3.0:scan (default) @ parent ---
 [INFO] Loaded jQAssistant plugins [CDI, Common, Common Test, Core Analysis, EJB3, GraphML, JAX-RS, JPA 2, JSON, JUnit, Java, Java 8, Java EE 6, Maven 3, OSGi, RDBMS, TestNG, Tycho, XML, YAML].
 [INFO] Connecting to store at 'file:/Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/jqassistant/store/'
 [INFO] Resetting store.
@@ -78,19 +75,16 @@ $ mvn clean install
 ...
 ----
 
-TIP: If you want skip the execution of jQAssistant for any reason,
-     you can run Maven with `-Djqassistant.skip`.
+TIP: If you want skip the execution of jQAssistant for any reason you can run Maven with `-Djqassistant.skip`.
 
-jQAssistant will create during its run a new directory `jqassistant/store`
-below the created `target` directory. It contains the Neo4j database with
-the result of the jQAssistant's scan.
+jQAssistant will create during its run a new directory `jqassistant/store` below the created `target` directory.
+It contains the Neo4j database with the result of the jQAssistant's scan.
 
 == Accessing the generated database
 
-The Maven plugin also contains a goal called `server`. Running the plugin with this
-goal runs an embedded Neo4j server and makes the Neo4j webconsole available.
-On of the last lines of the output contains the server and port of the
-webconsole.
+The Maven plugin also contains a goal called `server`.
+Running the plugin with this goal runs an embedded Neo4j server and makes the Neo4j web console available.
+On of the last lines of the output contains the server and port of the web console.
 
 .Running the embedded Neo4j server
 [source,text]
