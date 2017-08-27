@@ -2,7 +2,7 @@
 
 [.lead]
 This site contains a collection of short tutorials on https://jqassistant.org[jQAssistant].
-These tutorials are intended to support the users of jQAssistant in their daily work.
+These tutorials are intended to support users of jQAssistant in their daily work and outline best practices.
 For more information and documentation visit https://jqassistant.org[^] please.
 
 ## Currently available tutorials
