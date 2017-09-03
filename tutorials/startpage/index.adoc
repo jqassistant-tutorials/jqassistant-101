@@ -13,5 +13,5 @@ please.
 // May we should raise an issue for this problem?
 // Oliver B. Fischer, 2017-ß8-26
 // * <<integrating-jqa-maven-plugin/readme.adoc#header,Getting started with jQAssistant in a Maven Project>>
-link:integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
+link:../integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
 include::integrating-jqa-maven-plugin/readme.adoc[tag=lead]
