@@ -35,6 +35,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.clean.version>3.0.0</maven.clean.version>
+        <maven.install.version>2.5.2</maven.install.version>
+        <maven.invoker.version>3.0.1</maven.invoker.version>
+        <maven.iteration.version>0.5.1</maven.iteration.version>
+        <maven.deploy.version>2.8.2</maven.deploy.version>
+        <maven.resources.version>3.0.2</maven.resources.version>
         <org.asciidoctor-plugin.version>1.5.5</org.asciidoctor-plugin.version>
     </properties>
 
@@ -44,7 +49,7 @@
                 <plugin>
                     <groupId>com.soebes.maven.plugins</groupId>
                     <artifactId>iterator-maven-plugin</artifactId>
-                    <version>0.5.1</version>
+                    <version>${maven.iteration.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -54,7 +59,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-invoker-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>${maven.invoker.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
@@ -110,7 +115,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
+                <version>${maven.deploy.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -118,7 +123,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version> 2.5.2</version>
+                <version>${maven.install.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -167,7 +172,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>${maven.resources.version}</version>
                 <executions>
                     <execution>
                         <id>copy-generated-pages-to-webpage-root</id>
