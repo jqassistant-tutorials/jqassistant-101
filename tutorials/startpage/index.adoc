@@ -15,3 +15,35 @@ please.
 // * <<integrating-jqa-maven-plugin/readme.adoc#header,Getting started with jQAssistant in a Maven Project>>
 link:../integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
 include::./../integrating-jqa-maven-plugin/readme.adoc[tag=lead]
+
+
+++++
+
+<script>
+/*
+ * Inspired by https://github.com/blog/273-github-ribbons
+ */
+var imgEle = document.createElement('img');
+var styValue = 'position: absolute; top: 0; right: 0; border: 0; z-index: 999';
+var srcValue = 'https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67';
+var datValue = 'https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png';
+var altValue = 'Fork me on GitHub';
+
+imgEle.setAttribute('src', srcValue);
+imgEle.setAttribute('data-canonical-src', datValue);
+imgEle.setAttribute('alt', altValue);
+imgEle.setAttribute('style', styValue);
+
+var aEle = document.createElement('a');
+var hrfValue = 'https://github.com/buschmais/jqassistant-101/';
+
+aEle.setAttribute('href', hrfValue);
+aEle.appendChild(imgEle);
+
+var parent = document.getElementsByTagName("body")[0];
+var fc = parent.childNodes[0];
+parent.insertBefore(aEle, fc);
+
+</script>
+
+++++
