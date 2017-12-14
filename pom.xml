@@ -40,7 +40,7 @@
         <maven.iteration.version>0.5.1</maven.iteration.version>
         <maven.deploy.version>2.8.2</maven.deploy.version>
         <maven.resources.version>3.0.2</maven.resources.version>
-        <org.asciidoctor-plugin.version>1.5.5</org.asciidoctor-plugin.version>
+        <org.asciidoctor-plugin.version>1.5.6</org.asciidoctor-plugin.version>
         <websitePath>${project.basedir}/website-test-deployment</websitePath>
     </properties>
 
