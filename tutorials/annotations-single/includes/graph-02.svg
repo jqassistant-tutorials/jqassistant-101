@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="229.89744567871094" height="257.77130126953125"
+     viewBox="58.10954284667969 -71.56745910644531 229.89744567871094 257.77130126953125">
+  <title>Neo4j Graph Visualization</title>
+  <desc>Created using Neo4j (http://www.neo4j.com/)</desc>
+  <g class="layer relationships">
+    <g class="relationship" transform="translate(180.94661226156478 157.2038321597895) rotate(233.4489829507014)">
+      <path class="outline" fill="#A5ABB6" stroke="none"
+            d="M 25 0.5 L 40.64472796606272 0.5 L 40.64472796606272 -0.5 L 25 -0.5 Z M 109.92207171606272 0.5 L 125.56679968212543 0.5 L 125.56679968212543 3.5 L 132.56679968212543 0 L 125.56679968212543 -3.5 L 125.56679968212543 -0.5 L 109.92207171606272 -0.5 Z"/>
+      <text text-anchor="middle" pointer-events="none" font-size="8px" fill="#000000" x="75.28339984106272" y="3"
+            transform="rotate(180 75.28339984106272 0)" font-family="sans-serif">ANNOTATED_BY
+      </text>
+    </g>
+    <g class="relationship" transform="translate(180.94661226156478 157.2038321597895) rotate(301.375703084945)">
+      <path class="outline" fill="#A5ABB6" stroke="none"
+            d="M 25 0.5 L 40.90218610995021 0.5 L 40.90218610995021 -0.5 L 25 -0.5 Z M 102.02718610995021 0.5 L 117.92937221990042 0.5 L 117.92937221990042 3.5 L 124.92937221990042 0 L 117.92937221990042 -3.5 L 117.92937221990042 -0.5 L 102.02718610995021 -0.5 Z"/>
+      <text text-anchor="middle" pointer-events="none" font-size="8px" fill="#000000" x="71.46468610995021" y="3"
+            font-family="sans-serif">DEPENDS_ON
+      </text>
+    </g>
+    <g class="relationship" transform="translate(87.109545492331 30.62618301819184) rotate(359.5241055974916)">
+      <path class="outline" fill="#A5ABB6" stroke="none"
+            d="M 25 0.5 L 61.22512165255013 0.5 L 61.22512165255013 -0.5 L 25 -0.5 Z M 103.67824665255013 0.5 L 139.90336830510026 0.5 L 139.90336830510026 3.5 L 146.90336830510026 0 L 139.90336830510026 -3.5 L 139.90336830510026 -0.5 L 103.67824665255013 -0.5 Z"/>
+      <text text-anchor="middle" pointer-events="none" font-size="8px" fill="#000000" x="82.45168415255013" y="3"
+            font-family="sans-serif">OF_TYPE
+      </text>
+    </g>
+    <g class="relationship" transform="translate(87.109545492331 30.62618301819184) rotate(330.3215743842053)">
+      <path class="outline" fill="#A5ABB6" stroke="none"
+            d="M 25 0.5 L 59.18872360845435 0.5 L 59.18872360845435 -0.5 L 25 -0.5 Z M 81.63794235845435 0.5 L 115.8266659669087 0.5 L 115.8266659669087 3.5 L 122.8266659669087 0 L 115.8266659669087 -3.5 L 115.8266659669087 -0.5 L 81.63794235845435 -0.5 Z"/>
+      <text text-anchor="middle" pointer-events="none" font-size="8px" fill="#000000" x="70.41333298345435" y="3"
+            font-family="sans-serif">HAS
+      </text>
+    </g>
+  </g>
+  <g class="layer nodes">
+    <g class="node" transform="translate(180.94661226156478,157.2038321597895)">
+      <circle class="outline" cx="0" cy="0" r="25" fill="#68BDF6" stroke="#5CA8DB" stroke-width="2px"/>
+      <text text-anchor="middle" pointer-events="none" y="5" font-size="10px" fill="#FFFFFF" font-family="sans-serif">
+        Dings
+      </text>
+    </g>
+    <g class="node selected" transform="translate(259.0069841643245,29.198383085711825)">
+      <circle class="outline" cx="0" cy="0" r="25" fill="#A5ABB6" stroke="#9AA1AC" stroke-width="2px"/>
+      <text text-anchor="middle" pointer-events="none" y="5" font-size="10px" fill="#FFFFFF" font-family="sans-serif">
+        Foo
+      </text>
+    </g>
+    <g class="node" transform="translate(87.109545492331,30.62618301819184)">
+      <circle class="outline" cx="0" cy="0" r="25" fill="#A5ABB6" stroke="#9AA1AC" stroke-width="2px"/>
+      <text text-anchor="middle" pointer-events="none" y="5" font-size="10px" fill="#FFFFFF" font-family="sans-serif">
+        :Annotation
+      </text>
+    </g>
+    <g class="node" transform="translate(215.54401596137635,-42.56746401642401)">
+      <circle class="outline" cx="0" cy="0" r="25" fill="#30B6AF" stroke="#46A39E" stroke-width="2px"/>
+      <text text-anchor="middle" pointer-events="none" y="5" font-size="10px" fill="#FFFFFF" font-family="sans-serif">
+        :Value
+      </text>
+    </g>
+  </g>
+</svg>

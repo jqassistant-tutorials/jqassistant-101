@@ -1,0 +1,116 @@
+:imagesdir: includes
+
+= Analyzing Java's Annotations with jQAssistant
+Oliver B. Fischer <o.b.fischer@swe-blog.net>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+This tutorial showns you how you can analyse Java's annotation
+with jQAssistant which analyse Java annotations.
+// end::lead[]
+
+NOTE: This tutorial has been written for version 1.3.0 of jQAssistant.
+In further versions of jQAssistant some aspects might change.
+
+
+== A Simple Example
+
+In our first example we will a Cypher query to find all classes
+annotated with `@Foo` and a second query to find all values
+for the `name` attributs of the annotation.
+
+A first we will have a look at the source of the `@Foo`
+annotation and it's usage in the class `Dings``
+
+.The `@Foo` Annotation
+[source,java]
+----
+include::src/main/java/you/company/project/anno/Foo.java[lines=9..-1]
+----
+
+.The `Dings` class
+[source,java]
+----
+include::src/main/java/you/company/project/Dings.java[lines=5..-1]
+----
+
+As we can see `@Foo` is a quite simple annotation with only one attribute called
+`name`. Also `Dings` is very straight forward.
+
+
+=== Finding The Usage Of An Annotation
+
+If you would like to find all usages of the annotation `@Foo` in
+your project you have to look any type
+with an annotation of the type `you.company.project.anno.Foo`.
+The correspondending query in Cypher will look like
+the query shown below.
+
+.Cypher query to find classes annotated with `@Foo`
+[source,cypher]
+----
+include::includes/find-classes-annotated-with-foo.cypher[]
+----
+
+The result set of the query will contain three nodes:
+a node for the class `Dings`,
+a node for the annotation and
+a node for the type of the annotation.
+
+.Graph representation of the result set
+image::graph-01.svg[Resultset,300,300,float="right"]
+
+==== tl;dr - Why Three Nodes?
+
+In the first moment it might be confusing that the Cypher
+query operates on tree nodes and not two. So why three nodes?
+
+The `element` node represents the annotated class and
+the `type` node is the representation for the
+annotation type `@Foo`.
+As `@Foo` is a type it can not take values. So Java
+must store the actual value (e.g. `name = "dingsbums")
+somewhere. Here is where the node `annotation` comes into
+play. This nodes represents the concrete annotation with
+it's concrete values found in the code. You can image
+this nodes as 'instance' of an annotation type.
+
+=== Getting The Attribute Values Of An Annotation
+
+.Graph with node for annotation attribute values
+image::graph-02.svg[Tiger,300,300,float="right"]
+
+In case you would like to retrieve the attribute values of
+an annotation, you must keep in mind an attribute and
+it's value belongs to the annotation of the annotated
+element and not to the type of the annotation. The type
+only defines the possible attributes but the concrete annotation
+carries the value of an annotation attribute.
+
+
+For example if you would like to find all values for the
+`name` attribute of the `@Foo` annotation you must extend
+the query from the previous Cypher query. jQAssistant
+stores each attribute of an annotation as single node
+labled with `Value` and linked to the annotation representing
+the concrete annotation with a relation labled with `HAS`.
+Therefore we have to modify our Cypher query as shown
+below.
+
+.Cypher query to find classes annotated with `@Foo`
+[source,cypher]
+----
+include::includes/find-name-attribute-of-foo.cypher[]
+----
+
+The difference between both queries is that we extended
+the second with `(annotation)-[:HAS]->(attribute:Value {name:'name'})`.
+This expression takes any nodes represented by `annotation`
+and checks if it has a `HAS` relation to a node labled with `Value`.
+The `return` clause only returns the `value` attribute
+of each matched node.
+
+// Retention -> RUNTIME OR CLASS
+// http://www.torsten-horn.de/techdocs/java-annotations.htm
