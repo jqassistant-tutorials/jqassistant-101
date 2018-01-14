@@ -8,6 +8,9 @@ please.
 
 ## Currently available tutorials
 
+link:../annotations-single/readme{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
+include::./../annotations-single/readme.adoc[tag=lead]
+
 // interdocuments links are not working if the target document
 // is in a child folder.
 // May we should raise an issue for this problem?
@@ -15,7 +18,6 @@ please.
 // * <<integrating-jqa-maven-plugin/readme.adoc#header,Getting started with jQAssistant in a Maven Project>>
 link:../integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
 include::./../integrating-jqa-maven-plugin/readme.adoc[tag=lead]
-
 
 ++++
 
