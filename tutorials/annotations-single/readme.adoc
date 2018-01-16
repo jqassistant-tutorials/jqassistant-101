@@ -7,7 +7,7 @@ Oliver B. Fischer <o.b.fischer@swe-blog.net>
 
 [.lead]
 // tag::lead[]
-This tutorial showns you how you can analyse Java annotations
+This tutorial shows you how you can analyse Java annotations
 using jQAssistant.
 // end::lead[]
 
@@ -22,7 +22,7 @@ annotated with `@Foo` and a second query to find all values
 for the `name` attribute of the annotation.
 
 At first we will have a look at the source of the `@Foo`
-annotation and it's usage in the class `Dings``
+annotation and its usage in the class `Dings``
 
 .The `@Foo` Annotation
 [source,java]
@@ -74,7 +74,7 @@ As `@Foo` is a type it can not take values. So Java
 must store the actual value (e.g. `name = "dingsbums"`)
 somewhere. Here is where the node `annotation` comes into
 play. This node represents the concrete annotation with
-it's concrete values found in the code. You can imagine
+its concrete values found in the code. You can imagine
 this nodes as 'instance' of an annotation type.
 
 === Getting The Attribute Values Of An Annotation
@@ -84,7 +84,7 @@ image::graph-02.svg[Tiger,300,300,float="right"]
 
 In case you would like to retrieve the attribute values of
 an annotation, you must keep in mind an attribute and
-it's value belongs to the annotation of the annotated
+its value belongs to the annotation of the annotated
 element and not to the type of the annotation. The type
 only defines the possible attributes but the concrete annotation
 carries the value of an annotation attribute.
