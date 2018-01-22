@@ -1,3 +1,5 @@
+include::../links.adoc[]
+
 :imagesdir: includes
 
 = Analyzing Java's Annotations with jQAssistant
@@ -134,3 +136,8 @@ enum `java.lang.annotation.RetentionPolicy`:
 `SOURCE`:: Annotation is only present in the source file
            and will be discarded by the compiler. Thus
            the annotation is not available to jQAssistant.
+
+== Resources
+
+1. {c_cypher}[Cypher reference at neo4j.com^]
+1. https://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Retention.html[Annotation Type Retention in the Java 7 API^]
