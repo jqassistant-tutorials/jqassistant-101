@@ -45,23 +45,22 @@ The configuration above
 
 - activates the goals `scan` and `analyze` during a build
 - defines the rule group `spring-boot:Strict` to be executed during analysis (alternatively `spring-boot:Default`, for `package:Default` see <<ProjectSpecificRules>>)
-- sets severities for printing warnings and breaking the build
+- sets severity thresholds for printing warnings and breaking the build
 - set default severities for concepts that cannot be applied to `INFO`
 
-The Maven build can be triggered as usual using the following command:
+The Maven build can be triggered as usual on the command line:
 
 ----
 mvn clean install
 ----
 
-NOTE: The default severity of concepts is `MINOR` and therefore the default setup would print a warning for each concept that could not be applied,
-e.g. if there are @Configuration annotated beans present in the code.
-For this reason the proposed configuration sets the default severity to `INFO`.
+NOTE: The default severity of concepts is `MINOR` and therefore the default setup would print a warning for each concept that could not be applied (e.g. if there are @Configuration annotated beans present in the code).
+For this reason the proposed configuration sets the default concept severity to `INFO`.
 
 [[PreDefinedRules]]
 == Pre-Defined Rules
 
-The setup above activates the a group `spring-boot:Strict`.
+The setup above activates the pre-defined group `spring-boot:Strict`.
 
 Executing the goal `effective-rules` on the command line using
 
@@ -89,22 +88,30 @@ prints a summary of the included rules and their description:
 ...
 ----
 
+There's also a pre-defined group `spring-boot:Default` containing less rules which might be sensible in existing projects.
+
 [[ProjectSpecificRules]]
 == Project Specific Rules
 
-Based on the concepts by the Spring plugin project specific rules may be defined.
-These rules must be located in the directory `/jqassistant` and can be written either in
-XML or Asciidoc files.
+The concepts defined by the Spring plugin are also a good base for project specific rules.
+Such rules must be located in the directory `/jqassistant` and can be written either in XML or Asciidoc files.
 
-The latter is recommended and used for the following example.
-It defines
+The latter is recommended and used in the following example. It defines:
 
 - a group `package:Default` including the constraint `package:ServicePackage´
-- the constraint `package:ServicePackage`that ensures that Spring services
+- the constraint `package:ServicePackage` that ensures that Spring services (i.e. classes annotated with
+`@Service`) are located in packages named `service`
 
-./jqassistant/packages.adoc
+./jqassistant/package.adoc
 ....
-include::jqassistant/packages.adoc[]
+include::jqassistant/package.adoc[]
 ....
 
 Finally the group `package:Default` must be activated, therefore the comment for this group in the file `pom.xml` (see above) must be removed.
+
+The project can be built and verified by running the following command:
+
+----
+mvn clean install
+----
+
