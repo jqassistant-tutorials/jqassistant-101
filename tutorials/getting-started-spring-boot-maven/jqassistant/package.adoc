@@ -1,0 +1,16 @@
+[[package:Default]]
+[role=group,includesConstraints="package:ServicePackage"]
+== Package Rules
+
+[[package:ServicePackage]]
+[source,cypher,role=constraint,requiresConcepts="spring-component:Service"]
+.Spring Services must be located in packages named `service`.
+----
+MATCH
+  (package:Package)-[:CONTAINS]->(service:Spring:Service)
+WHERE
+  package.name <> "service"
+RETURN
+  package as WrongPackage, collect(service) as ServicesInWrongPackage
+----
+
