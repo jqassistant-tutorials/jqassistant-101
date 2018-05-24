@@ -140,4 +140,4 @@ enum `java.lang.annotation.RetentionPolicy`:
 == Resources
 
 1. {c_cypher}[Cypher reference at neo4j.com^]
-1. https://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Retention.html[Annotation Type Retention in the Java 7 API^]
+2. https://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Retention.html[Annotation Type Retention in the Java 7 API^]

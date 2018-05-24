@@ -37,8 +37,8 @@ The steps in this tutorial illustrate:
 jQAssistant runs as part of the build process and therefore needs to be integrated as Maven plugin.
 This is done by adding the following setup to the `build/plugins` section of the file `pom.xml`:
 
-.jQAssistant Maven plugin
 [source,xml]
+.pom.xml
 ----
 include::pom.xml[tag=plugin,indent=0]
 ----
@@ -93,6 +93,7 @@ prints a summary of the activated rules including their descriptions:
 
 TIP: There is also a pre-defined group activating a smaller set of rules.
 For using it just replace `spring-boot:Strict` with `spring-boot:Default` in the `pom.xml` (see above).
+For a detailed description of available concepts and constraints refer to the http://buschmais.github.io/jqassistant/doc/1.4.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[plugin documentation].
 
 [[ProjectSpecificRules]]
 == Project Specific Rules
@@ -106,7 +107,7 @@ The latter is recommended and used in the following example. It defines:
 - the constraint `package:ServicePackage` that ensures that Spring services (i.e. classes annotated with
 `@Service`) are located in packages named `service`
 
-./jqassistant/package.adoc
+.jqassistant/package.adoc
 ....
 include::jqassistant/package.adoc[]
 ....
@@ -118,4 +119,11 @@ The project can be built and verified by running the following command:
 ----
 mvn clean install
 ----
+
+== Resources
+
+1. https://buschmais.github.io/jqassistant/doc/1.4.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation].
+2. https://projects.spring.io/spring-boot/[Spring Boot project]
+3. https://start.spring.io[Spring Initializr]
+4. https://maven.apache.org[Apache Maven]
 

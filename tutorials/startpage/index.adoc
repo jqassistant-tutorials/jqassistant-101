@@ -6,7 +6,7 @@ These tutorials are intended to support users of jQAssistant in their daily work
 outline best practices. For more information and documentation visit https://jqassistant.org[^]
 please.
 
-## Currently available tutorials
+## Available tutorials
 
 link:../annotations-single/readme{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
 include::./../annotations-single/readme.adoc[tag=lead]
