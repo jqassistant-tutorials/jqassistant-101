@@ -103,9 +103,13 @@
                                     </plugin>
                                     <goal>process-asciidoc</goal>
                                     <configuration>
-                                        <backend>html</backend>
+                                        <backend>xhtml5</backend>
+                                        <sourceHighlighter>coderay</sourceHighlighter>
                                         <outputDirectory>./tutorials/rendered/@item@</outputDirectory>
                                         <sourceDirectory>./tutorials/@item@</sourceDirectory>
+                                        <attributes>
+                                            <stylesheet>${project.basedir}/tutorials/jqassistant.css</stylesheet>
+                                        </attributes>
                                     </configuration>
                                 </pluginExecutor>
                             </pluginExecutors>

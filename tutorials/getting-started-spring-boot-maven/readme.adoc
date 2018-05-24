@@ -12,7 +12,7 @@ NOTE: This tutorial has been written for jQAssistant 1.4.0
 
 == Prerequisites
 
-- Spring Boot project based on http://maven.apache.org[Maven] as created by https://start.spring.io/[] using the dependencies `Web`, `JPA` and `H2`
+- Spring Boot project based on http://maven.apache.org[Maven] as created by https://start.spring.io/[] using the required dependencies (e.g. `Web`, `JPA` and `H2`).
 
 == Overview
 
@@ -22,6 +22,8 @@ jQAssistant comes with a plugin for Spring based applications that provides rule
 - correct usage of transactional methods
 - enforcing constructor injection instead of field injection.
 - ...
+
+Detected violations will be printed as warnings at the end of the build or might break it if required.
 
 The steps in this tutorial illustrate:
 
@@ -41,12 +43,12 @@ This is done by adding the following setup to the `build/plugins` section of the
 include::pom.xml[tag=plugin,indent=0]
 ----
 
-The configuration above
+The configuration above...
 
 - activates the goals `scan` and `analyze` during a build
 - defines the rule group `spring-boot:Strict` to be executed during analysis (alternatively `spring-boot:Default`, for `package:Default` see <<ProjectSpecificRules>>)
-- sets severity thresholds for printing warnings and breaking the build
-- set default severities for concepts that cannot be applied to `INFO`
+- sets severity thresholds for printing warnings and breaking the build to `MINOR` (concepts) and `MAJOR` (constraints)
+- sets the default severity for concepts that cannot be applied to `INFO`
 
 The Maven build can be triggered as usual on the command line:
 
@@ -60,7 +62,8 @@ For this reason the proposed configuration sets the default concept severity to 
 [[PreDefinedRules]]
 == Pre-Defined Rules
 
-The setup above activates the pre-defined group `spring-boot:Strict`.
+The setup above activates the pre-defined group `spring-boot:Strict` that contains recommended constraints for
+the structure and architecture of the project.
 
 Executing the goal `effective-rules` on the command line using
 
@@ -68,7 +71,7 @@ Executing the goal `effective-rules` on the command line using
 mvn jqassistant:effective-rules
 ----
 
-prints a summary of the included rules and their description:
+prints a summary of the activated rules including their descriptions:
 
 ----
 [INFO] Groups [7]
@@ -88,7 +91,8 @@ prints a summary of the included rules and their description:
 ...
 ----
 
-There's also a pre-defined group `spring-boot:Default` containing less rules which might be sensible in existing projects.
+TIP: There is also a pre-defined group activating a smaller set of rules.
+For using it just replace `spring-boot:Strict` with `spring-boot:Default` in the `pom.xml` (see above).
 
 [[ProjectSpecificRules]]
 == Project Specific Rules
