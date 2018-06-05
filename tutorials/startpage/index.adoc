@@ -8,6 +8,9 @@ please.
 
 ## Available tutorials
 
+link:../getting-started-spring-boot-maven/readme{outfilesuffix}[Getting started with jQAssistant, Spring Boot and Maven]::
+include::./../getting-started-spring-boot-maven/readme.adoc[tag=lead]
+
 link:../annotations-single/readme{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
 include::./../annotations-single/readme.adoc[tag=lead]
 

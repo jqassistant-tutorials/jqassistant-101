@@ -5,7 +5,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-The tutorial shows the integration of jQAssistant into a https://projects.spring.io/spring-boot/[Spring Boot] application which is built using http://maven.apache.org[Apache Maven].
+Integration of jQAssistant into a https://projects.spring.io/spring-boot/[Spring Boot] project which is built using http://maven.apache.org[Apache Maven].
 // end::lead[]
 
 NOTE: This tutorial has been written for jQAssistant 1.4.0
@@ -23,7 +23,7 @@ jQAssistant comes with a plugin for Spring based applications that provides rule
 - enforcing constructor injection instead of field injection.
 - ...
 
-Detected violations will be printed as warnings at the end of the build or might break it if required.
+Detected violations will be printed as warnings at the end of the build or might even break it if required.
 
 The steps in this tutorial illustrate:
 
@@ -56,13 +56,13 @@ The Maven build can be triggered as usual on the command line:
 mvn clean install
 ----
 
-NOTE: The default severity of concepts is `MINOR` and therefore the default setup would print a warning for each concept that could not be applied (e.g. if there are @Configuration annotated beans present in the code).
-For this reason the proposed configuration sets the default concept severity to `INFO`.
+NOTE: The default severity of concepts is `MINOR` and therefore the default setup of jQAssistant would issue a warning for each concept that could not be applied (e.g. if there are @Configuration annotated beans present in the code).
+For this reason this configuration sets the default concept severity to `INFO`.
 
 [[PreDefinedRules]]
 == Pre-Defined Rules
 
-The setup above activates the pre-defined group `spring-boot:Strict` that contains recommended constraints for
+The setup above activates the pre-defined group `spring-boot:Strict` that provides recommended constraints for
 the structure and architecture of the project.
 
 Executing the goal `effective-rules` on the command line using
@@ -91,8 +91,8 @@ prints a summary of the activated rules including their descriptions:
 ...
 ----
 
-TIP: There is also a pre-defined group activating a smaller set of rules.
-For using it just replace `spring-boot:Strict` with `spring-boot:Default` in the `pom.xml` (see above).
+TIP: There is also a pre-defined group activating a smalle and less strict set of rules.
+For using it just replace `spring-boot:Strict` with `spring-boot:Default` in your `pom.xml` (see above).
 For a detailed description of available concepts and constraints refer to the http://buschmais.github.io/jqassistant/doc/1.4.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[plugin documentation].
 
 [[ProjectSpecificRules]]
