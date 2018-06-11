@@ -66,7 +66,7 @@ Then you can start your Neo4j server with
 bin/jqassistant.sh server
 ----
 
-and run this guide with `:play http://guides.neo4j.com/jqa` inside that server.
+and run this guide with `:play jqa` inside that server.
 
 == Data Overview
 
@@ -96,7 +96,7 @@ This query counts all nodes labeled with `Type` and `File` i.e. all Java types t
 
 [source,cypher]
 ----
-MATCH (t:Type:File)
+MATCH (:Artifact)-[:CONTAINS]->(t:Type:File)
 RETURN count(t)
 ----
 
@@ -283,30 +283,6 @@ RETURN t.fqn AS Type, t.fanOut AS fanOut
  ORDER BY fanOut DESC
 ----
 
-=== Add default fan-out
-
-Add a property 'fanOut' to all Types without fanOut property
-
-[source,cypher]
-----
-MATCH (t:Type:File)
- WHERE NOT has(t.fanOut)
-SET t.fanOut = 0
-RETURN t.fqn AS type
-----
-
-=== Add default fan-out
-
-Add a property 'fanIn' to all Types without fanIn property
-
-[source,cypher]
-----
-MATCH (t:Type:File:Investigate)
- WHERE NOT has(t.fanIn)
-SET t.fanIn = 0
-RETURN t.fqn AS type
-----
-
 === Add type-coupling
 
 Add a property `typeCoupling` to a `Type` as sum of `fanIn` and `fanOut`
@@ -315,7 +291,7 @@ Add a property `typeCoupling` to a `Type` as sum of `fanIn` and `fanOut`
 ----
 MATCH (t:Type:File:Investigate)
 
-SET t.typeCoupling = t.fanIn + t.fanOut
+SET t.typeCoupling = coalesce(t.fanIn,0) + coalesce(t.fanOut,0)
 
 RETURN t.fqn AS type, t.typeCoupling AS typeCoupling,
       t.fanIn AS fanIn, t.fanOut AS fanOut
@@ -402,12 +378,6 @@ MATCH (assertType:Type)-[:DECLARES]->(assertMethod)
  AND assertMethod.signature starts with 'void fail'
 SET assertMethod:Junit4:Assert
 RETURN assertMethod
-----
-
-TODO
-
-[source,cypher]
-----
 ----
 
 == (Unit) Test Coverage
