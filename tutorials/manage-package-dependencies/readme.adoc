@@ -1,0 +1,14 @@
+= Manage Package Dependencies
+Dirk Mahler <dirk.mahler@jqassistant.org>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+Demonstrates the definition of allowed dependencies between packages and verification
+// end::lead[]
+
+NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
+In further versions of jQAssistant some aspects might changed.
+
+

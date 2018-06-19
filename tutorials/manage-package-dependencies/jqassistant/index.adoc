@@ -1,0 +1,14 @@
+:toc:
+= My Project
+
+[[default]]
+[role=group,includesGroups="structure:Default"]
+== Default Rules
+
+This section describes that default rules that are executed during each build.
+
+- <<structure:Default>>
+
+include::structure.adoc[]
+include::maven.adoc[]
+

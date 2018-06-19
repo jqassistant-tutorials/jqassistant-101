@@ -1,0 +1,15 @@
+== Maven
+
+[[maven:MainArtifact]]
+[source,cypher,role=concept]
+.All non-test artifacts are labeled with `Main`.
+----
+MATCH
+  (:Maven:Project)-[:CREATES]->(main:Artifact)
+WHERE
+  main.type <> "test-jar"
+SET
+  main:Main
+RETURN
+  main
+----
