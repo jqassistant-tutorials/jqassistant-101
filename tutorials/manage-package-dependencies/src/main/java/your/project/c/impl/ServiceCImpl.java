@@ -1,8 +1,8 @@
-package your.company.project.c.impl;
+package your.project.c.impl;
 
-import your.company.project.a.api.ServiceA;
-import your.company.project.b.api.ServiceB;
-import your.company.project.c.api.ServiceC;
+import your.project.a.api.ServiceA;
+import your.project.b.api.ServiceB;
+import your.project.c.api.ServiceC;
 
 public class ServiceCImpl implements ServiceC {
 

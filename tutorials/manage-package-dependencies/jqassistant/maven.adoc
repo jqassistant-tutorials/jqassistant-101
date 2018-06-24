@@ -2,14 +2,18 @@
 
 [[maven:MainArtifact]]
 [source,cypher,role=concept]
-.All non-test artifacts are labeled with `Main`.
+.All JAR and WAR artifacts are labeled with `Main`.
 ----
 MATCH
   (:Maven:Project)-[:CREATES]->(main:Artifact)
 WHERE
-  main.type <> "test-jar"
+  main.type in [
+    "jar",
+    "war"
+  ]
 SET
-  main:Main
+  main:Main  // Set the label "Main"
 RETURN
-  main
+  main as MainArtifact
 ----
+

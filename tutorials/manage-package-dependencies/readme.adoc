@@ -5,10 +5,194 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-Demonstrates the definition of allowed dependencies between packages and verification
+Demonstrates definition and verification of allowed dependencies between packages.
 // end::lead[]
 
 NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
 In further versions of jQAssistant some aspects might changed.
+
+== Overview
+
+The desired architecture of a Java project is usually described using terms like `Module`, `Component` or `Layer` and
+allowed dependencies between them.
+During implementation such elements are mapped to code structures.
+One approach therefore is using packages, e.g. packages at a defined level are assigned the role of a `Component`.
+
+This tutorial uses the following package structure:
+
+[raw]
+----
+your.project        <1>
+
+your.project.a      <2>
+your.project.a.api  <3>
+your.project.a.impl
+
+your.project.b
+your.project.b.api
+your.project.b.impl
+
+your.project.c
+your.project.c.api
+your.project.c.impl
+----
+(1) The root package of the project is `your.project`, i.e. all packages and Java types are located within this package.
+
+(2) A package located directly within the root package represents a `Component`.
+The project consists of three components `a`, `b` and `c` with the following defined dependencies:
+
+- `b` -> `a`
+- `c` -> `a`
+
+Any other dependency is not allowed.
+The same restriction holds for circular dependencies between components, e.g. `a` -> `b` -> `a`.
+
+(3) Each component is structured into an `api` and `impl` package.
+Only types in the `api` packages may be used as dependency by other components to hide implementation details.
+
+The described structural rules shall be defined and verified by jQAssistant.
+
+== Integrate jQAssistant Into The Build Process
+
+The tutorial uses https://maven.apache.org[Apache Maven] for building the project.
+
+jQAssistant is enabled by adding the plugin to the build/plugins section of the file `pom.xml`.
+
+.pom.xml
+[source,xml]
+----
+include::pom.xml[tag=plugin,indent=0]
+----
+
+TIP: To verify the setup a build should be triggered at this point using `mvn verify`.
+The output should contain scan and analysis messages by jQAssistant.
+
+NOTE: Beside the plugin and execution declarations no further configuration is required for this tutorial.
+
+The rules will be written as Asciidoc documents which must be located in the folder `jqassistant/`.
+
+For this tutorial the following files are created:
+
+[raw]
+-----
+jqassistant/index.adoc      <1>
+jqassistant/maven.adoc      <2>
+jqassistant/structure.adoc  <3>
+-----
+
+<1> link:jqassistant/index.adoc[index.adoc] is the root document, includes both other documents and defines the group `default` which is executed by the jQAssistant Maven plugin.
+<2> link:jqassistant/maven.adoc[maven.adoc] contains a concept for identifying the main artifact which is compiled from `src/main/java`.
+<3> link:jqassistant/structure.adoc[structure.adoc] contains the concepts and constraints for verifying the described package structure .
+
+== Identify The Main Artifact
+
+Both the production code from `src/main/java` and test code from `src/test/java` are scanned by the jQAssistant Maven plugin but the described rules only apply to the production code.
+
+Therefore a concept with the id `maven:MainArtifact` is defined in the file `maven.adoc` that adds the label `Main` to the required artifact:
+
+[source,asciidoc]
+....
+include::jqassistant/maven.adoc[]
+....
+
+NOTE: Test code is contained in artifacts of type `test-jar`.
+
+TIP: For setting up and verifying rules it is convenient to run a build with the jQAssistant Maven plugin (see above) and start the integrated server using `mvn jqassistant:server`.
+The Neo4j browser will then be available under http://localhost:7474[] for executing the queries interactively.
+
+== Identify Components And Define Dependencies
+
+Using the concept `maven:MainArtifact` it is possible to setup the rules that describe and verify the desired package structure.
+These rules are located in the file `structure.adoc`.
+
+First a concept is defined that identifies the root package of the application and adds a label `Component` to all packages which are contained in it.
+The list of components is returned by the rule:
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureComponent]
+....
+
+NOTE: The concepts depends on the result of `maven:MainArtifact` which therefore is referenced within `requiresConcepts`.
+jQAssistant will take care of the right execution order.
+
+Based on the identified components allowed dependencies can be defined by adding relationships of type `DEFINES_COMPONENT_DEPENDENCY`.
+This is implemented by the concept `structure:DefinedComponentDependencies`:
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureDefinedComponentDependencies]
+....
+
+NOTE: The concept returns an aggregated result, i.e. exactly one row created by `count(*)`.
+For correct verification by jQAssistant `verify=aggregation` needs to be specified.
+This strategy checks the value of the first column (i.e. `Count`) to be greater than 0.
+If omitted the default behavior would apply and verify that at least one row is returned.
+
+== Verify Existing Against Defined Dependencies
+
+The concept `structure:ComponentDependencies` determines the actual dependencies on type level and aggregates them to component level:
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureComponentDependencies]
+....
+
+NOTE: The asterisk in the `CONTAINS` patterns of the `MATCH` clause is used to collect all types within a component through all contained package levels.
+
+TIP: The `DEPENDS_ON_COMPONENT` relationships are enriched by a property `weight` which is the count of all type dependencies.
+This value can be used as an indicator for the degree of coupling between two components.
+
+At this point all required information is available for setting up a constraint `structure:UndefinedComponentDependencies`.
+This rule verifies that for each `DEPENDS_ON_COMPONENT` relationship between two components also a relationship `DEFINES_COMPONENT_DEPENDENCY` exists.
+If it is not present then the types creating this unwanted dependency are identified and returned:
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureUndefinedComponentDependencies]
+....
+
+A similar constraint may used to verify if a dependency between components is defined but no dependency exists in the code.
+This situation is less critical but it is recommendable to remove such obsolete definitions:
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureUnusedComponentDependencies]
+....
+
+== Prevent Cyclic Dependencies
+
+A cyclic dependency may occur if a component indirectly references itself as a dependency, e.g. `a` -> `b` -> `a`.
+Such cycles should be considered as a serious problem because they decrease comprehensibility of the application and make refactorings or restructurings complicated.
+
+Using the rules explained above it is already possible to avoid cycles if the defined dependencies are cycle-free.
+But in larger projects with many components it may happen that such a problem is introduced by accident.
+For this reason an additional constraint `structure:CyclicComponentDependencies` helps detecting such issues early:
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureCyclicComponentDependencies]
+....
+
+== API And Implementation
+
+The packages containing APIs and implementations of all components can be identified by the concepts `structure:Api` and `structure:Impl`:
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureApi]
+include::jqassistant/structure.adoc[tag=structureImpl]
+....
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureApiMustNotDependOnImpl]
+....
+
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureComponentDependencyMustUseApi]
+....
+
 
 

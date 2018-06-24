@@ -1,7 +1,7 @@
-package your.company.project.b.impl;
+package your.project.b.impl;
 
-import your.company.project.a.api.ServiceA;
-import your.company.project.b.api.ServiceB;
+import your.project.a.api.ServiceA;
+import your.project.b.api.ServiceB;
 
 public class ServiceBImpl implements ServiceB {
 
