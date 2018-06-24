@@ -1,0 +1,109 @@
+= Implementation Of A Scanner Plugin
+Dirk Mahler <dirk.mahler@jqassistant.org>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+Demonstrates the implementation of a scanner plugin.
+// end::lead[]
+
+NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
+In further versions of jQAssistant some aspects might changed.
+
+== Overview
+
+A scanner plugin allows extending the functionality of jQAssistant to read arbitrary structures (e.g. from
+files) and create the corresponding information in the database.
+The following example demonstrates this for CSV files using a Maven project.
+
+== Setup Maven Project
+
+The plugin is an artifact which contains the scanner implementation, model classes and a plugin descriptor.
+A Maven project needs to declare the following dependencies:
+
+[source,xml]
+.pom.xml
+----
+include::pom.xml[tags=dependencies,indent=0]
+----
+
+The following artifacts dependencies are declared:
+
+com.buschmais.jqassistant.core:scanner::
+  Provides the scanner plugin API
+
+com.buschmais.jqassistant.plugin:common::
+  Contains common functionality shared by plugins,
+
+au.com.bytecode:opencsv::
+  A library https://code.google.com/p/opencsv['opencsv'] for reading CSV files.
+
+== Define The Graph Model
+
+The model to be stored in the database is defined using the approach provided by http://extended-objects.org[eXtended Objects].
+It is based on annotated interfaces declaring methods representing properties and relations.
+
+First a label "CSV" is defined which is going to be used for all nodes created by the scanner:
+
+[source,java]
+.CSVDescriptor
+----
+include::src/main/java/my/project/plugin/scanner/model/CSVDescriptor.java[tags=class]
+----
+
+A CSV file is represented by _CSVFileDescriptor_ which inherits from _CSVDescriptor_ and _FileDescriptor_ (provided by the common plugin).
+Thus a node of this type will carry the labels "CSV" and "File".
+Furthermore a list of "HAS_ROW" relations is defined by the property "rows".
+
+[source,java]
+.CSVFileDescriptor
+----
+include::src/main/java/my/project/plugin/scanner/model/CSVFileDescriptor.java[tags=class]
+----
+
+A single row is a node defined by the type _CSVRowDescriptor_ which inherits the label "CSV" from _CSVDescriptor_ and provides
+its own label "Row", a property "lineNumber" and a list of "HAS_COLUMN" relations.
+
+[source,java]
+.CSVRowDescriptor
+----
+include::src/main/java/my/project/plugin/scanner/model/CSVRowDescriptor.java[tags=class]
+----
+
+_CSVColumnDescriptor_ finally defines a column of a row following the principles explained above:
+
+[source,java]
+.CSVColumnDescriptor
+----
+include::src/main/java/my/project/plugin/scanner/model/CSVColumnDescriptor.java[tags=class]
+----
+
+== Implement The Scanner Plugin
+
+The implementation of the plugin itself inherits from _AbstractScannerPlugin_ which requires generic type parameters for the item type it handles and the descriptor type it creates.
+In the example _FileResource_ is used which represents a file contained in a directory or archive.
+This allows plugins to be independent of the source where files or directories are picked up by the scanner.
+
+The method _accepts_ is called by the scanner to determine if the plugin can handle the given item.
+The example matches the value of the parameter path against the file extension ".csv".
+The scope parameter may be used to further restrict executions of the plugin, e.g. by checking equality against JavaScope.CLASSPATH.
+
+The _scan_ method actually reads the CSV file and stores the gathered data into the database using the interface _Store_ provided by the scanner context.
+
+[source,java]
+.CSVFileScannerPlugin
+----
+include::src/main/java/my/project/plugin/scanner/CSVFileScannerPlugin.java[tags=class]
+----
+
+Finally the model and the plugin implementation must be declared in the jQAssistant plugin descriptor:
+
+[source,xml]
+./META-INF/jqassistant-plugin.xml
+----
+include::src/main/resources/META-INF/jqassistant-plugin.xml[]
+----
+
+The plugin is automatically loaded by the scanner if it can be found on the classpath, e.g. by adding it as dependency to the Maven plugin.
+
