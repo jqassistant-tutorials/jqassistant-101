@@ -22,7 +22,7 @@ include::./../integrating-jqa-maven-plugin/readme.adoc[tag=lead]
 link:../annotations-single/readme{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
 include::./../annotations-single/readme.adoc[tag=lead]
 
-link:../scanner-plugin/readme{outfilesuffix}[Implmentation Of A Scanner Plugin]::
+link:../scanner-plugin/readme{outfilesuffix}[Implementation Of A Scanner Plugin]::
 include::./../scanner-plugin/readme.adoc[tag=lead]
 
 ++++

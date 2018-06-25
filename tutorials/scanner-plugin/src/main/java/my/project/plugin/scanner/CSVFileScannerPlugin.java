@@ -21,8 +21,7 @@ import java.io.InputStream;
 /**
  * A CSV file scanner plugin.
  */
-@Requires(FileDescriptor.class) // The file descriptor is created by another
-                                // plugin and used by this one
+@Requires(FileDescriptor.class) // The file descriptor is created by the file scanner plugin and enriched by this one
 public class CSVFileScannerPlugin extends AbstractScannerPlugin<FileResource, CSVFileDescriptor> {
 
     @Override

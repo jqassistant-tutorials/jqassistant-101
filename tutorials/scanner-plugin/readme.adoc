@@ -39,6 +39,8 @@ com.buschmais.jqassistant.plugin:common::
 au.com.bytecode:opencsv::
   A library https://code.google.com/p/opencsv['opencsv'] for reading CSV files.
 
+There are also several dependencies defined for implementing tests, see <<Testing>>.
+
 == Define The Graph Model
 
 The model to be stored in the database is defined using the approach provided by http://extended-objects.org[eXtended Objects].
@@ -106,4 +108,29 @@ include::src/main/resources/META-INF/jqassistant-plugin.xml[]
 ----
 
 The plugin is automatically loaded by the scanner if it can be found on the classpath, e.g. by adding it as dependency to the Maven plugin.
+
+[[Testing]]
+== Add A Test
+
+jQAssistant comes with a test framework which provides convenience functionality for scanning and verifying data.
+
+The CSV scanner plugin shall be tested using the following file:
+
+[source,csv]
+.src/test/resources/test.csv
+----
+include::src/test/resources/test.csv[]
+----
+
+The test class `CSVScannerPluginTest` extends from `AbstractPluginIT` and
+
+- scans the CSV file which is located in the root of the test class path
+- executes a Cypher query to lookup the created node
+- verifies the created graph representing the CSV structure
+
+[source,java]
+.CSVScannerPluginTest
+----
+include::src/test/java/my/project/plugin/scanner/CSVScannerPluginTest.java[tag=CSVScannerPluginTest]
+----
 
