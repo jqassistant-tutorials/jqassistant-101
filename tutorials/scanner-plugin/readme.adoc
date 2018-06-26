@@ -122,6 +122,9 @@ The CSV scanner plugin shall be tested using the following file:
 include::src/test/resources/test.csv[]
 ----
 
+.Graph representation of the CSV file
+image::includes/graph.svg[Resultset,300,300,float="right"]
+
 The test class `CSVScannerPluginTest` extends from `AbstractPluginIT` and
 
 - scans the CSV file which is located in the root of the test class path
