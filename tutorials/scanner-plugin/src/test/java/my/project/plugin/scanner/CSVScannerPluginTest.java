@@ -15,7 +15,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-// tag::CSVScannerPluginTest
+// tag::CSVScannerPluginTest[]
 public class CSVScannerPluginTest extends AbstractPluginIT {
 
     @Test
@@ -57,4 +57,4 @@ public class CSVScannerPluginTest extends AbstractPluginIT {
         store.commitTransaction();
     }
 }
-// end::CSVScannerPluginTest
+// end::CSVScannerPluginTest[]
