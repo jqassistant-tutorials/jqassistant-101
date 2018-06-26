@@ -128,7 +128,7 @@ image::includes/graph.svg[Resultset,300,300,float="right"]
 The test class `CSVScannerPluginTest` extends from `AbstractPluginIT` and
 
 - scans the CSV file which is located in the root of the test class path
-- executes a Cypher query to lookup the created node
+- executes a Cypher query to lookup the created file node with the labels `CSV` and `Test`
 - verifies the created graph representing the CSV structure
 
 [source,java]
