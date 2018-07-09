@@ -19,6 +19,9 @@ include::./../getting-started-spring-boot-maven/readme.adoc[tag=lead]
 link:../integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
 include::./../integrating-jqa-maven-plugin/readme.adoc[tag=lead]
 
+link:../manage-package-dependencies/readme{outfilesuffix}[Manage Package Dependencies]::
+include::./../manage-package-dependencies/readme.adoc[tag=lead]
+
 link:../annotations-single/readme{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
 include::./../annotations-single/readme.adoc[tag=lead]
 
