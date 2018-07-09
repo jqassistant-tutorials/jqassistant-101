@@ -1,6 +1,7 @@
 :toc:
 = My Project
 
+// tag::default[]
 [[default]]
 [role=group,includesGroups="structure:Default"]
 == Default Rules
@@ -8,6 +9,8 @@
 This section describes that default rules that are executed during each build.
 
 - <<structure:Default>>
+
+// end::default[]
 
 include::structure.adoc[]
 include::maven.adoc[]

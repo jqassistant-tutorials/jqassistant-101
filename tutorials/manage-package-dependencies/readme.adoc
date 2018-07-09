@@ -165,9 +165,9 @@ include::jqassistant/structure.adoc[tag=structureUnusedComponentDependencies]
 A cyclic dependency may occur if a component indirectly references itself as a dependency, e.g. `a` -> `b` -> `a`.
 Such cycles should be considered as a serious problem because they decrease comprehensibility of the application and make refactorings or restructurings complicated.
 
-Using the rules explained above it is already possible to avoid cycles if the defined dependencies are cycle-free.
-But in larger projects with many components it may happen that such a problem is introduced by accident.
-For this reason an additional constraint `structure:CyclicComponentDependencies` helps detecting such issues early:
+Using the rules explained above unwanted cycles are prevented under the condition that the defined dependencies are cycle-free.
+But in larger projects consisting of many components it may happen that this problem is introduced by accident into the definition itself.
+For this reason an additional constraint `structure:CyclicComponentDependencies` helps detecting such situation early:
 
 [source,asciidoc]
 ....
@@ -184,15 +184,38 @@ include::jqassistant/structure.adoc[tag=structureApi]
 include::jqassistant/structure.adoc[tag=structureImpl]
 ....
 
+The concepts add labels `Api` and `Impl` which can now be used to define constraints.
+To prevent unintentional leaking of implementation details the constraint `structure:ApiMustNotDependOnImpl` verifies that a component's API does depend on its implementation:
+
 [source,asciidoc]
 ....
 include::jqassistant/structure.adoc[tag=structureApiMustNotDependOnImpl]
 ....
+
+The following constraint `structure:ComponentDependencyMustUseApi` ensures that only API types of components are used to create dependencies:
 
 [source,asciidoc]
 ....
 include::jqassistant/structure.adoc[tag=structureComponentDependencyMustUseApi]
 ....
 
+== Activate The Rules
 
+For execution the constraints should be included within a group.
+The file link:jqassistant/structure.adoc[] therefore defines `structure:Default`:
 
+[source,asciidoc]
+....
+include::jqassistant/structure.adoc[tag=structureDefault]
+....
+
+This group itself is included within the group `default` that is defined in link:index.adoc[] and executed by default:
+
+[source,asciidoc]
+....
+include::jqassistant/index.adoc[tag=default]
+....
+
+TIP: The shown approach of building up a hierarchy between groups is the recommended way of organizing rules.
+It's also possible to reference rules to be executed directly within the jQAssistant Maven plugin configuration.
+For details refer to the manual.

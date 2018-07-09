@@ -162,16 +162,16 @@ RETURN
 
 // tag::structureComponentDependencyMustUseApi[]
 [[structure:ComponentDependencyMustUseApi]]
-[source,cypher,role=constraint,requiresConcepts="structure:Api,structure:Impl"]
+[source,cypher,role=constraint,requiresConcepts="structure:Api,structure:Impl,structure:ComponentDependencies"]
 .Only types provided by a component API may be used as dependency by another component.
 ----
 MATCH
-  (c1:Component)-[:CONTAINS*]->(t1:Type),
-  (c2:Component)-[:CONTAINS*]->(t2:Type),
+  (c1:Component)-[:DEPENDS_ON_COMPONENT]->(c2:Component),
+  (c1)-[:CONTAINS*]->(t1:Type),
+  (c2)-[:CONTAINS*]->(t2:Type),
   (t1)-[:DEPENDS_ON]->(t2)
-WHERE
-  c1 <> c2
-  AND NOT (:Api)-[:CONTAINS*]->(t2)
+WHERE NOT
+  (:Api)-[:CONTAINS*]->(t2)
 RETURN
   c1 as Component, t1 as Type, c2 as ComponentDependendy, t2 as InvalidTypeDependency
 ----
