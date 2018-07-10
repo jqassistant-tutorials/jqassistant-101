@@ -59,6 +59,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.resources.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-invoker-plugin</artifactId>
                     <version>${maven.invoker.version}</version>
                 </plugin>
@@ -107,9 +112,29 @@
                                         <sourceHighlighter>coderay</sourceHighlighter>
                                         <outputDirectory>./tutorials/rendered/@item@</outputDirectory>
                                         <sourceDirectory>./tutorials/@item@</sourceDirectory>
+                                        <sourceDocumentName>index.adoc</sourceDocumentName>
                                         <attributes>
                                             <stylesheet>${project.basedir}/tutorials/jqassistant.css</stylesheet>
                                         </attributes>
+                                    </configuration>
+                                </pluginExecutor>
+                                <pluginExecutor>
+                                    <!-- The Asciidoctor plugin does not copy .adoc files -->
+                                    <plugin>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-resources-plugin</artifactId>
+                                    </plugin>
+                                    <goal>copy-resources</goal>
+                                    <configuration>
+                                        <outputDirectory>./tutorials/rendered/@item@</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>./tutorials/@item@</directory>
+                                                <includes>
+                                                    <include>**/*.adoc</include>
+                                                </includes>
+                                            </resource>
+                                        </resources>
                                     </configuration>
                                 </pluginExecutor>
                             </pluginExecutors>
@@ -177,7 +202,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resources.version}</version>
                 <executions>
                     <execution>
                         <id>copy-generated-pages-to-webpage-root</id>

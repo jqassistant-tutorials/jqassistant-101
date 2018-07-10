@@ -21,7 +21,7 @@ Furthermore each of such component might require a defined structure like provid
 
 For this tutorial the following package layout is used:
 
-[raw]
+[source,raw]
 ----
 your.project        <1>
 
@@ -67,7 +67,7 @@ The rules will be written as Asciidoc documents which must be located in the fol
 
 For this tutorial the following files are created:
 
-[raw]
+[source,raw]
 -----
 jqassistant/index.adoc      <1>
 jqassistant/maven.adoc      <2>

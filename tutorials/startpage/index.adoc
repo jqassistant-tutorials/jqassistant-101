@@ -8,25 +8,25 @@ please.
 
 ## Available tutorials
 
-link:../getting-started-spring-boot-maven/readme{outfilesuffix}[Getting started with jQAssistant, Spring Boot and Maven]::
-include::./../getting-started-spring-boot-maven/readme.adoc[tag=lead]
+link:../getting-started-spring-boot-maven/index{outfilesuffix}[Getting started with jQAssistant, Spring Boot and Maven]::
+include::./../getting-started-spring-boot-maven/index.adoc[tag=lead]
 
 // interdocuments links are not working if the target document
 // is in a child folder.
 // May we should raise an issue for this problem?
 // Oliver B. Fischer, 2017-ß8-26
-// * <<integrating-jqa-maven-plugin/readme.adoc#header,Getting started with jQAssistant in a Maven Project>>
-link:../integrating-jqa-maven-plugin/readme{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
-include::./../integrating-jqa-maven-plugin/readme.adoc[tag=lead]
+// * <<integrating-jqa-maven-plugin/index.adoc#header,Getting started with jQAssistant in a Maven Project>>
+link:../integrating-jqa-maven-plugin/index{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
+include::./../integrating-jqa-maven-plugin/index.adoc[tag=lead]
 
-link:../manage-package-dependencies/readme{outfilesuffix}[Manage Package Dependencies]::
-include::./../manage-package-dependencies/readme.adoc[tag=lead]
+link:../manage-package-dependencies/index{outfilesuffix}[Manage Package Dependencies]::
+include::./../manage-package-dependencies/index.adoc[tag=lead]
 
-link:../annotations-single/readme{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
-include::./../annotations-single/readme.adoc[tag=lead]
+link:../annotations-single/index{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
+include::./../annotations-single/index.adoc[tag=lead]
 
-link:../scanner-plugin/readme{outfilesuffix}[Implementation Of A Scanner Plugin]::
-include::./../scanner-plugin/readme.adoc[tag=lead]
+link:../scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
+include::./../scanner-plugin/index.adoc[tag=lead]
 
 ++++
 
