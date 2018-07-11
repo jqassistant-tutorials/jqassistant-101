@@ -137,3 +137,6 @@ The test class `CSVScannerPluginTest` extends from `AbstractPluginIT` and
 include::src/test/java/my/project/plugin/scanner/CSVScannerPluginTest.java[tag=CSVScannerPluginTest]
 ----
 
+== Resources
+
+1. link:tutorial.zip[ZIP archive including the plugin]

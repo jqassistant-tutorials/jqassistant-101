@@ -122,8 +122,9 @@ mvn clean install
 
 == Resources
 
-1. https://buschmais.github.io/jqassistant/doc/1.4.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation].
-2. https://projects.spring.io/spring-boot/[Spring Boot project]
-3. https://start.spring.io[Spring Initializr]
-4. https://maven.apache.org[Apache Maven]
+1. link:tutorial.zip[ZIP archive including the application]
+2. https://buschmais.github.io/jqassistant/doc/1.4.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation].
+3. https://projects.spring.io/spring-boot/[Spring Boot project]
+4. https://start.spring.io[Spring Initializr]
+5. https://maven.apache.org[Apache Maven]
 

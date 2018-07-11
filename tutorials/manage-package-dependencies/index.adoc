@@ -217,5 +217,6 @@ For details refer to the manual.
 
 == Resources
 
-1. http://techblog.kontext-e.de/managing-technical-debt-with-arc42-and-jqassistant-dependencies[Managing Technical Debt with arc42 and jQAssistant: Building Block Dependencies] (Jens Nerche, Kontext E GmbH)
-2. http://in.relation.to/2017/01/31/preventing-leaky-apis-with-jqassistant[Preventing leaky APIs with jQAssistant] (Gunnar Morling)
+1. link:tutorial.zip[ZIP archive including the application]
+2. http://techblog.kontext-e.de/managing-technical-debt-with-arc42-and-jqassistant-dependencies[Managing Technical Debt with arc42 and jQAssistant: Building Block Dependencies] (Jens Nerche, Kontext E GmbH)
+3. http://in.relation.to/2017/01/31/preventing-leaky-apis-with-jqassistant[Preventing leaky APIs with jQAssistant] (Gunnar Morling)
