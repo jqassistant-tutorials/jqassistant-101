@@ -9,7 +9,6 @@ Define and verify allowed dependencies between components that are represented b
 // end::lead[]
 
 NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
-In further versions of jQAssistant some aspects might changed.
 
 == Overview
 
@@ -17,9 +16,9 @@ The desired architecture of a Java project is usually described using terms like
 During implementation such elements must be mapped to code structures.
 
 One approach for this is using packages, e.g. packages at a defined level are assigned the role of a `Component`.
-Furthermore each of such component might require a defined structure like providing a dedicated API again represented by a package.
+Furthermore each of such component might require a defined internal structure like providing a dedicated API which again is represented by a package.
 
-For this tutorial the following package layout is used:
+For the tutorial the following package layout is used:
 
 [source,raw]
 ----
