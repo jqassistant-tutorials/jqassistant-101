@@ -179,7 +179,7 @@ include::jqassistant/structure.adoc[tag=structureImpl]
 ....
 
 The concepts add labels `Api` and `Impl` which can now be used to define constraints.
-To prevent unintentional leaking of implementation details the constraint `structure:ApiMustNotDependOnImpl` verifies that a component's API does depend on its implementation:
+To prevent unintentional leaking of implementation details the constraint `structure:ApiMustNotDependOnImpl` verifies that a component's API does not depend on its implementation:
 
 [source,asciidoc]
 ....

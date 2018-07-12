@@ -173,6 +173,6 @@ MATCH
 WHERE NOT
   (:Api)-[:CONTAINS*]->(t2)
 RETURN
-  c1 as Component, t1 as Type, c2 as ComponentDependendy, t2 as InvalidTypeDependency
+  c1 as Component, t1 as Type, c2 as ComponentDependency, t2 as InvalidTypeDependency
 ----
 // end::structureComponentDependencyMustUseApi[]
