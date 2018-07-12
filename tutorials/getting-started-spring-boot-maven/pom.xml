@@ -18,15 +18,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <!-- tag::properties[] -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <!-- The jQAssistant version -->
-        <jqassistant.version>1.4.0</jqassistant.version>
     </properties>
-    <!-- end::properties[] -->
 
     <dependencies>
         <dependency>
@@ -60,7 +56,7 @@
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>${jqassistant.version}</version>
+                <version>1.4.0</version>
                 <executions>
                     <execution>
                         <id>default-cli</id>
