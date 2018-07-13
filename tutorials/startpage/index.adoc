@@ -28,6 +28,9 @@ include::./../annotations-single/index.adoc[tag=lead]
 link:../scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
 include::./../scanner-plugin/index.adoc[tag=lead]
 
+link:../using-3rd-party-plugins/index{outfilesuffix}[Using 3rd-party Plugins]::
+include::./../using-3rd-party-plugins/index.adoc[tag=lead]
+
 ++++
 
 <script>

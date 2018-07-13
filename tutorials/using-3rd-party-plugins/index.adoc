@@ -1,0 +1,67 @@
+:imagesdir: includes
+
+= Using Plugins
+Dirk Mahler <dirk.mahler@jqassistant.org>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+Demonstrates using 3rd-party plugins for the jQAssistant Maven plugin and command line utility.
+// end::lead[]
+
+NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
+
+== Overview
+
+The functionality of jQAssistant is extensible by plugins providing the following extensions:
+
+Scanner And Model::
+Scanners and associated models for languages, file formats, history information from version control systems, etc.
+Rule::
+Re-usable rules for sharing between projects, i.e. concepts, constraints and groups.
+Report::
+Implementations of reports for writing to other file formats, generating diagrams or storing results in databases.
+
+3rd-party plugins are available from the jQAssistant or community or can be implemented if needed (see <<Resources>>).
+
+NOTE: Please refer to the documentation of the plugin for usage details and supported jQAssistant versions.
+
+== Using A Plugin In A Maven Project
+
+A 3rd-party plugin must be declared as dependency for the jQAssistant Maven plugin:
+
+[source,xml]
+.pom.xml
+----
+include::pom.xml[tags=plugin,indent=0]
+----
+
+All detected plugins are logged at startup:
+
+[source,raw]
+----
+Loaded jQAssistant plugins [Asciidoc, CDI, Common, Core Analysis, Core Report, EJB3, GraphML, JAX-RS, JPA 2, JSON, JUnit, Java, Java 8, Java EE 6, Maven 3, OSGi, RDBMS, Spring, TestNG, Tycho, XML, YAML]
+.
+----
+
+TIP: Plugins are resolved from the declared plugin repositories, by default only https://search.maven.org[Maven Central] is used.
+If the plugin is not available there a plugin repository must be declared providing the artifact, for details see https://maven.apache.org/guides/development/guide-testing-development-plugins.html[Guide to Testing Development Versions of Plugins].
+
+The example above added the Asciidoc plugin which is developed and maintained by Kontext E GmbH.
+It provides a scanner that reads https://asciidoctor.org/docs/what-is-asciidoc[Asciidoc] files and stores their structure as graph into the database.
+
+If such files are not located in the default folders scanned by the jQAssistant Maven plugin a `scanIncludes` section needs to be added.
+
+== Using A Plugin With The Command Line Utility
+
+The plugin itself and all required dependencies must be provided as JAR files.
+These files must to be copied to the `plugins/` directory of the unzipped jQAssistant command line distribution.
+
+== Resources
+
+1. link:tutorial.zip[ZIP archive including the example Maven setup]
+2. link:https://github.com/kontext-e/jqassistant-plugins[Kontext E jQAssistant Plugins on GitHub]
+3. link:https://github.com/jqassistant-contrib[jQAssistant Contribution organization on GitHub]
+4. link:../scanner-plugin[Tutorial - Implementation Of A Scanner Plugin]
+

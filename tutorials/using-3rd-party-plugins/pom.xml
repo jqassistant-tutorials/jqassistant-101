@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>my.project</groupId>
+    <artifactId>using-3rd-party-plugins</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <jqassistant.version>1.4.0</jqassistant.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <!-- tag::plugin[] -->
+            <plugin>
+                <groupId>com.buschmais.jqassistant</groupId>
+                <artifactId>jqassistant-maven-plugin</artifactId>
+                <version>${jqassistant.version}</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>scan</goal>
+                            <goal>analyze</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Plugin specific setup -->
+                    <scanIncludes>
+                        <scanInclude>
+                            <path>${project.basedir}/src/main/asciidoc</path>
+                        </scanInclude>
+                    </scanIncludes>
+                </configuration>
+                <dependencies>
+                    <!-- Plugin declaration -->
+                    <dependency>
+                        <groupId>de.kontext-e.jqassistant.plugin</groupId>
+                        <artifactId>jqassistant.plugin.asciidoc</artifactId>
+                        <version>1.4.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- end::plugin[] -->
+        </plugins>
+    </build>
+
+</project>
