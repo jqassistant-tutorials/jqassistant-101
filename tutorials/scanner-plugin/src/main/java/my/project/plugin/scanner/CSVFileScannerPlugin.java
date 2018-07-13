@@ -1,7 +1,9 @@
 package my.project.plugin.scanner;
 
-import au.com.bytecode.opencsv.CSV;
-import au.com.bytecode.opencsv.CSVReadProc;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import com.buschmais.jqassistant.core.scanner.api.Scanner;
 import com.buschmais.jqassistant.core.scanner.api.ScannerContext;
 import com.buschmais.jqassistant.core.scanner.api.ScannerPlugin.Requires;
@@ -10,18 +12,18 @@ import com.buschmais.jqassistant.core.store.api.Store;
 import com.buschmais.jqassistant.plugin.common.api.model.FileDescriptor;
 import com.buschmais.jqassistant.plugin.common.api.scanner.AbstractScannerPlugin;
 import com.buschmais.jqassistant.plugin.common.api.scanner.filesystem.FileResource;
+
+import com.opencsv.CSVReader;
 import my.project.plugin.scanner.model.CSVColumnDescriptor;
 import my.project.plugin.scanner.model.CSVFileDescriptor;
 import my.project.plugin.scanner.model.CSVRowDescriptor;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 // tag::class[]
 /**
  * A CSV file scanner plugin.
  */
-@Requires(FileDescriptor.class) // The file descriptor is created by the file scanner plugin and enriched by this one
+@Requires(FileDescriptor.class) // The file descriptor is created by the file scanner plugin and enriched by
+                                // this one
 public class CSVFileScannerPlugin extends AbstractScannerPlugin<FileResource, CSVFileDescriptor> {
 
     @Override
@@ -40,25 +42,23 @@ public class CSVFileScannerPlugin extends AbstractScannerPlugin<FileResource, CS
             // Add the CSV label.
             final CSVFileDescriptor csvFileDescriptor = store.addDescriptorType(fileDescriptor, CSVFileDescriptor.class);
             // Parse the stream using OpenCSV.
-            CSV csv = CSV.create();
-            csv.read(stream, new CSVReadProc() {
-
-                @Override
-                public void procRow(int rowIndex, String... values) {
-                    // Create the node for a row
-                    CSVRowDescriptor rowDescriptor = store.create(CSVRowDescriptor.class);
-                    csvFileDescriptor.getRows().add(rowDescriptor);
-                    rowDescriptor.setLineNumber(rowIndex);
-                    for (int i = 0; i < values.length; i++) {
-                        // Create the node for a column
-                        CSVColumnDescriptor columnDescriptor = store.create(CSVColumnDescriptor.class);
-                        rowDescriptor.getColumns().add(columnDescriptor);
-                        columnDescriptor.setIndex(i);
-                        columnDescriptor.setValue(values[i]);
-                    }
+            CSVReader csvReader = new CSVReader(new InputStreamReader(stream));
+            String[] columns;
+            int row = 0;
+            while ((columns = csvReader.readNext()) != null) {
+                // Create the node for a row
+                CSVRowDescriptor rowDescriptor = store.create(CSVRowDescriptor.class);
+                csvFileDescriptor.getRows().add(rowDescriptor);
+                rowDescriptor.setLineNumber(row);
+                for (int i = 0; i < columns.length; i++) {
+                    // Create the node for a column
+                    CSVColumnDescriptor columnDescriptor = store.create(CSVColumnDescriptor.class);
+                    rowDescriptor.getColumns().add(columnDescriptor);
+                    columnDescriptor.setIndex(i);
+                    columnDescriptor.setValue(columns[i]);
                 }
-
-            });
+                row++;
+            }
             return csvFileDescriptor;
         }
     }

@@ -1,3 +1,5 @@
+:imagesdir: includes
+
 = Implementation Of A Scanner Plugin
 Dirk Mahler <dirk.mahler@jqassistant.org>
 
@@ -9,7 +11,6 @@ Demonstrates the implementation of a scanner plugin.
 // end::lead[]
 
 NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
-In further versions of jQAssistant some aspects might changed.
 
 == Overview
 
@@ -36,8 +37,9 @@ com.buschmais.jqassistant.core:scanner::
 com.buschmais.jqassistant.plugin:common::
   Contains common functionality shared by plugins,
 
-au.com.bytecode:opencsv::
-  A library https://code.google.com/p/opencsv['opencsv'] for reading CSV files.
+com.opencsv:opencsv::
+  A library http://opencsv.sourceforge.net['opencsv'] for reading CSV files.
+  This library is already included in the jQAssistant distribution, therefore the scope is `provided`.
 
 There are also several dependencies defined for implementing tests, see <<Testing>>.
 
@@ -123,7 +125,7 @@ include::src/test/resources/test.csv[]
 ----
 
 .Graph representation of the CSV file
-image::includes/graph.svg[Resultset,300,300,float="right"]
+image::graph.svg[Resultset,300,300]
 
 The test class `CSVScannerPluginTest` extends from `AbstractPluginIT` and
 
