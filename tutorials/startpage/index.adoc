@@ -6,7 +6,7 @@ These tutorials are intended to support users of jQAssistant in their daily work
 outline best practices. For more information and documentation visit https://jqassistant.org[^]
 please.
 
-## Available tutorials
+## Available Tutorials
 
 link:../getting-started-spring-boot-maven/index{outfilesuffix}[Getting started with jQAssistant, Spring Boot and Maven]::
 include::./../getting-started-spring-boot-maven/index.adoc[tag=lead]
