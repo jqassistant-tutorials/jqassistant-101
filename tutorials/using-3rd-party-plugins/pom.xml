@@ -37,7 +37,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- Plugin specific setup -->
+                    <!-- Plugin specific setup allowing files to be scanned in src/main/asciidoc -->
                     <scanIncludes>
                         <scanInclude>
                             <path>${project.basedir}/src/main/asciidoc</path>

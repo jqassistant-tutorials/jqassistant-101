@@ -1,6 +1,6 @@
 :imagesdir: includes
 
-= Using Plugins
+= Using 3rd-Party Plugins
 Dirk Mahler <dirk.mahler@jqassistant.org>
 
 :numbered:
@@ -14,13 +14,13 @@ NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
 
 == Overview
 
-The functionality of jQAssistant is extensible by plugins providing the following extensions:
+The functionality of jQAssistant is extensible by plugins which may provide:
 
-Scanner And Model::
+Scanners And Models::
 Scanners and associated models for languages, file formats, history information from version control systems, etc.
-Rule::
+Rules::
 Re-usable rules for sharing between projects, i.e. concepts, constraints and groups.
-Report::
+Reports::
 Implementations of reports for writing to other file formats, generating diagrams or storing results in databases.
 
 3rd-party plugins are available from the jQAssistant or community or can be implemented if needed (see <<Resources>>).
@@ -48,7 +48,7 @@ Loaded jQAssistant plugins [Asciidoc, CDI, Common, Core Analysis, Core Report, E
 TIP: Plugins are resolved from the declared plugin repositories, by default only https://search.maven.org[Maven Central] is used.
 If the plugin is not available there a plugin repository must be declared providing the artifact, for details see https://maven.apache.org/guides/development/guide-testing-development-plugins.html[Guide to Testing Development Versions of Plugins].
 
-The example above added the Asciidoc plugin which is developed and maintained by Kontext E GmbH.
+The example above adds the Asciidoc plugin which is part of the https://github.com/kontext-e/jqassistant-plugins[jQAssistant plugin suite] provided by Kontext E GmbH.
 It provides a scanner that reads https://asciidoctor.org/docs/what-is-asciidoc[Asciidoc] files and stores their structure as graph into the database.
 
 If such files are not located in the default folders scanned by the jQAssistant Maven plugin a `scanIncludes` section needs to be added.
