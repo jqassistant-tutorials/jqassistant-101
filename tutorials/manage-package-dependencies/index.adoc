@@ -203,7 +203,7 @@ The file link:jqassistant/structure.adoc[] therefore defines `structure:Default`
 include::jqassistant/structure.adoc[tag=structureDefault]
 ....
 
-This group itself is included within the group `default` that is defined in link:index.adoc[] and executed by default:
+This group itself is included within the group `default` that is defined in link:jqassistant/index.adoc[] and executed by default:
 
 [source,asciidoc]
 ....

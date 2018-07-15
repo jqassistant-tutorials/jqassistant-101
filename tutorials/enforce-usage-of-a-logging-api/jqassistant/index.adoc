@@ -1,0 +1,16 @@
+:toc:
+= My Project
+
+// tag::default[]
+[[default]]
+[role=group,includesGroups="logging:Default"]
+== Default Rules
+
+This section describes that default rules that are executed during each build.
+
+- <<logging:Default>>
+
+// end::default[]
+
+include::logging.adoc[]
+

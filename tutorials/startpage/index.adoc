@@ -25,6 +25,9 @@ include::./../manage-package-dependencies/index.adoc[tag=lead]
 link:../annotations-single/index{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
 include::./../annotations-single/index.adoc[tag=lead]
 
+link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
+include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
+
 link:../scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
 include::./../scanner-plugin/index.adoc[tag=lead]
 

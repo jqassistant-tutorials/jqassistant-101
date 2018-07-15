@@ -1,0 +1,77 @@
+= Enforce Usage Of A Logging API
+Dirk Mahler <dirk.mahler@jqassistant.org>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+Enforce usage of a specific logging API like Slf4j in an application and avoid usage of unwanted frameworks.
+// end::lead[]
+
+NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
+
+== Overview
+
+Java frameworks or libraries very often introduce transient dependencies into a project.
+This way usually a set of multiple logging APIs becomes available but there should only be one used by the application code.
+As the provided APIs look very similar it is quite easy for developers to use the wrong framework by accident.
+
+This tutorial demonstrates how popular logging frameworks can be identified and usage of the SLF4j API can be enforced.
+
+NOTE: This tutorial assumes that jQAssistant has already been integrated into the build process.
+The example provided under <<Resources>> is based on Apache Maven.
+The shown rules are located in the file link:jqassistant/logging.adoc[].
+
+== Identify Logging Frameworks
+
+In a first step the logger types of all known and potentially available logging frameworks are identified by the concept `logging:Logger`:
+
+[source,asciidoc]
+....
+include::jqassistant/logging.adoc[tags=loggingLogger]
+....
+
+The types listed in the WHERE clause are the APIs providing methods that are invoked to log messages.
+
+TIP: There's a logging framework missing in the list? Just add it and let us know!
+
+The second concept `logging:Slf4jLogger` selects the logging framework that shall be used by the application, in this case it's the SLF4j API:
+
+[source,asciidoc]
+....
+include::jqassistant/logging.adoc[tags=loggingSlf4jLogger]
+....
+
+The concept is based on `logging:Logger` and adds another label `Slf4j` to the type `org.slf4j.Logger`.
+
+== Find Invocations Of Unwanted Logging Frameworks
+
+Relying on these concepts the constraint `logging:Slf4jLoggerMustBeUsed` can be defined:
+
+[source,asciidoc]
+....
+include::jqassistant/logging.adoc[tags=loggingSlf4jLoggerMustBeUsed]
+....
+
+The rule returns all methods that invoke a logger method which is not provided by the Slf4j API as violations and reports the affected method, the line number and the API of the used logging framework.
+
+== Activate The Rules
+
+For execution the constraint should be included within a group.
+The file link:jqassistant/logging.adoc[] therefore defines `logging:Default`:
+
+[source,asciidoc]
+....
+include::jqassistant/logging.adoc[tags=loggingDefault]
+....
+
+The group itself is included in the group `default` defined in link:jqassistant/index.adoc[]:
+
+[source,asciidoc]
+....
+include::jqassistant/index.adoc[tag=default]
+....
+
+== Resources
+
+1. link:tutorial.zip[ZIP archive including a demo application and the rules]
