@@ -1,6 +1,6 @@
 :imagesdir: images
 
-= 101 - jQAassistant Tutorials
+= 101 Tutorials
 
 image::jQA_logo.png[]
 
@@ -8,8 +8,9 @@ image::jQA_logo.png[]
 [.lead]
 This site contains a collection of short tutorials on https://jqassistant.org[jQAssistant].
 These tutorials are intended to support users of jQAssistant in their daily work and
-outline best practices. For more information and documentation visit https://jqassistant.org[^]
-please.
+outline best practices. For more information and documentation visit https://jqassistant.org[^].
+
+TIP: There's an interesting use case you're missing in this list? Let us know and create a request https://github.com/buschmais/jqassistant-101/issues[here]!
 
 == Available Tutorials
 
