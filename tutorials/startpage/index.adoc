@@ -1,4 +1,9 @@
-# The 101 of jQAssistant
+:imagesdir: images
+
+= 101 - jQAassistant Tutorials
+
+image::jQA_logo.png[]
+
 
 [.lead]
 This site contains a collection of short tutorials on https://jqassistant.org[jQAssistant].
@@ -6,7 +11,7 @@ These tutorials are intended to support users of jQAssistant in their daily work
 outline best practices. For more information and documentation visit https://jqassistant.org[^]
 please.
 
-## Available Tutorials
+== Available Tutorials
 
 link:../getting-started-spring-boot-maven/index{outfilesuffix}[Getting started with jQAssistant, Spring Boot and Maven]::
 include::./../getting-started-spring-boot-maven/index.adoc[tag=lead]
