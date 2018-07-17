@@ -117,6 +117,9 @@
                                         <sourceDocumentName>index.adoc</sourceDocumentName>
                                         <attributes>
                                             <stylesheet>${project.basedir}/${tutorials.sourcedir}/jqassistant.css</stylesheet>
+                                            <docinfo>shared</docinfo>
+                                            <docinfodir>${project.basedir}/src/main/docinfo</docinfodir>
+                                            <nofooter></nofooter>
                                         </attributes>
                                     </configuration>
                                 </pluginExecutor>

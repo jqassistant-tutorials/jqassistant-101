@@ -1,5 +1,4 @@
 /website-test-deployment
-/tutorials/rendered/
 .idea
 target
 *.iml
@@ -8,4 +7,3 @@ target
 *.log
 .DS_Store
 *.ignore
-*.html
