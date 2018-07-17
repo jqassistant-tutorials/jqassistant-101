@@ -43,6 +43,7 @@
         <maven.resources.version>3.0.2</maven.resources.version>
         <org.asciidoctor-plugin.version>1.5.6</org.asciidoctor-plugin.version>
         <websitePath>${project.basedir}/website-test-deployment</websitePath>
+        <tutorials.sourcedir>src/main/tutorials</tutorials.sourcedir>
     </properties>
 
     <build>
@@ -87,7 +88,7 @@
                             <goal>iterator</goal>
                         </goals>
                         <configuration>
-                            <folder>./tutorials</folder>
+                            <folder>${tutorials.sourcedir}</folder>
                             <pluginExecutors>
                                 <pluginExecutor>
                                     <plugin>
@@ -98,7 +99,7 @@
                                     <goal>echo</goal>
                                     <configuration>
                                         <echos>
-                                            <echo>This is a message: @item@</echo>
+                                            <echo>Processing @item@</echo>
                                         </echos>
                                     </configuration>
                                 </pluginExecutor>
@@ -111,11 +112,11 @@
                                     <configuration>
                                         <backend>xhtml5</backend>
                                         <sourceHighlighter>coderay</sourceHighlighter>
-                                        <outputDirectory>./tutorials/rendered/@item@</outputDirectory>
-                                        <sourceDirectory>./tutorials/@item@</sourceDirectory>
+                                        <outputDirectory>target/rendered/@item@</outputDirectory>
+                                        <sourceDirectory>${tutorials.sourcedir}/@item@</sourceDirectory>
                                         <sourceDocumentName>index.adoc</sourceDocumentName>
                                         <attributes>
-                                            <stylesheet>${project.basedir}/tutorials/jqassistant.css</stylesheet>
+                                            <stylesheet>${project.basedir}/${tutorials.sourcedir}/jqassistant.css</stylesheet>
                                         </attributes>
                                     </configuration>
                                 </pluginExecutor>
@@ -127,10 +128,10 @@
                                     </plugin>
                                     <goal>copy-resources</goal>
                                     <configuration>
-                                        <outputDirectory>./tutorials/rendered/@item@</outputDirectory>
+                                        <outputDirectory>./target/rendered/@item@</outputDirectory>
                                         <resources>
                                             <resource>
-                                                <directory>./tutorials/@item@</directory>
+                                                <directory>${tutorials.sourcedir}/@item@</directory>
                                                 <includes>
                                                     <include>**/*.adoc</include>
                                                 </includes>
@@ -147,7 +148,7 @@
                                     <goal>single</goal>
                                     <configuration>
                                         <descriptor>src/main/assembly/tutorial.xml</descriptor>
-                                        <outputDirectory>./tutorials/rendered/@item@</outputDirectory>
+                                        <outputDirectory>./target/rendered/@item@</outputDirectory>
                                         <finalName>tutorial</finalName>
                                         <appendAssemblyId>false</appendAssemblyId>
                                     </configuration>
@@ -175,19 +176,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <inherited>false</inherited>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${project.basedir}/tutorials/rendered/</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-invoker-plugin</artifactId>
                 <goals>
                     <goal>install</goal>
@@ -211,7 +199,7 @@
                     <streamLogs>true</streamLogs>
                     <parallelThreads>1</parallelThreads>
                     <postBuildHookScript>verify</postBuildHookScript>
-                    <projectsDirectory>tutorials</projectsDirectory>
+                    <projectsDirectory>${tutorials.sourcedir}</projectsDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -228,7 +216,7 @@
                             <outputDirectory>${websitePath}</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.basedir}/tutorials/rendered</directory>
+                                    <directory>${project.basedir}/target/rendered</directory>
                                 </resource>
                             </resources>
                         </configuration>

@@ -8,7 +8,7 @@
     <baseDirectory>${item}</baseDirectory>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/tutorials/${item}</directory>
+            <directory>${project.basedir}/src/main/tutorials/${item}</directory>
             <outputDirectory>.</outputDirectory>
             <excludes>
                 <exclude>index.adoc</exclude>
