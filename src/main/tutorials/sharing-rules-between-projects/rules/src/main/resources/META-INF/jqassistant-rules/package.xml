@@ -1,0 +1,20 @@
+<jqa:jqassistant-rules xmlns:jqa="http://www.buschmais.com/jqassistant/core/rule/schema/v1.4">
+
+    <group id="package:Default">
+        <includeConstraint refId="package:RootPackage"/>
+    </group>
+
+    <constraint id="package:RootPackage">
+        <requiresParameter name="rootPackage" type="String" />
+        <description>All types of the application must be located within the root package or a sub-package of it.</description>
+        <cypher><![CDATA[
+            MATCH
+              (package:Package)-[:CONTAINS]->(type:Type)
+            WHERE NOT
+              package.fqn starts with {rootPackage}
+            RETURN
+              type as TypeOutsideRootPackage
+        ]]></cypher>
+    </constraint>
+
+</jqa:jqassistant-rules>

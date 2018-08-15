@@ -34,8 +34,11 @@ include::./../annotations-single/index.adoc[tag=lead]
 link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
 include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
 
-link:../scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
-include::./../scanner-plugin/index.adoc[tag=lead]
+link:../sharing-rules-between-projects/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
+include::./../sharing-rules-between-projects/index.adoc[tag=lead]
+
+link:../implementation-of-a-scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
+include::./../implementation-of-a-scanner-plugin/index.adoc[tag=lead]
 
 link:../using-3rd-party-plugins/index{outfilesuffix}[Using 3rd-party Plugins]::
 include::./../using-3rd-party-plugins/index.adoc[tag=lead]
