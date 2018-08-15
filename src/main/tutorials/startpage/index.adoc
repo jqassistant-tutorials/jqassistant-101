@@ -20,7 +20,7 @@ include::./../getting-started-spring-boot-maven/index.adoc[tag=lead]
 // interdocuments links are not working if the target document
 // is in a child folder.
 // May we should raise an issue for this problem?
-// Oliver B. Fischer, 2017-ß8-26
+// Oliver B. Fischer, 2017-08-26
 // * <<integrating-jqa-maven-plugin/index.adoc#header,Getting started with jQAssistant in a Maven Project>>
 link:../integrating-jqa-maven-plugin/index{outfilesuffix}[Getting started with jQAssistant in a Maven Project]::
 include::./../integrating-jqa-maven-plugin/index.adoc[tag=lead]
@@ -34,7 +34,7 @@ include::./../annotations-single/index.adoc[tag=lead]
 link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
 include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
 
-link:../sharing-rules-between-projects/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
+link:../sharing-rules-between-projects/index{outfilesuffix}[Sharing Rules Between Projects]::
 include::./../sharing-rules-between-projects/index.adoc[tag=lead]
 
 link:../implementation-of-a-scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
