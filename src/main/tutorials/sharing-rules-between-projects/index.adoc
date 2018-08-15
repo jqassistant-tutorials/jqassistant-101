@@ -7,7 +7,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-Define a plugin providing shared rules and use them in different projects.
+Create a plugin containing shared rules for using them in different projects.
 // end::lead[]
 
 NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
@@ -15,29 +15,29 @@ NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
 == Overview
 
 jQAssistant allows sharing rules (i.e. concepts, constraints and groups) for being used by different projects.
-This is very useful to
+This way it is possible to...
 
-- enforce coding standards and guidelines across organizations or teams by providing constraints and concepts
+- enforce coding standards and guidelines across organizations or teams by providing constraints
 - provide re-usable concepts for widely used frameworks to ease the creation of project specific constraints
 
-Such rules may be shared by distributing them as jQAssistant plugin, this approach is demonstrated in this tutorial.
-Two example constraints will be made available:
+The common approach to share rules is by distributing them as a jQAssistant plugin.
+For this tutorial two example constraints shall be made available:
 
 maven:GroupId::
-Verifies that the groupId of all Maven modules follows a specific pattern.
+Verifies that the groupId of all Maven modules within a project complies to a specific pattern.
 
 package:RootPackage::
-Verifies that all Java classes of a project are located within a specific root package.
-As the name of the package is project specific the constraints expects a parameter.
+Verifies that all Java classes of a project are located within a given root package.
+As the name of the package is project specific the constraints expects a parameter to be passed at build time.
 
-Both rules are embedded in groups for easier execution.
+For convenience reasons the rules are bundled into groups to ease execution and evolution.
 
 == Providing Rules As Plugin
 
 === The Plugin Structure
 
-The standard approach of sharing rules is providing them as a jQAssistant plugin.
-Therefore a JAR artifact is built using https://maven.apache.org[Apache Maven] with the following `pom.xml`:
+The standard approach of sharing rules is by distributing them as a jQAssistant plugin.
+Therefore a JAR artifact is created using a https://maven.apache.org[Maven] project and the following `pom.xml`:
 
 [source,xml]
 .pom.xml
@@ -45,7 +45,10 @@ Therefore a JAR artifact is built using https://maven.apache.org[Apache Maven] w
 include::rules/pom.xml[indent=0]
 ----
 
-The folder `src/main/resources/META-INF` contains the plugin descriptor `jqassistant-plugin.xml` declaring the files containing the rules to be shared:
+The file mainly declares test dependencies that will be used later for verifying the rules.
+
+jQAssistant expects a plugin descriptor `/META-INF/jqassistant-plugin.xml` as classpath resource.
+It declares files containing rules that shall be shared:
 
 [source,xml]
 .src/main/resources/META-INF/jqassistant-plugin.xml
@@ -53,26 +56,26 @@ The folder `src/main/resources/META-INF` contains the plugin descriptor `jqassis
 include::rules/src/main/resources/META-INF/jqassistant-plugin.xml[]
 ----
 
-The referenced files are expected as classpath resources in the folder `/META-INF/jqassistant-rules`.
-This tutorial uses XML files to declare the rules thus the following folder structure is expected:
+The referenced files are expected as classpath resources located in the folder `/META-INF/jqassistant-rules`.
+This tutorial uses XML documents to declare the rules.
+Thus the following folder structure is expected:
 
 [code,raw]
 ----
-/META-INF
-        |- jqassistant-plugin.xml
-        |- jqassistant-rules
-                           |- package.xml
-                           |- maven.xml
-                           |- my-organization.xml
+/META-INF/
+         |- jqassistant-plugin.xml
+         |- jqassistant-rules/
+                             |- package.xml
+                             |- maven.xml
+                             |- my-organization.xml
 ----
 
+NOTE: Asciidoc files are supported as well but take longer time to load at startup.
+Therefore the recommended format is XML to not negatively affect the build process of other projects.
 
-NOTE: Asciidoc files are supported as well but it takes longer time to load them at startup.
-Therefore the recommended file format for rules shared within plugins is XML.
+The next sections describe the shared rules in detail.
 
-The following sections describe the shared rules in detail.
-
-=== Maven Rules
+=== Maven Related Rules
 
 The file `maven.xml` provides rules related to Apache Maven:
 
@@ -86,13 +89,13 @@ maven:GroupId::
 A constraint verifying that each Maven project uses a defined pattern for the `groupId`.
 
 maven:Default::
-A group that bundles selected constraints in this XML file for easier execution by just referencing this group.
-This approach allows adding or removing rules in the future without the need to change the setup of projects using this plugin.
+A group that bundles selected constraints in the XML file.
+This approach allows for easier execution by just referencing this group and allows adding or removing rules in the future without the need to change the setup of projects using this plugin.
 There might be as well other groups including more or less rules, e.g. `maven:Strict` for more restrictive checks.
 
-=== Package Rules
+=== Package Related Rules
 
-The file `package.xml` provides rules regarding the package structure:
+The file `package.xml` provides rules regarding the package structure of a project:
 
 [source,xml]
 .src/main/resources/META-INF/jqassistant-rules/package.xml
@@ -101,8 +104,8 @@ include::rules/src/main/resources/META-INF/jqassistant-rules/package.xml[]
 ----
 
 package:RootPackage::
-A constraint verifying that all Java types of a project are located within a given root package.
-The name of the latter is expected as parameter `rootPackage` which must be present during execution, e.g. by the Maven plugin.
+A constraint verifying that all Java types of a project are located within a defined root package.
+The name of the latter is expected as parameter `rootPackage` which must be present during execution of jQAssistant (e.g. as Maven plugin).
 
 package:Default::
 A group with the same purpose as `maven:Default` described above.
@@ -116,9 +119,9 @@ The following code snippet shows an example for the constraint `package:RootPack
 include::rules/src/test/java/my/organization/rules/PackageTest.java[tags=Test]
 ----
 
-=== Grouping All Rules
+=== Grouping Rules For Execution
 
-The file `my-organization.xml` just contains a group:
+The file `my-organization.xml` contains defines a group:
 
 [source,xml]
 .src/main/resources/META-INF/jqassistant-rules/my-organization.xml
@@ -131,14 +134,14 @@ This group bundles the groups `maven:Default` and `package:Default`.
 Thus a project using the rules provided by this plugin only needs to declare this group for execution.
 
 TIP: Bundling rules into different groups can be used for staged roll-out into projects.
-New constraints at first can be included into a group `my-organization:Staging` and tested by selected projects (e.g. within Maven profiles).
+New constraints at first can be included into a group `my-organization:Staging` and tested in selected projects (or using Maven profiles).
 After validation they can be moved to `my-organization:Default` (or groups included there) and thus become mandatory for all projects.
 
 == Using Shared Rules In A Maven Project
 
 This section demonstrates how the set of shared rules may be activated in a Maven based project.
 The latter defines its own set of specific rules.
-These bundled in the group `project:Default` which is declared in the file `jqassistant/index.adoc`
+These are bundled in the group `project:Default` which is declared in the file `jqassistant/index.adoc`
 
 [source,asciidoc]
 .jqassistant/index.adoc
