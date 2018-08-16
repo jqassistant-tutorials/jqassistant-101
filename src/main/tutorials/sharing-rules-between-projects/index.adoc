@@ -60,7 +60,7 @@ The referenced files are expected as classpath resources located in the folder `
 This tutorial uses XML documents to declare the rules.
 Thus the following folder structure is expected:
 
-[code,raw]
+[source,raw]
 ----
 /META-INF/
          |- jqassistant-plugin.xml
