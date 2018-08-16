@@ -62,12 +62,12 @@ Thus the following folder structure is expected:
 
 [source,raw]
 ----
-/META-INF/
-         |- jqassistant-plugin.xml
-         |- jqassistant-rules/
-                             |- package.xml
-                             |- maven.xml
-                             |- my-organization.xml
+META-INF/
+├── jqassistant-plugin.xml
+└── jqassistant-rules/
+    ├── jqassistant-plugin.xmlpackage.xml
+    ├── jqassistant-plugin.xmlmaven.xml
+    └── my-organization.xml
 ----
 
 NOTE: Asciidoc files are supported as well but take longer time to load at startup.
