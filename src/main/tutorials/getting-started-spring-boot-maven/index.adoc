@@ -8,7 +8,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Integration of jQAssistant into a https://projects.spring.io/spring-boot/[Spring Boot] project which is built using http://maven.apache.org[Apache Maven].
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 1.4.0
+NOTE: This tutorial has been written for jQAssistant 1.5.0
 
 == Prerequisites
 
@@ -93,7 +93,7 @@ prints a summary of the activated rules including their descriptions:
 
 TIP: There is also a pre-defined group activating a smalle and less strict set of rules.
 For using it just replace `spring-boot:Strict` with `spring-boot:Default` in your `pom.xml` (see above).
-For a detailed description of available concepts and constraints refer to the http://buschmais.github.io/jqassistant/doc/1.4.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[plugin documentation].
+For a detailed description of available concepts and constraints refer to the http://buschmais.github.io/jqassistant/doc/1.5.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[plugin documentation].
 
 [[ProjectSpecificRules]]
 == Project Specific Rules
@@ -123,7 +123,7 @@ mvn clean install
 == Resources
 
 1. link:tutorial.zip[ZIP archive including the application]
-2. https://buschmais.github.io/jqassistant/doc/1.4.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
+2. https://buschmais.github.io/jqassistant/doc/1.5.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
 3. https://projects.spring.io/spring-boot/[Spring Boot project]
 4. https://start.spring.io[Spring Initializr]
 5. https://maven.apache.org[Apache Maven]
