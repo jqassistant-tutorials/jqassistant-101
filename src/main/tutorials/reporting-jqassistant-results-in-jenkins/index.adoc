@@ -1,0 +1,95 @@
+:imagesdir: includes
+
+= Reporting jQAssistant Results In Jenkins
+Dirk Mahler <dirk.mahler@jqassistant.org>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+Describes the setup for reporting the status of jQAssistant rules as test results in http://jenkins.io[Jenkins CI].
+// end::lead[]
+
+NOTE: This tutorial is written for version 1.6.0 of jQAssistant.
+
+== jQAssistant JUnit Reports
+
+The results of rules (i.e. constraints and concepts) executed during a jQAssistant analysis are written as JUnit test results.
+These can be evaluated by the Jenkins https://plugins.jenkins.io/xunit[xUnit] plugin and reported for each build.
+For Maven projects these are located in the folder `target/jqassistant/report/junit`.
+If the CLI is used the files can be found in `jqassistant/report/junit`.
+
+== Setting Up The xUnit Plugin for Jenkins
+
+The [https://plugins.jenkins.io/xunit]xUnit plugin for Jenkins allows to scan for JUnit test results and publishing them.
+To pickup the results written by jQAssistant execute the following steps:
+
+1. Make sure the xUnit plugin is installed (`Manage Jenkins` -> `Manage Plugins`)
+2. Open the job configuration
+3. Add a build step `Process xUnit test result report` after the step that builds your project using Maven or the CLI and that executes the jQAssistant analysis
+3. Select the report type `JUnit`
+4. Specify a list of file patterns to the locations where your test reports are located, e.g. "target/jqassistant/report/junit/\*.xml, target/surefire-reports/*.xml, target/failsafe-reports/*.xml" for Maven projects
+5. Save the changes.
+
+image::job-configuration.png[]
+
+Done!
+
+After running a build the jQAssistant test results are reported beside your unit tests:
+
+image::test-result.png[]
+
+NOTE: The described setup refers to Jenkins jobs created using the type `Freestyle project`.
+The job type `Maven project` currently does not allow specifying additional locations for JUnit test reports.
+
+== Controlling Failures And Errors
+
+The test results are written by the jQAssistant JUnit Report plugin.
+It provides configuration properties which can be used to specify the behavior if a failing rule is detected:
+
+junit.report.failureSeverity::
+  The severity from which a failed rule will be reported as failure (default: MINOR)
+junit.report.errorSeverity::
+  The severity from which a failed rule will be reported as error (default:MAJOR)
+
+The default severities correspond to those of concepts (MINOR) and constraints (MAJOR).
+These settings can be changed by specifying report properties for the jQAssistant analysis.
+
+In case of Maven this is done by adding a `reportProperties` section to your `pom.xml`:
+
+.pom.xml
+[source,xml]
+----
+<plugin>
+  <groupId>com.buschmais.jqassistant</groupId>
+  <artifactId>jqassistant-maven-plugin</artifactId>
+  <configuration>
+    ...
+    <reportProperties>
+      <junit.report.failureSeverity>CRITICAL</junit.report.failureSeverity>
+      <junit.report.errorSeverity>BLOCKER</junit.report.errorSeverity>
+    </reportProperties>
+    ...
+  </configuration>
+</plugin>
+----
+
+For execution via command line create a file `report.properties` with the following content:
+
+.report.properties
+----
+junit.report.failureSeverity=CRITICAL
+junit.report.errorSeverity=BLOCKER
+----
+
+The command line utility can now be executed with the following parameter:
+
+----
+jqassistant.sh analyze -p report.properties
+----
+
+== Resources
+
+1. https://jenkins.io[Jenkins Homepage]
+2. https://plugins.jenkins.io/xunit[xUnit Plugin for Jenkins]
+

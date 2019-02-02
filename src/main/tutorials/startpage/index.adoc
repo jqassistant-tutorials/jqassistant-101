@@ -43,6 +43,9 @@ include::./../implementation-of-a-scanner-plugin/index.adoc[tag=lead]
 link:../using-3rd-party-plugins/index{outfilesuffix}[Using 3rd-party Plugins]::
 include::./../using-3rd-party-plugins/index.adoc[tag=lead]
 
+link:../reporting-jqassistant-results-in-jenkins/index{outfilesuffix}[Reporting jQAssistant Results In Jenkins]::
+include::./../reporting-jqassistant-results-in-jenkins/index.adoc[tag=lead]
+
 ++++
 
 <script>
