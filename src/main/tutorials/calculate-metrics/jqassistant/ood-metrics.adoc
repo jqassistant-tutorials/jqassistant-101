@@ -1,0 +1,315 @@
+== OOD-Metrics
+
+This chapter describes object oriented design metrics mentioned by Robert C. Martin in his book "Agile Principles and Practices".
+He distinguishes between stability metrics, abstractness and the main sequence.
+
+=== Stability Metrics
+
+The stability of a package can be measured by counting the incoming and outgoing dependencies.
+
+==== Ca (afferent couplings)
+
+The number of classes outside this component that depend on classes within this component.
+
+[[ood-metrics:AfferentCouplings]]
+.Computes the afferent couplings for all packages
+[source,cypher,role=concept]
+----
+MATCH (p:Package)
+OPTIONAL MATCH (p)-[:CONTAINS]->(it:Java:Type)<-[:DEPENDS_ON]-(et:Java:Type)<-[:CONTAINS]-(ep:Package)
+WHERE p <> ep
+WITH p, COUNT(et) AS afferentCouplings
+SET p.ca = COALESCE(afferentCouplings, 0)
+RETURN p
+----
+
+==== Ce (efferent couplings)
+
+The number of classes inside this component that depends on classes outside this component.
+
+[[ood-metrics:EfferentCouplings]]
+.Computes the efferent couplings for all packages
+[source,cypher,role=concept]
+----
+MATCH (p:Package)
+OPTIONAL MATCH (p)-[:CONTAINS]->(it:Java:Type)-[:DEPENDS_ON]->(et:Java:Type)<-[:CONTAINS]-(ep:Package)
+WHERE p <> ep
+WITH p, COUNT(et) AS efferentCouplings
+SET p.ce = COALESCE(efferentCouplings, 0)
+RETURN p
+----
+
+==== I (instability)
+
+I = Ce / (Ca + Ce) +
+This metric has the range [0, 1].
+I=0 indicates a maximally stable component.
+That means no type (neither a interface nor a class) in this package has a dependency to any other interface or class in another package.
+I=1 indicates a maximally instable component.
+That means no type (either interfaces or classes) in this package have no dependency to any other interfaces or classes in another package.
+In other words all interfaces or classes in this package have at least one dependency to an interface or class in another package.
+
+[[ood-metrics:Instability]]
+.Computes the instability for all packages
+[source,cypher,role=concept,requiresConcepts="ood-metrics:AfferentCouplings,ood-metrics:EfferentCouplings"]
+----
+MATCH (p:Package)
+WHERE p.ce + p.ca > 0
+WITH p, toFloat(p.ce) / (p.ce + p.ca) as instability
+SET p.instability = instability
+RETURN p
+----
+
+==== Example
+
+.OO-Metrics Instability
+image::OO-Metrics_Instability.png[OO-Metrics Instability]
+
+==== Test cases
+
+[[ood-metrics:InstabilityPackageA]]
+.Instability Package a
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.a", ca:3, ce:1, instability:0.25})
+RETURN p
+----
+
+[[ood-metrics:InstabilityPackageB]]
+.Instability Package b
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.b", ca:3, ce:3, instability:0.5})
+RETURN p
+----
+
+[[ood-metrics:InstabilityPackageC]]
+.Instability Package c
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.c", ca:1, ce:3, instability:0.75})
+RETURN p
+----
+
+[[ood-metrics:InstabilityPackageD]]
+.Instability Package d
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.d", ca:0, ce:2, instability:1})
+RETURN p
+----
+
+[[ood-metrics:InstabilityPackageE]]
+.Instability Package e
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.e", ca:2, ce:0, instability:0})
+RETURN p
+----
+
+[[ood-metrics:InstabilityTests]]
+[role=group,includesConcepts="ood-metrics:InstabilityPackageA,ood-metrics:InstabilityPackageB,ood-metrics:InstabilityPackageC,ood-metrics:InstabilityPackageD,ood-metrics:InstabilityPackageE"]
+
+=== Abstractness Metrics
+
+The abstractness is the ratio of abstract classes and interfaces to the total number of classes and interfaces in a package.
+
+==== Na (number abstracts)
+
+The number of abstract classes and interfaces in this component.
+
+[[ood-metrics:NumberAbstracts]]
+.Computes the number of abstract classes and interfaces for all packages
+[source,cypher,role=concept]
+----
+MATCH (p:Package) WITH p
+OPTIONAL MATCH (p)-[:CONTAINS]->(ac:Java:Type:Class {abstract:true}) WITH p, COUNT(ac) AS numberAbstractClasses
+OPTIONAL MATCH (p)-[:CONTAINS]->(i:Java:Type:Interface) WITH p, numberAbstractClasses, COUNT(i) AS numberInterfaces
+SET p.na = COALESCE(numberAbstractClasses + numberInterfaces, 0)
+RETURN p
+----
+
+==== Nc (number classes)
+
+The number of all classes and interfaces in this component.
+
+[[ood-metrics:NumberClasses]]
+.Computes the number of all classes and interfaces for all packages
+[source,cypher,role=concept]
+----
+MATCH (p:Package)
+OPTIONAL MATCH (p)-[:CONTAINS]->(c:Java:Type)
+WITH p, COUNT(c) AS numberClasses
+SET p.nc = COALESCE(numberClasses, 0)
+RETURN p
+----
+
+==== A (abstractness)
+
+A = Na / Nc +
+The ratio of abstract classes and interfaces to the number of all classes and interfaces per package.
+This metric has the range [0, 1].
+A=0 indicates that this package has no abstract classes or interfaces.
+A=1 indicates that this package only contains abstract classes or interfaces.
+
+[[ood-metrics:Abstractness]]
+.Computes the abstractness for all packages
+[source,cypher,role=concept,requiresConcepts="ood-metrics:NumberAbstracts,ood-metrics:NumberClasses"]
+----
+MATCH (p:Package)
+WHERE p.nc > 0
+SET p.abstractness = toFloat(p.na) / p.nc
+RETURN p
+----
+
+==== Example
+
+.OO-Metrics Abstractness
+image::OO-Metrics_Abstractness.png[OO-Metrics Abstractness]
+
+==== Test cases
+
+[[ood-metrics:AbstractnessPackageA]]
+.Abstractness Package a
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.a", na:1, nc:1, abstractness:1})
+RETURN p
+----
+
+[[ood-metrics:AbstractnessPackageB]]
+.Abstractness Package b
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.b", na:1, nc:2, abstractness:0.5})
+RETURN p
+----
+
+[[ood-metrics:AbstractnessPackageC]]
+.Abstractness Package c
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.c", na:0, nc:2, abstractness:0})
+RETURN p
+----
+
+[[ood-metrics:AbstractnessPackageD]]
+.Abstractness Package D
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.d", na:2, nc:2, abstractness:1})
+RETURN p
+----
+
+[[ood-metrics:AbstractnessPackageE]]
+.Abstractness Package E
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.e", na:0, nc:2, abstractness:0})
+RETURN p
+----
+
+[[ood-metrics:AbstractnessTests]]
+[role=group,includesConcepts="ood-metrics:AbstractnessPackageA,ood-metrics:AbstractnessPackageB,ood-metrics:AbstractnessPackageC,ood-metrics:AbstractnessPackageD,ood-metrics:AbstractnessPackageE"]
+
+=== The main sequence
+
+The main sequence is the relationship between abstractness and instability.
+A package is totally abstract or totally instable at the best.
+The packages with high abstractness and high instability are in the zone of uselessness.
+Classes in this zone are maximally abstract and have no dependents.
+The packages with low abstractness and low instability are in the zone of pain.
+Classes in this zone are highly stable and concrete.
+This classes are difficult to change because they are stable, but they cannot be extended because they aren't abstract.
+
+.OO-Metrics Distance
+image::OO-Metrics_Distancequarter.png[OO-Metrics Distance quarter]
+
+Ideally is the distance of a package as low as possible.
+
+==== D (distance)
+
+D = ABS(A + I - 1) / SQRT(2) +
+This is the distance like geometrically defined.
+This metric has the range [0, ~0.707].
+
+[[ood-metrics:Distance]]
+.Computes the distance for all packages
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness,ood-metrics:Instability"]
+----
+MATCH (p:Package)
+SET p.distance = abs(p.abstractness + p.instability -1) / sqrt(2)
+RETURN p
+----
+
+==== D' (normalized distance)
+
+D' = ABS( A + I - 1) +
+More common is the normalized distance.
+This metric has the range [0, 1].
+
+[[ood-metrics:NormalizedDistance]]
+.Computes the normalized distance for all packages
+[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness,ood-metrics:Instability"]
+----
+MATCH (p:Package)
+SET p.normalizedDistance = abs(p.abstractness + p.instability -1)
+RETURN p
+----
+
+==== Example
+
+.OO-Metrics Distance
+image::OO-Metrics_Distance.png[OO-Metrics Distance]
+
+==== Test cases
+
+[[ood-metrics:NormalizedDistancePackageA]]
+.Normalized distance Package a
+[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.a", normalizedDistance:0.25})
+RETURN p
+----
+
+[[ood-metrics:NormalizedDistancePackageB]]
+.Normalized distance Package b
+[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.b", normalizedDistance:0})
+RETURN p
+----
+
+[[ood-metrics:NormalizedDistancePackageC]]
+.Normalized distance Package c
+[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.c", normalizedDistance:0.25})
+RETURN p
+----
+
+[[ood-metrics:NormalizedDistancePackageD]]
+.Normalized distance Package D
+[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.d", normalizedDistance:1})
+RETURN p
+----
+
+[[ood-metrics:NormalizedDistancePackageE]]
+.Normalized distance Package e
+[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
+----
+MATCH (p:Package {fqn:"your.project.oodmetrics.e", normalizedDistance:1})
+RETURN p
+----
+
+[[ood-metrics:DistanceTests]]
+[role=group,includesConcepts="ood-metrics:NormalizedDistancePackageA,ood-metrics:NormalizedDistancePackageB,ood-metrics:NormalizedDistancePackageC,ood-metrics:NormalizedDistancePackageD,ood-metrics:NormalizedDistancePackageE"]
+
+After the last concept, constraint or group has to stand a heading or text.
+
+=== References
+
+1. https://en.wikipedia.org/wiki/Software_package_metrics[Software package metrics]
+2. http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod[The Principles of OOD]
