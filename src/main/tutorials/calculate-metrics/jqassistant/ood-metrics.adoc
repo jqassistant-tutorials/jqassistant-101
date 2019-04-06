@@ -49,6 +49,8 @@ I=1 indicates a maximally instable component.
 That means no type (either interfaces or classes) in this package have no dependency to any other interfaces or classes in another package.
 In other words all interfaces or classes in this package have at least one dependency to an interface or class in another package.
 
+This metric requires the previous execution of <<Ca (afferent couplings)>> and <<Ce (efferent couplings)>>.
+
 [[ood-metrics:Instability]]
 .Computes the instability for all packages
 [source,cypher,role=concept,requiresConcepts="ood-metrics:AfferentCouplings,ood-metrics:EfferentCouplings"]
@@ -64,51 +66,6 @@ RETURN p
 
 .OO-Metrics Instability
 image::OO-Metrics_Instability.png[OO-Metrics Instability]
-
-==== Test cases
-
-[[ood-metrics:InstabilityPackageA]]
-.Instability Package a
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.a", ca:3, ce:1, instability:0.25})
-RETURN p
-----
-
-[[ood-metrics:InstabilityPackageB]]
-.Instability Package b
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.b", ca:3, ce:3, instability:0.5})
-RETURN p
-----
-
-[[ood-metrics:InstabilityPackageC]]
-.Instability Package c
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.c", ca:1, ce:3, instability:0.75})
-RETURN p
-----
-
-[[ood-metrics:InstabilityPackageD]]
-.Instability Package d
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.d", ca:0, ce:2, instability:1})
-RETURN p
-----
-
-[[ood-metrics:InstabilityPackageE]]
-.Instability Package e
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Instability",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.e", ca:2, ce:0, instability:0})
-RETURN p
-----
-
-[[ood-metrics:InstabilityTests]]
-[role=group,includesConcepts="ood-metrics:InstabilityPackageA,ood-metrics:InstabilityPackageB,ood-metrics:InstabilityPackageC,ood-metrics:InstabilityPackageD,ood-metrics:InstabilityPackageE"]
 
 === Abstractness Metrics
 
@@ -152,6 +109,8 @@ This metric has the range [0, 1].
 A=0 indicates that this package has no abstract classes or interfaces.
 A=1 indicates that this package only contains abstract classes or interfaces.
 
+This metric requires the previous execution of <<Na (number abstracts)>> and <<Nc (number classes)>>.
+
 [[ood-metrics:Abstractness]]
 .Computes the abstractness for all packages
 [source,cypher,role=concept,requiresConcepts="ood-metrics:NumberAbstracts,ood-metrics:NumberClasses"]
@@ -166,51 +125,6 @@ RETURN p
 
 .OO-Metrics Abstractness
 image::OO-Metrics_Abstractness.png[OO-Metrics Abstractness]
-
-==== Test cases
-
-[[ood-metrics:AbstractnessPackageA]]
-.Abstractness Package a
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.a", na:1, nc:1, abstractness:1})
-RETURN p
-----
-
-[[ood-metrics:AbstractnessPackageB]]
-.Abstractness Package b
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.b", na:1, nc:2, abstractness:0.5})
-RETURN p
-----
-
-[[ood-metrics:AbstractnessPackageC]]
-.Abstractness Package c
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.c", na:0, nc:2, abstractness:0})
-RETURN p
-----
-
-[[ood-metrics:AbstractnessPackageD]]
-.Abstractness Package D
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.d", na:2, nc:2, abstractness:1})
-RETURN p
-----
-
-[[ood-metrics:AbstractnessPackageE]]
-.Abstractness Package E
-[source,cypher,role=concept,requiresConcepts="ood-metrics:Abstractness",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.e", na:0, nc:2, abstractness:0})
-RETURN p
-----
-
-[[ood-metrics:AbstractnessTests]]
-[role=group,includesConcepts="ood-metrics:AbstractnessPackageA,ood-metrics:AbstractnessPackageB,ood-metrics:AbstractnessPackageC,ood-metrics:AbstractnessPackageD,ood-metrics:AbstractnessPackageE"]
 
 === The main sequence
 
@@ -232,6 +146,8 @@ Ideally is the distance of a package as low as possible.
 D = ABS(A + I - 1) / SQRT(2) +
 This is the distance like geometrically defined.
 This metric has the range [0, ~0.707].
+
+This metric requires the previous execution of <<I (instability)>> and <<A (abstractness)>> and there prerequisites.
 
 [[ood-metrics:Distance]]
 .Computes the distance for all packages
@@ -261,53 +177,6 @@ RETURN p
 
 .OO-Metrics Distance
 image::OO-Metrics_Distance.png[OO-Metrics Distance]
-
-==== Test cases
-
-[[ood-metrics:NormalizedDistancePackageA]]
-.Normalized distance Package a
-[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.a", normalizedDistance:0.25})
-RETURN p
-----
-
-[[ood-metrics:NormalizedDistancePackageB]]
-.Normalized distance Package b
-[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.b", normalizedDistance:0})
-RETURN p
-----
-
-[[ood-metrics:NormalizedDistancePackageC]]
-.Normalized distance Package c
-[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.c", normalizedDistance:0.25})
-RETURN p
-----
-
-[[ood-metrics:NormalizedDistancePackageD]]
-.Normalized distance Package D
-[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.d", normalizedDistance:1})
-RETURN p
-----
-
-[[ood-metrics:NormalizedDistancePackageE]]
-.Normalized distance Package e
-[source,cypher,role=concept,requiresConcepts="ood-metrics:NormalizedDistance",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.oodmetrics.e", normalizedDistance:1})
-RETURN p
-----
-
-[[ood-metrics:DistanceTests]]
-[role=group,includesConcepts="ood-metrics:NormalizedDistancePackageA,ood-metrics:NormalizedDistancePackageB,ood-metrics:NormalizedDistancePackageC,ood-metrics:NormalizedDistancePackageD,ood-metrics:NormalizedDistancePackageE"]
-
-After the last concept, constraint or group has to stand a heading or text.
 
 === References
 

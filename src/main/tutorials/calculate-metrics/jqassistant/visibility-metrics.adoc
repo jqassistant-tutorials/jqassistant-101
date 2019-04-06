@@ -31,6 +31,8 @@ ARV = SumAllRVValues / NumberOfComponents
 The average relative visibility is the sum of all relative visibilities in relationship to the total number of components.
 This metric exists just one time for all components.
 
+This metric requires the previous execution of <<Relative Visibility (RV)>>.
+
 [[visibility-metrics:AverageRelativeVisibility]]
 .Computes ARV for all components
 [source,cypher,role=concept,requiresConcept="visibility-metrics:RelativeVisibility"]
@@ -64,29 +66,6 @@ RETURN toFloat(sum(noicvo))/sum(tnoic) AS globalRelativeVisibility
 
 .Relative Visibility
 image::Relative_Visibility.png[Relative Visibility]
-
-==== Tests
-
-[[visibility-metrics:RelativeVisiblityPackageA]]
-.Relative Visibility Package a
-[source,cypher,role=concept,requiresConcepts="visibility-metrics:RelativeVisibility,visibility-metrics:AverageRelativeVisibility,visibility-metrics:GlobalRelativeVisibility",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.visibilitymetrics.a", relativeVisibility:0.5})
-RETURN p
-----
-
-[[visibility-metrics:RelativeVisiblityPackageB]]
-.Relative Visibility Package b
-[source,cypher,role=concept,requiresConcepts="visibility-metrics:RelativeVisibility,visibility-metrics:AverageRelativeVisibility,visibility-metrics:GlobalRelativeVisibility",severity=major]
-----
-MATCH (p:Package {fqn:"your.project.visibilitymetrics.b", relativeVisibility:1})
-RETURN p
-----
-
-[[visibility-metrics:RelativeVisibilityTests]]
-[role=group,includesConcepts="visibility-metrics:RelativeVisiblityPackageA,visibility-metrics:RelativeVisiblityPackageB"]
-
-After the last concept, constraint or group has to stand a heading or text.
 
 === References
 

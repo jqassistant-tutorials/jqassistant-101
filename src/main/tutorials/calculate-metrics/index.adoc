@@ -36,7 +36,7 @@ The quote exists in different variants. I couldn't figure out, what the original
 
 ////
 
-Metrics are just one way to measure you software system.
+Metrics are just one way to measure your software system.
 They can help you to understand your system and to discover anomalies in your system.
 If the anomalies discovered, it's up to you to improve your system to fulfill the metrics.
 
@@ -44,8 +44,8 @@ In the following chapters I describe different metrics and their purpose.
 Each chapter consists of following points:
 
   * Description of the metric.
+  * How to calculate the metric with jQAssistant.
   * A simple example how to calculate the metric.
-  * Test cases to validate the implemented metrics by using concepts and contraints of jQAssistant itself.
 
 include::jqassistant/ood-metrics.adoc[]
 
