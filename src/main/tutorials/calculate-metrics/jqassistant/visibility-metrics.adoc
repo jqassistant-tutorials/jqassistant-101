@@ -5,7 +5,10 @@ The idea of this metrics is to set the public visible types in a relationship to
 
 === Relative Visibility (RV)
 
+.Formula
+....
 RV = (NumberOfInnerComponentsVisibleOutside / TotalNumberOfInnerComponents)
+....
 
 The relative visibility is the relationship of the number of inner components visible outside to the total number of inner components.
 
@@ -26,7 +29,10 @@ RETURN p
 
 === Average Relative Visibility (ARV)
 
+.Formula
+....
 ARV = SumAllRVValues / NumberOfComponents
+....
 
 The average relative visibility is the sum of all relative visibilities in relationship to the total number of components.
 This metric exists just one time for all components.
@@ -43,7 +49,10 @@ RETURN SUM(p.relativeVisibilty)/COUNT(p) AS averageRelativeVisibilty
 
 === Global Relative Visibility (GRV)
 
+.Formula
+....
 GRV = (NumberOfVisibleSubcomponentsOfAllComponents / NumberOfAllSubcomponentsOfAllComponents) * 100
+....
 
 The global relative visibility is the number of all visible classes in all packages in relationship to the total number of all classes in all packages.
 This metric exists just one time for all components.

@@ -2,14 +2,20 @@
 
 This chapter describes object oriented design metrics mentioned by Robert C. Martin in his book "Agile Principles and Practices".
 He distinguishes between stability metrics, abstractness and the main sequence.
+This three metrics will be described in the following:
 
 === Stability Metrics
 
 The stability of a package can be measured by counting the incoming and outgoing dependencies.
+A package is the more stable the less dependencies to other packages it has.
+In other words a package is the more unstable the more dependencies to other packages is has.
+
+To measure the stability you have to count incoming and outgoing dependencies.
 
 ==== Ca (afferent couplings)
 
 The number of classes outside this component that depend on classes within this component.
+In short: the number of incoming dependencies.
 
 [[ood-metrics:AfferentCouplings]]
 .Computes the afferent couplings for all packages
@@ -26,6 +32,7 @@ RETURN p
 ==== Ce (efferent couplings)
 
 The number of classes inside this component that depends on classes outside this component.
+In short: the number of outgoing dependencies.
 
 [[ood-metrics:EfferentCouplings]]
 .Computes the efferent couplings for all packages
@@ -41,7 +48,11 @@ RETURN p
 
 ==== I (instability)
 
-I = Ce / (Ca + Ce) +
+.Formula
+....
+I = Ce / (Ca + Ce)
+....
+
 This metric has the range [0, 1].
 I=0 indicates a maximally stable component.
 That means no type (neither a interface nor a class) in this package has a dependency to any other interface or class in another package.
@@ -103,7 +114,11 @@ RETURN p
 
 ==== A (abstractness)
 
-A = Na / Nc +
+.Formula
+....
+A = Na / Nc
+....
+
 The ratio of abstract classes and interfaces to the number of all classes and interfaces per package.
 This metric has the range [0, 1].
 A=0 indicates that this package has no abstract classes or interfaces.
@@ -143,7 +158,11 @@ Ideally is the distance of a package as low as possible.
 
 ==== D (distance)
 
-D = ABS(A + I - 1) / SQRT(2) +
+.Formula
+....
+D = ABS(A + I - 1) / SQRT(2)
+....
+
 This is the distance like geometrically defined.
 This metric has the range [0, ~0.707].
 
@@ -160,7 +179,11 @@ RETURN p
 
 ==== D' (normalized distance)
 
-D' = ABS( A + I - 1) +
+.Formula
+....
+D' = ABS( A + I - 1)
+....
+
 More common is the normalized distance.
 This metric has the range [0, 1].
 
