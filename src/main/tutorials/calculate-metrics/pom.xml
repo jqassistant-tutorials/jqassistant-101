@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>your.project</groupId>
+  <artifactId>metrics</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>metrics</name>
+  <description>Test project to evaluate the metrics.</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.buschmais.jqassistant</groupId>
+        <artifactId>jqassistant-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.jruby</groupId>
+            <artifactId>jruby-complete</artifactId>
+            <version>9.2.6.0</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>scan</id>
+            <goals>
+              <goal>scan</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>analyze</id>
+            <goals>
+              <goal>analyze</goal>
+            </goals>
+            <configuration>
+              <failOnSeverity>major</failOnSeverity>
+              <groups>
+                <group>ood-metrics:InstabilityTests</group>
+                <group>ood-metrics:AbstractnessTests</group>
+                <group>ood-metrics:DistanceTests</group>
+                <group>visibility-metrics:RelativeVisibilityTests</group>
+              </groups>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <apocEnabled>true</apocEnabled>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctor-maven-plugin</artifactId>
+        <version>1.5.6</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.jruby</groupId>
+            <artifactId>jruby-complete</artifactId>
+            <version>9.2.6.0</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>output-html</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <sourceDirectory>.</sourceDirectory>
+          <sourceDocumentName>index.adoc</sourceDocumentName>
+          <backend>html</backend>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

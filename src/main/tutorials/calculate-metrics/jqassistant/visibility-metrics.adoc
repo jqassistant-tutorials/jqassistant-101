@@ -1,0 +1,81 @@
+== Visibility Metrics
+
+This chapter describes the visibility of packages as defined in https://dzone.com/articles/visibility-metrics-and-the-importance-of-hiding-th[Visibility Metrics and the Importance of Hiding Things] by Herbert Dowalil.
+The idea of this metrics is to set the public visible types in a relationship to all types.
+
+=== Relative Visibility (RV)
+
+.Formula
+....
+RV = (NumberOfInnerComponentsVisibleOutside / TotalNumberOfInnerComponents)
+....
+
+The relative visibility is the relationship of the number of inner components visible outside to the total number of inner components.
+
+[[visibility-metrics:RelativeVisibility]]
+.Computes RV per package
+[source,cypher,role=concept]
+----
+MATCH (p:Package)
+WITH p
+OPTIONAL MATCH (p)-[:CONTAINS]->(it:Java:Type {visibility:"public"})
+WITH p, COUNT(it) AS noicvo
+OPTIONAL MATCH (p)-[:CONTAINS]->(it:Java:Type)
+WITH p, noicvo, COUNT(it) AS tnoic
+WHERE noicvo > 0 AND tnoic > 0
+SET p.relativeVisibility = toFloat(noicvo)/tnoic
+RETURN p
+----
+
+=== Average Relative Visibility (ARV)
+
+.Formula
+....
+ARV = SumAllRVValues / NumberOfComponents
+....
+
+The average relative visibility is the sum of all relative visibilities in relationship to the total number of components.
+This metric exists just one time for all components.
+
+This metric requires the previous execution of <<Relative Visibility (RV)>>.
+
+[[visibility-metrics:AverageRelativeVisibility]]
+.Computes ARV for all components
+[source,cypher,role=concept,requiresConcept="visibility-metrics:RelativeVisibility"]
+----
+MATCH (p:Package)
+RETURN SUM(p.relativeVisibilty)/COUNT(p) AS averageRelativeVisibilty
+----
+
+=== Global Relative Visibility (GRV)
+
+.Formula
+....
+GRV = (NumberOfVisibleSubcomponentsOfAllComponents / NumberOfAllSubcomponentsOfAllComponents) * 100
+....
+
+The global relative visibility is the number of all visible classes in all packages in relationship to the total number of all classes in all packages.
+This metric exists just one time for all components.
+
+[[visibility-metrics:GlobalRelativeVisibility]]
+.Computes GRV for all components
+[source,cypher,role=concept]
+----
+MATCH (p:Package)
+WITH p
+OPTIONAL MATCH (p)-[:CONTAINS]->(it:Java:Type {visibility:"public"})
+WITH p, COUNT(it) AS noicvo
+OPTIONAL MATCH (p)-[:CONTAINS]->(it:Java:Type)
+WITH p, noicvo, COUNT(it) AS tnoic
+WHERE noicvo > 0 AND tnoic > 0
+RETURN toFloat(sum(noicvo))/sum(tnoic) AS globalRelativeVisibility
+----
+
+==== Example
+
+.Relative Visibility
+image::Relative_Visibility.png[Relative Visibility]
+
+=== References
+
+1. https://dzone.com/articles/visibility-metrics-and-the-importance-of-hiding-th[Visibility Metrics and the Importance of Hiding Things]
