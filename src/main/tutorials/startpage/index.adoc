@@ -34,6 +34,9 @@ include::./../annotations-single/index.adoc[tag=lead]
 link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
 include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
 
+link:../calculate-metrics/index{outfilesuffix}[Calculate Metrics]::
+include::./../calculate-metrics/index.adoc[tag=lead]
+
 link:../sharing-rules-between-projects/index{outfilesuffix}[Sharing Rules Between Projects]::
 include::./../sharing-rules-between-projects/index.adoc[tag=lead]
 
