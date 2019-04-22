@@ -51,6 +51,13 @@ include::jqassistant/ood-metrics.adoc[]
 
 include::jqassistant/visibility-metrics.adoc[]
 
+== Implementation
+
+This metrics are implemented in the https://github.com/jqassistant-contrib/jqassistant-java-metrics-plugin[jQAssistant Java Metrics plugin].
+
+Please check the documentation to apply this metrics in your project.
+In cases of issues please report there.
+
 == Critique
 
 I've shown different metrics.
