@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
 
 @Getter
-@DDD.Aggregate
+@DDD.AggregateRoot
 public class Product {
 
     private Long id;

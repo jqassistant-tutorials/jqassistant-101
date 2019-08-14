@@ -81,9 +81,9 @@ prints a summary of the activated rules including their descriptions:
 [INFO]   "java-ddd:TypeInMultipleBoundedContexts" - Checks that a single DDD type is only part of one bounded context.
 [INFO]   "java-ddd:UnneededDependenciesBetweenBoundedContexts" - Checks that dependencies between bounded contexts are defined only where needed.
 [INFO] Concepts [21]
-[INFO]   "java-ddd:AggregatePackage" - Labels all Java types which are located in package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Aggregate as :DDD:Aggregate.
-[INFO]   "java-ddd:AggregateType" - Labels all Java types which are annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.Aggregate as :DDD:Aggregate.
+[INFO]   "java-ddd:AggregateRootPackage" - Labels all Java types which are located in package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.AggregateRoot as :DDD:AggregateRoot.
+[INFO]   "java-ddd:AggregateRootType" - Labels all Java types which are annotated by
+            org.jqassistant.contrib.plugin.ddd.annotation.DDD.AggregateRoot as :DDD:AggregateRoot.
 [INFO]   "java-ddd:BoundedContextDependency" - Propagates the dependencies between Types of different Bounded Contexts to the level of Bounded Contexts including an aggregated weight.
 [INFO]   "java-ddd:BoundedContextPackage" - Maps all Java types which are located in a package annotated by
             org.jqassistant.contrib.plugin.ddd.annotation.DDD.BoundedContext to the corresponding BoundedContext node.

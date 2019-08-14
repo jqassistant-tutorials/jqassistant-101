@@ -5,7 +5,7 @@ import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
 
 import java.util.List;
 
-@DDD.Aggregate
+@DDD.AggregateRoot
 @AllArgsConstructor
 public class Order {
 
