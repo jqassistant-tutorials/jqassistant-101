@@ -9,7 +9,7 @@
 MATCH
   (repo:DDD:Repository)-[:DECLARES]->(:Method)-[:RETURNS]->(t:Type)
 WHERE
-  NOT t:DDD:Aggregate
+  NOT t:DDD:AggregateRoot
 RETURN
   repo.fqn as Repository, t.fqn as IllegalReturnType
 ----
