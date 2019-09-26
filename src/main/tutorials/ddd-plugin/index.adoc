@@ -8,7 +8,7 @@ Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
 Mapping of DDD concepts in an application to jQAssistant.
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 1.7.0
+NOTE: This tutorial has been written for jQAssistant 1.6.0
 
 == Prerequisites
 
