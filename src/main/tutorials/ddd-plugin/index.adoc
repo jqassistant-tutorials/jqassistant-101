@@ -62,7 +62,7 @@ mvn clean install
 [[PreDefinedRules]]
 == Pre-Defined Rules
 
-The setup above activates the pre-defined group `java-ddd:Default that provides some basic constraints for
+The setup above activates the pre-defined group `java-ddd:Default` that provides some basic constraints for
 the structure and architecture of the project.
 
 Executing the goal `effective-rules` on the command line using

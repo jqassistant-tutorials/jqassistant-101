@@ -23,12 +23,14 @@
             <groupId>org.jqassistant.contrib.plugin</groupId>
             <artifactId>jqassistant-java-ddd-plugin</artifactId>
             <version>1.6.0</version>
+            <scope>provided</scope>
         </dependency>
         <!-- end::dependency[] -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.8</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
