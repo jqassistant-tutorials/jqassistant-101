@@ -5,7 +5,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-Describes the jQAssistant setup for using an central Neo4j server within a CI build to provide teams a point for exploration and analysis of their project.
+Describes the jQAssistant setup for using a remote Neo4j server within a CI build to provide teams a shared instance for exploration and analysis of their project.
 // end::lead[]
 
 NOTE: This tutorial has been written for jQAssistant 1.7.0
