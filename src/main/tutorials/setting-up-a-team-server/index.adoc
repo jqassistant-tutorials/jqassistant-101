@@ -31,7 +31,7 @@ This tutorial describes the setup for the <<MavenPlugin>> and <<CLI>>
 == jQAssistant Maven Plugin
 
 Maven allows using profiles that can be used to control the build process.
-The setup described in this section will make use of it to allow switching from a default jQAssistant Maven plugin configuration using embedded Neo4j database to a running instance.
+The setup described in this section will make use of this mechanism to allow switching between the default jQAssistant Maven plugin configuration using an embedded Neo4j database and a configuration for connecting to a remote Neo4j instance.
 
 Therefore the plugin setup is defined as usual in the `pom.xml` of the project's root module:
 
