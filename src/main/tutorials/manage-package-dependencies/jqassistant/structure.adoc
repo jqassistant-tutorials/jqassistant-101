@@ -8,7 +8,7 @@ This document describes the rules regarding package dependencies.
 
 // tag::structureComponent[]
 [[structure:Component]]
-[source,cypher,role=concept,requiresConcepts="maven:MainArtifact"]
+[source,cypher,role=concept]
 .All packages in the root package of the main artifact are labeled as `Component`.
 ----
 MATCH

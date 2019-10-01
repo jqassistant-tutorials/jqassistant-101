@@ -8,7 +8,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Define and verify allowed dependencies between components that are represented by package structures.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
+NOTE: This tutorial is written for version 1.7.0 of jQAssistant.
 
 == Overview
 
@@ -69,33 +69,15 @@ For this tutorial the following files are created:
 [source,raw]
 -----
 jqassistant/index.adoc      <1>
-jqassistant/maven.adoc      <2>
-jqassistant/structure.adoc  <3>
+jqassistant/structure.adoc  <2>
 -----
 <1> link:jqassistant/index.adoc[index.adoc] is the root document, includes both other documents and defines the group `default` which is executed by the jQAssistant Maven plugin.
-<2> link:jqassistant/maven.adoc[maven.adoc] contains a concept for identifying the main artifact which is compiled from `src/main/java`.
-<3> link:jqassistant/structure.adoc[structure.adoc] contains the concepts and constraints for verifying the described package structure .
-
-== Identify The Main Artifact
-
-Both the production code from `src/main/java` and test code from `src/test/java` are scanned by the jQAssistant Maven plugin but the described rules only apply to the production code.
-
-Therefore a concept with the id `maven:MainArtifact` is defined in the file `maven.adoc` that adds the label `Main` to the required artifact:
-
-[source,asciidoc]
-....
-include::jqassistant/maven.adoc[]
-....
-
-NOTE: Test code is contained in artifacts of type `test-jar`.
+<2> link:jqassistant/structure.adoc[structure.adoc] contains the concepts and constraints for verifying the described package structure .
 
 TIP: For setting up and verifying rules it is convenient to run a build with the jQAssistant Maven plugin (see above) and start the integrated server using `mvn jqassistant:server`.
 The Neo4j browser will then be available under http://localhost:7474[] for executing the queries interactively.
 
 == Identify Components And Define Dependencies
-
-Using the concept `maven:MainArtifact` it is possible to setup the rules that describe and verify the desired package structure.
-These rules are located in the file `structure.adoc`.
 
 First a concept is defined that identifies the root package of the application and adds a label `Component` to all packages which are contained in it.
 The list of components is returned by the rule:
@@ -105,8 +87,10 @@ The list of components is returned by the rule:
 include::jqassistant/structure.adoc[tag=structureComponent]
 ....
 
-NOTE: The concept depends on the result of `maven:MainArtifact` which therefore is referenced within `requiresConcepts`.
-jQAssistant will take care of the right execution order.
+Both production code from `src/main/java` and test code from `src/test/java` are scanned by the jQAssistant Maven plugin.
+The described rules only apply to production code which is contained in an artifact labeled with `Main`.
+
+NOTE: Test code is identified by the label `Test`.
 
 Based on the identified components allowed dependencies can be defined by adding relationships of type `DEFINES_COMPONENT_DEPENDENCY`.
 This is implemented by the concept `structure:DefinedComponentDependencies`:
