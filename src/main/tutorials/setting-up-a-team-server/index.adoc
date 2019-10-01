@@ -1,0 +1,111 @@
+= Setting Up A Team Server
+Dirk Mahler <dirk.mahler@jqassistant.org>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+Describes the jQAssistant setup for using an central Neo4j server within a CI build to provide teams a point for exploration and analysis of their project.
+// end::lead[]
+
+NOTE: This tutorial has been written for jQAssistant 1.7.0
+
+== Prerequisites
+
+- Existing https://neo4j.com/download[Neo4j 3.x] installation.
+
+== Overview
+
+By default jQAssistant uses an embedded Neo4j database for scanning software structures and executing rules.
+That means that for interactive exploration using Cypher queries the project first needs to be built and the embedded Neo4j server to be started.
+
+For discussions about proposed design changes or refactorings in a project team it is helpful to have a permanent Neo4j instance available that can be explored by team members on demand.
+Such instance can be updated on regular base by a build job, e.g. once per night.
+
+Therefore both the jQAssistant Maven plugin and the CLI allow connecting to an existing Neo4j instance.
+Scanning and analysis will then be performed against this server, the scanned information as well as all applied concepts will be available in the graph.
+
+This tutorial describes the setup for the <<MavenPlugin>> and <<CLI>>
+
+[[MavenPlugin]]
+== jQAssistant Maven Plugin
+
+Maven allows using profiles that can be used to control the build process.
+The setup described in this section will make use of it to allow switching from a default jQAssistant Maven plugin configuration using embedded Neo4j database to a running instance.
+
+Therefore the plugin setup is defined as usual in the `pom.xml` of the project's root module:
+
+[source,xml]
+.pom.xml
+----
+include::pom.xml[tag=defaultConfiguration,indent=0]
+----
+
+The setup can be verified by running the following command:
+
+----
+mvn clean install
+----
+
+The console will contain the following lines from the plugin:
+
+----
+...
+[INFO] --- jqassistant-maven-plugin:1.7.0:scan (default-cli) @ project ---
+...
+[INFO] Using embedded Neo4j server 3.x
+[INFO] Resetting store.
+...
+----
+
+If the setup works as expected the file `pom.xml` is extended by a build profile `nightly` that overrides the default store configuration:
+
+[source,xml]
+.pom.xml
+----
+include::pom.xml[tag=profile,indent=0]
+----
+<1> The URL of the running Neo4j 3.x server
+<2> The user name to be used for the connection.
+<3> The password of the user.
+
+----
+mvn clean install -Pnightly
+----
+
+The console now contains the following lines:
+
+----
+...
+[INFO] --- jqassistant-maven-plugin:1.7.0:scan (default-cli) @ project ---
+[INFO] Loaded jQAssistant plugins [CDI, Common, Core Analysis, Core Report, EJB3, GraphML, JAX-RS, JPA 2, JSON, JUnit, Java, Java 8, Java EE 6, Maven 3, OSGi, RDBMS, Spring, TestNG, Tycho, XML, YAML].
+[INFO] Connecting to store at 'bolt://localhost:7687' (username=neo4j)
+[INFO] Resetting store.
+...
+----
+
+[[CLI]]
+== Command Line Utility
+
+Similar to the jQAssistant Maven Plugin the command line utility by default uses an embedded Neo4j instance.
+
+----
+jqassistant.sh scan -f my-project.jar
+----
+
+The command above will create a local folder `jqassistant/store` containing the database.
+
+This can be overridden by the parameters `storeUri`, `storeUsername` and `storePassword` for connecting to the already running server:
+
+----
+jqassistant.sh scan -f my-project.jar -storeUri bolt://localhost:7687 -storeUsername neo4j -storePassword secret
+----
+
+== Notes
+
+- Using a remote Neo4j instance results in slower performance during scans but should be acceptable for nightly builds.
+
+== Resources
+
+1. link:tutorial.zip[ZIP archive including the application]
+

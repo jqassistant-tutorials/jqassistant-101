@@ -40,6 +40,9 @@ include::./../calculate-metrics/index.adoc[tag=lead]
 link:../sharing-rules-between-projects/index{outfilesuffix}[Sharing Rules Between Projects]::
 include::./../sharing-rules-between-projects/index.adoc[tag=lead]
 
+link:../setting-up-a-team-server/index{outfilesuffix}[Setting Up A Team Server]::
+include::./../setting-up-a-team-server/index.adoc[tag=lead]
+
 link:../implementation-of-a-scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
 include::./../implementation-of-a-scanner-plugin/index.adoc[tag=lead]
 
