@@ -1,3 +1,5 @@
+:imagesdir: includes
+
 = Getting started with jQAssistant and Domain Driven Design
 Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
 
@@ -5,10 +7,10 @@ Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
 
 [.lead]
 // tag::lead[]
-Mapping of DDD concepts in an application to jQAssistant.
+Demonstrates how to map DDD concepts in the code to the graph and apply constraints using the DDD plugin,
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 1.6.0
+NOTE: This tutorial has been written for jQAssistant 1.7.0
 
 == Prerequisites
 
@@ -45,6 +47,7 @@ The configuration above...
 
 - activates the goals `scan` and `analyze` during a build
 - adds the jQAssistant DDD plugin
+- adds the jQAssistant AsciiDoc Report plugin which is needed during this tutorial
 
 Furthermore, to make use of the provided annotations, the DDD plugin must be added as maven dependency to the project as shown below.
 [source,xml]
@@ -135,7 +138,7 @@ Or directly by annotating a specific Java class as shown next.
 [source,java]
 .src/main/java/your/company/project/order/OrderService.java
 ----
-include::src/main/java/your/company/project/order/OrderService.java[tag=DDDType,indent=0]
+include::src/main/java/your/company/project/order/OrderService.java[tags=dddType]
 ----
 
 [[PreDefinedConstraints]]
@@ -172,26 +175,66 @@ The DDD plugin will be used from start on to verify that the designed architectu
 
 Depending on the state of the application, it is possible to define additional, more or less strict constraints. e.g that only aggregate roots may be accessible through repositories.
 
-The rules must be located in `/jqassistant` and can be written either in XML or Asciidoc files.
+The rules must be located in `/jqassistant` and can be written either in XML or Asciidoc files, where the latter approach is recommended.
 
-The latter is recommended and used in the following example. It defines:
+The following examples will be defined in the file `jqassistant/architecutre.adoc`:
 
-- a group `package:Default` including the constraint `package:ServicePackage´
-- the constraint `package:ServicePackage` that ensures that Spring services (i.e. classes annotated with
-`@Service`) are located in packages named `service`
-
-.jqassistant/aggregate.adoc
+.jqassistant/architecture.adoc
 ....
-include::jqassistant/aggregate.adoc[]
+include::jqassistant/architecture.adoc[tag=group,indent=0]
 ....
 
-Finally the group `aggregate:Default` must be activated in the `pom.xml` file (see pom in section <<MavenProject>> above).
+It defines a group `architecture:Default` which must be activated in the `pom.xml` file (see pom in section <<MavenProject>> above).
+This group contains all constraints and concepts matching the definition.
+
+=== Adding DDD Constraints
+
+Besides the group definition, the example defines that repositories are allowed to only return aggregates which will be checked by
+
+- the constraint `architecture:AggregateRepository` that ensures that only DDD aggregates (i.e. classes annotated with
+`@DDD.Aggregate`) are returned by repositories (i.e. classes annotated with `@DDD.Repository`)
+
+.Aggregate constraint definition as defined in jqassistant/architecture.adoc
+....
+include::jqassistant/architecture.adoc[tag=aggregates]
+....
 
 The project can be built and verified by running the following command:
 
 ----
 mvn clean install
 ----
+
+=== Visualization of Building Blocks
+
+As shown earlier, the plugin comes with annotations for identifying technical layers and bounded contexts in the source code.
+
+The current structure of the application can, when using those annotations (i.e. `@DDD.BoundedContext` and `@DDD.Layer.<classifier>Layer`)
+be easily visualized by automatically generated plantuml diagrams.
+
+The generation of the component diagrams will be accomplished by the added jQAssistant AsciiDoc Report plugin.
+
+An example to visualize the defined bounded contexts including their defined and actual dependencies is shown in the following listing.
+It defines:
+
+* the concept `architecture:BoundedContextOverview` that identifies all defined bounded contexts and their dependencies
+
+.Bounded Context overview as defined in jqassistant/architecture.adoc
+....
+include::jqassistant/architecture.adoc[tag=boundedcontexts]
+....
+
+Finally the group `architecture:Default` must be activated in the `pom.xml` file (see pom in section <<MavenProject>> above).
+
+The project can be built and verified by running the following command:
+
+----
+mvn clean install
+----
+
+The resulting component diagram will look as follows:
+
+image::architecture_BoundedContextOverview.svg[]
 
 == Resources
 

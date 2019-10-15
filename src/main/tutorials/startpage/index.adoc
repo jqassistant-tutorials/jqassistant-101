@@ -49,6 +49,9 @@ include::./../using-3rd-party-plugins/index.adoc[tag=lead]
 link:../reporting-jqassistant-results-in-jenkins/index{outfilesuffix}[Reporting jQAssistant Results In Jenkins]::
 include::./../reporting-jqassistant-results-in-jenkins/index.adoc[tag=lead]
 
+link:../ddd-plugin/index{outfilesuffix}[Getting started with jQAssistant and Domain Driven Design]::
+include::./../ddd-plugin/index.adoc[tag=lead]
+
 ++++
 
 <script>
