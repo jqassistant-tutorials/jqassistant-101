@@ -6,10 +6,11 @@ import your.company.project.catalog.Product;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// tag::DDDType
+// tag::dddType[]
 @DDD.Service
 public class OrderService {
-// end::DDDType
+// end::dddType[]
+
     private final OrderRepository orderRepository;
 
     public OrderService(OrderRepository orderRepository) {

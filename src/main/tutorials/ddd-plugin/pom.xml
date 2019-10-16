@@ -14,6 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jqassistant.version>1.7.0</jqassistant.version>
         <java.version>1.8</java.version>
     </properties>
 
@@ -22,7 +23,7 @@
         <dependency>
             <groupId>org.jqassistant.contrib.plugin</groupId>
             <artifactId>jqassistant-java-ddd-plugin</artifactId>
-            <version>1.6.0</version>
+            <version>${jqassistant.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- end::dependency[] -->
@@ -40,7 +41,7 @@
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>${jqassistant.version}</version>
                 <executions>
                     <execution>
                         <id>default-cli</id>
@@ -51,7 +52,7 @@
                         <configuration>
                             <groups>
                                 <group>java-ddd:Default</group>
-                                <group>aggregate:Default</group>
+                                <group>architecture:Default</group>
                             </groups>
                         </configuration>
                     </execution>
@@ -60,10 +61,16 @@
                     <dependency>
                         <groupId>org.jqassistant.contrib.plugin</groupId>
                         <artifactId>jqassistant-java-ddd-plugin</artifactId>
-                        <version>1.6.0</version>
+                        <version>${jqassistant.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jqassistant.contrib.plugin</groupId>
+                        <artifactId>jqassistant-asciidoc-report-plugin</artifactId>
+                        <version>${jqassistant.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
+            <!-- end::plugin[] -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -72,7 +79,6 @@
                     <target>8</target>
                 </configuration>
             </plugin>
-            <!-- end::plugin[] -->
         </plugins>
     </build>
 
