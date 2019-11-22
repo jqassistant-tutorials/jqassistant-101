@@ -1,7 +1,5 @@
 :imagesdir: images
-:toc: left
-:toclevels: 2
-
+:toc: macro
 = 101 Tutorials
 
 image::jQA_logo.png[]
@@ -12,6 +10,8 @@ These tutorials are intended to support users of jQAssistant in their daily work
 outline best practices. For more information and documentation visit https://jqassistant.org[^].
 
 TIP: There's an interesting use case you're missing in this list? Let us know and create a request https://github.com/buschmais/jqassistant-101/issues[here]!
+
+toc::[]
 
 == Architecture & Design Rules
 
@@ -43,7 +43,7 @@ include::./../annotations-single/index.adoc[tag=lead]
 link:../calculate-metrics/index{outfilesuffix}[Calculate Metrics]::
 include::./../calculate-metrics/index.adoc[tag=lead]
 
-=== Plugins
+== Plugins
 
 link:../using-3rd-party-plugins/index{outfilesuffix}[Using 3rd-party Plugins]::
 include::./../using-3rd-party-plugins/index.adoc[tag=lead]
