@@ -13,9 +13,7 @@ outline best practices. For more information and documentation visit https://jqa
 
 TIP: There's an interesting use case you're missing in this list? Let us know and create a request https://github.com/buschmais/jqassistant-101/issues[here]!
 
-== Tutorials
-
-=== Architecture & Design Rules
+== Architecture & Design Rules
 
 link:../getting-started-spring-boot-maven/index{outfilesuffix}[Getting started with jQAssistant, Spring Boot and Maven]::
 include::./../getting-started-spring-boot-maven/index.adoc[tag=lead]
@@ -37,7 +35,7 @@ include::./../manage-package-dependencies/index.adoc[tag=lead]
 link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
 include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
 
-=== Exploration & Analysis
+== Exploration & Analysis
 
 link:../annotations-single/index{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
 include::./../annotations-single/index.adoc[tag=lead]
@@ -56,14 +54,13 @@ include::./../sharing-rules-between-projects/index.adoc[tag=lead]
 link:../implementation-of-a-scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
 include::./../implementation-of-a-scanner-plugin/index.adoc[tag=lead]
 
-=== Tool Integration
-
-link:../setting-up-a-team-server/index{outfilesuffix}[Setting Up A Team Server]::
-include::./../setting-up-a-team-server/index.adoc[tag=lead]
+== Tool Integration
 
 link:../reporting-jqassistant-results-in-jenkins/index{outfilesuffix}[Reporting jQAssistant Results In Jenkins]::
 include::./../reporting-jqassistant-results-in-jenkins/index.adoc[tag=lead]
 
+link:../setting-up-a-team-server/index{outfilesuffix}[Setting Up A Team Server]::
+include::./../setting-up-a-team-server/index.adoc[tag=lead]
 
 ++++
 

@@ -768,7 +768,6 @@ p a > code:hover {
 #toc {
     border-bottom: 2px solid #74bc00;
     padding-bottom: 1.25em;
-    background-color: #e3e3e2;
 }
 
 #toc > ul {
