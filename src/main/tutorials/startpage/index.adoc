@@ -1,9 +1,10 @@
 :imagesdir: images
+:toc: left
+:toclevels: 2
 
 = 101 Tutorials
 
 image::jQA_logo.png[]
-
 
 [.lead]
 This site contains a collection of short tutorials on https://jqassistant.org[jQAssistant].
@@ -12,10 +13,15 @@ outline best practices. For more information and documentation visit https://jqa
 
 TIP: There's an interesting use case you're missing in this list? Let us know and create a request https://github.com/buschmais/jqassistant-101/issues[here]!
 
-== Available Tutorials
+== Tutorials
+
+=== Architecture & Design Rules
 
 link:../getting-started-spring-boot-maven/index{outfilesuffix}[Getting started with jQAssistant, Spring Boot and Maven]::
 include::./../getting-started-spring-boot-maven/index.adoc[tag=lead]
+
+link:../ddd-plugin/index{outfilesuffix}[Getting started with jQAssistant and Domain Driven Design]::
+include::./../ddd-plugin/index.adoc[tag=lead]
 
 // interdocuments links are not working if the target document
 // is in a child folder.
@@ -28,32 +34,36 @@ include::./../integrating-jqa-maven-plugin/index.adoc[tag=lead]
 link:../manage-package-dependencies/index{outfilesuffix}[Manage Package Dependencies]::
 include::./../manage-package-dependencies/index.adoc[tag=lead]
 
-link:../annotations-single/index{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
-include::./../annotations-single/index.adoc[tag=lead]
-
 link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
 include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
+
+=== Exploration & Analysis
+
+link:../annotations-single/index{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
+include::./../annotations-single/index.adoc[tag=lead]
 
 link:../calculate-metrics/index{outfilesuffix}[Calculate Metrics]::
 include::./../calculate-metrics/index.adoc[tag=lead]
 
-link:../sharing-rules-between-projects/index{outfilesuffix}[Sharing Rules Between Projects]::
-include::./../sharing-rules-between-projects/index.adoc[tag=lead]
-
-link:../setting-up-a-team-server/index{outfilesuffix}[Setting Up A Team Server]::
-include::./../setting-up-a-team-server/index.adoc[tag=lead]
-
-link:../implementation-of-a-scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
-include::./../implementation-of-a-scanner-plugin/index.adoc[tag=lead]
+=== Plugins
 
 link:../using-3rd-party-plugins/index{outfilesuffix}[Using 3rd-party Plugins]::
 include::./../using-3rd-party-plugins/index.adoc[tag=lead]
 
+link:../sharing-rules-between-projects/index{outfilesuffix}[Sharing Rules Between Projects]::
+include::./../sharing-rules-between-projects/index.adoc[tag=lead]
+
+link:../implementation-of-a-scanner-plugin/index{outfilesuffix}[Implementation Of A Scanner Plugin]::
+include::./../implementation-of-a-scanner-plugin/index.adoc[tag=lead]
+
+=== Tool Integration
+
+link:../setting-up-a-team-server/index{outfilesuffix}[Setting Up A Team Server]::
+include::./../setting-up-a-team-server/index.adoc[tag=lead]
+
 link:../reporting-jqassistant-results-in-jenkins/index{outfilesuffix}[Reporting jQAssistant Results In Jenkins]::
 include::./../reporting-jqassistant-results-in-jenkins/index.adoc[tag=lead]
 
-link:../ddd-plugin/index{outfilesuffix}[Getting started with jQAssistant and Domain Driven Design]::
-include::./../ddd-plugin/index.adoc[tag=lead]
 
 ++++
 
