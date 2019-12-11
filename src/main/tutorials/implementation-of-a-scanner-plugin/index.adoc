@@ -93,6 +93,10 @@ The method _accepts_ is called by the scanner to determine if the plugin can han
 The example matches the value of the parameter path against the file extension ".csv".
 The scope parameter may be used to further restrict executions of the plugin, e.g. by checking equality against JavaScope.CLASSPATH.
 
+NOTE: The _accepts_ method must be implemented such that expensive checks (e.g. file access) are completely avoided or only used
+after cheap checks (usually by matching file name patterns) have been performed.
+Otherwise the overall performance for scanning will decrease notably.
+
 The _scan_ method actually reads the CSV file and stores the gathered data into the database using the interface _Store_ provided by the scanner context.
 
 [source,java]
