@@ -10,7 +10,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Create a plugin containing shared rules for using them in different projects.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
+NOTE: This tutorial is written for version 1.8.0 of jQAssistant.
 
 == Overview
 
