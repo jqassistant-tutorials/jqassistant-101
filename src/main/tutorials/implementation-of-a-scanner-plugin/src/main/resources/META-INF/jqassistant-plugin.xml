@@ -1,5 +1,7 @@
-<jqa-plugin:jqassistant-plugin
-        xmlns:jqa-plugin="http://www.buschmais.com/jqassistant/core/plugin/schema/v1.1" name="CSV Example">
+<jqassistant-plugin xmlns="http://schema.jqassistant.org/plugin/v1.8"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://schema.jqassistant.org/plugin/v1.8 https://schema.jqassistant.org/plugin/jqassistant-plugin-v1.8.xsd"
+                    name="CSV Example">
     <description>Provides a scanner for CSV file.</description>
     <model>
         <class>my.project.plugin.scanner.model.CSVFileDescriptor</class>
@@ -9,4 +11,4 @@
     <scanner>
         <class>my.project.plugin.scanner.CSVFileScannerPlugin</class>
     </scanner>
-</jqa-plugin:jqassistant-plugin>
+</jqassistant-plugin>

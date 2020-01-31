@@ -10,7 +10,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Demonstrates the implementation of a scanner plugin.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.4.0 of jQAssistant.
+NOTE: This tutorial is written for version 1.8.0 of jQAssistant.
 
 == Overview
 
@@ -142,6 +142,8 @@ The test class `CSVScannerPluginTest` extends from `AbstractPluginIT` and
 ----
 include::src/test/java/my/project/plugin/scanner/CSVScannerPluginTest.java[tag=CSVScannerPluginTest]
 ----
+
+// TODO naming rules for Labels, properties and relations, probably in manual instead of here
 
 == Resources
 
