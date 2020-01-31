@@ -6,7 +6,7 @@ try
     File file = new File( basedir, "build.log" );
     String buf = FileUtils.fileRead( file, "UTF-8" );
 
-    if ( buf.indexOf( "--- jqassistant-maven-plugin:1.4.0-SNAPSHOT:scan" ) < 0 )
+    if ( buf.indexOf( "--- jqassistant-maven-plugin:1.8.0:scan" ) < 0 )
     {
         System.err.println("Did the jQAssistant Maven Plugin ran?" );
         return false;

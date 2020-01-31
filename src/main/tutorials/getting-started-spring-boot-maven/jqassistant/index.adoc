@@ -1,0 +1,20 @@
+:toc:
+= My Spring Boot Application
+
+// tag::default[]
+[[Default]]
+[role=group,includesGroups="*:Default"]
+== Architecture and Design Guidelines
+
+This section describes architecture and design principles of the application.
+// end::default[]
+
+include::package.adoc[]
+include::maven.adoc[]
+
+// tag::summary[]
+== jQAssistant Summary
+
+include::jQA:Summary[concepts="*",constraints="*",importedConstraints="spring*:*"]
+// end::summary[]
+

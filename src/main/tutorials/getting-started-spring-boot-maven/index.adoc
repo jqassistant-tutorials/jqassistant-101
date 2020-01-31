@@ -8,11 +8,12 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Integration of jQAssistant into a https://projects.spring.io/spring-boot/[Spring Boot] project which is built using http://maven.apache.org[Apache Maven].
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 1.5.0
+NOTE: This tutorial has been written for jQAssistant 1.8.0
 
 == Prerequisites
 
 - Spring Boot project based on http://maven.apache.org[Maven] as created by https://start.spring.io/[] using the required dependencies (e.g. `Web`, `JPA` and `H2`).
+- For rendering PlantUML diagrams http://www.graphviz.org[Graphviz] needs to be installed and available via the system path.
 
 == Overview
 
@@ -29,7 +30,7 @@ The steps in this tutorial illustrate:
 
 - Integration of the <<MavenPlugin>>
 - Working with the <<PreDefinedRules>>
-- Definition of <<ProjectSpecificRules>>
+- Definition of <<ProjectSpecificRulesAndReports>>
 
 [[MavenPlugin]]
 == jQAssistant Maven Plugin
@@ -46,8 +47,8 @@ include::pom.xml[tag=plugin,indent=0]
 The configuration above...
 
 - activates the goals `scan` and `analyze` during a build
-- defines the rule group `spring-boot:Strict` to be executed during analysis (alternatively `spring-boot:Default`, for `package:Default` see <<ProjectSpecificRules>>)
-- sets severity thresholds for printing warnings and breaking the build to `MINOR` (concepts) and `MAJOR` (constraints)
+- defines the rule group `spring-boot:Strict` to be executed during analysis (alternatively `spring-boot:Default`, for `Default` see <<ProjectSpecificRulesAndReports>>)
+- sets severity thresholds for printing warnings and breaking the build to `MINOR` (concepts) and `BLOCKER` (constraints)
 - sets the default severity for concepts that cannot be applied to `INFO`
 
 The Maven build can be triggered as usual on the command line:
@@ -56,7 +57,7 @@ The Maven build can be triggered as usual on the command line:
 mvn clean install
 ----
 
-NOTE: The default severity of concepts is `MINOR` and therefore the default setup of jQAssistant would issue a warning for each concept that could not be applied (e.g. if there are @Configuration annotated beans present in the code).
+NOTE: The default severity of concepts is `MINOR` and therefore the default setup of jQAssistant would issue a warning for each concept that could not be applied (e.g. if there are no @Configuration annotated beans present in the code).
 For this reason this configuration sets the default concept severity to `INFO`.
 
 [[PreDefinedRules]]
@@ -91,28 +92,48 @@ prints a summary of the activated rules including their descriptions:
 ...
 ----
 
-TIP: There is also a pre-defined group activating a smalle and less strict set of rules.
+TIP: There is also a pre-defined group activating a smaller and less strict set of rules.
 For using it just replace `spring-boot:Strict` with `spring-boot:Default` in your `pom.xml` (see above).
-For a detailed description of available concepts and constraints refer to the http://buschmais.github.io/jqassistant/doc/1.5.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[plugin documentation].
+For a detailed description of available concepts and constraints refer to the http://buschmais.github.io/jqassistant/doc/1.8.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[plugin documentation].
 
-[[ProjectSpecificRules]]
-== Project Specific Rules
+[[ProjectSpecificRulesAndReports]]
+== Project Specific Rules And Reports
 
 The concepts defined by the Spring plugin are also a good base for project specific rules.
 Such rules must be located in the directory `/jqassistant` and can be written either in XML or Asciidoc files.
 
-The latter is recommended and used in the following example. It defines:
+The latter is recommended for writing executable documentation and used in this example.
+Therefore the directory contains the files `index.adoc`, `package.adoc` and `maven.adoc`.
 
-- a group `package:Default` including the constraint `package:ServicePackage´
-- the constraint `package:ServicePackage` that ensures that Spring services (i.e. classes annotated with
-`@Service`) are located in packages named `service`
+`index.adoc` defines a group `Default` which just includes all groups matching the pattern `*:Default`:
+
+.jqassistant/index.adoc
+....
+include::jqassistant/index.adoc[tags=default]
+....
+
+`package.adoc` contains a matching group `package:Default` which itself includes all constraints matching `package:*`:
 
 .jqassistant/package.adoc
 ....
 include::jqassistant/package.adoc[]
 ....
 
-Finally the group `package:Default` must be activated, therefore the comment for this group in the file `pom.xml` (see above) must be removed.
+TIP: Using wildcard for including groups, concepts or constraints allows easily adding new rules.
+
+The example constraint `package:ServicePackage` ensures that Spring services (i.e. classes annotated with `@Service`) are located in packages named `service`.
+
+In a similar way `maven.adoc` defines a group `maven:Default` but it includes all concepts matching `maven:*`:
+
+.jqassistant/maven.adoc
+....
+include::jqassistant/maven.adoc[]
+....
+
+The concept `maven:ProjectArtifactDependencies` defines the report type `plantuml-component-diagram`.
+This will render the rule result (i.e. nodes and relations returned by the Cypher query) to the desired diagram type.
+
+Finally the group `Default` must be activated in the configuration section of the <<MavenPlugin>>.
 
 The project can be built and verified by running the following command:
 
@@ -120,10 +141,12 @@ The project can be built and verified by running the following command:
 mvn clean install
 ----
 
+After the execution the HTML documentation including the rule results is available in the folder `target/jqassistant/report/asciidoc`.
+
 == Resources
 
 1. link:tutorial.zip[ZIP archive including the application]
-2. https://buschmais.github.io/jqassistant/doc/1.5.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
+2. https://buschmais.github.io/jqassistant/doc/1.8.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
 3. https://projects.spring.io/spring-boot/[Spring Boot project]
 4. https://start.spring.io[Spring Initializr]
 5. https://maven.apache.org[Apache Maven]

@@ -1,6 +1,8 @@
 [[package:Default]]
-[role=group,includesConstraints="package:ServicePackage"]
-== Package Rules
+[role=group,includesConstraints="package:*"]
+=== Package Structure
+
+To improve maintainability in the long term the following rules for structuring the application into packages must be applied.
 
 [[package:ServicePackage]]
 [source,cypher,role=constraint,requiresConcepts="spring-component:Service"]
@@ -11,6 +13,6 @@ MATCH
 WHERE
   package.name <> "service"
 RETURN
-  package as WrongPackage, collect(service) as ServicesInWrongPackage
+  service as ServicesInInvalidPackage
 ----
 
