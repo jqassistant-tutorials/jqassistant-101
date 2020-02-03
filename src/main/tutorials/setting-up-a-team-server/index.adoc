@@ -51,7 +51,7 @@ The console will contain the following lines from the plugin:
 
 ----
 ...
-[INFO] --- jqassistant-maven-plugin:1.7.0:scan (default-cli) @ project ---
+[INFO] --- jqassistant-maven-plugin:1.8.0:scan (default-cli) @ project ---
 ...
 [INFO] Using embedded Neo4j server 3.x
 [INFO] Resetting store.
@@ -79,10 +79,10 @@ The console now contains the following lines:
 
 ----
 ...
-[INFO] --- jqassistant-maven-plugin:1.7.0:scan (default-cli) @ project ---
-[INFO] Loaded jQAssistant plugins [CDI, Common, Core Analysis, Core Report, EJB3, GraphML, JAX-RS, JPA 2, JSON, JUnit, Java, Java 8, Java EE 6, Maven 3, OSGi, RDBMS, Spring, TestNG, Tycho, XML, YAML].
+[INFO] --- jqassistant-maven-plugin:1.8.0:scan (default-cli) @ project ---
+[INFO] Scanning for jQAssistant plugins...
+[INFO] [Asciidoc Report, CDI, Common, Core Analysis, Core Report, EJB3, GraphML, JAX-RS, JPA 2, JSON, JUnit, Java, Java 8 (Deprecated), Java EE 6, Maven 2 Repository, Maven 3, OSGi, RDBMS, Spring, TestNG, Tycho, XML, YAML].
 [INFO] Connecting to store at 'bolt://localhost:7687' (username=neo4j)
-[INFO] Resetting store.
 ...
 ----
 
