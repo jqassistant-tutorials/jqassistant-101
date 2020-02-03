@@ -94,7 +94,7 @@ prints a summary of the activated rules including their descriptions:
 
 TIP: There is also a pre-defined group activating a smaller and less strict set of rules.
 For using it just replace `spring-boot:Strict` with `spring-boot:Default` in your `pom.xml` (see above).
-For a detailed description of available concepts and constraints refer to the http://buschmais.github.io/jqassistant/doc/1.8.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[plugin documentation].
+For a detailed description of available concepts and constraints refer to the https://jqassistant.github.io/jqassistant/doc/1.8.0/index.html#_spring_plugin[plugin documentation].
 
 [[ProjectSpecificRulesAndReports]]
 == Project Specific Rules And Reports
@@ -146,7 +146,7 @@ After the execution the HTML documentation including the rule results is availab
 == Resources
 
 1. link:tutorial.zip[ZIP archive including the application]
-2. https://buschmais.github.io/jqassistant/doc/1.8.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
+2. https://jqassistant.github.io/jqassistant/doc/1.8.0/index.html#_spring_plugin[jQAssistant Spring Plugin documentation]
 3. https://projects.spring.io/spring-boot/[Spring Boot project]
 4. https://start.spring.io[Spring Initializr]
 5. https://maven.apache.org[Apache Maven]

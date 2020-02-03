@@ -542,7 +542,7 @@ RETURN
 
 * https://jqassistant.org/blog/releases/[Releases]
 * https://jqassistant.org/get-started/[Get Started / Download]
-* http://buschmais.github.io/jqassistant/doc/1.2.0/[Documentation]
+* http://jqassistant.github.io/jqassistant/doc/1.2.0/[Documentation]
 * http://github.com/buschmais/jqassistant[GitHub]
 * https://github.com/kontext-e/jqassistant-plugins[jQA Plugins by Kontext E]
 * https://groups.google.com/forum/#!forum/jqassistant[Google Group]

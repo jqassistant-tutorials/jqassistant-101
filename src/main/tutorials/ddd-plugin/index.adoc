@@ -239,5 +239,5 @@ image::architecture_BoundedContextOverview.svg[]
 == Resources
 
 1. link:tutorial.zip[ZIP archive including the application]
-2. https://buschmais.github.io/jqassistant/doc/1.6.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
+2. https://jqassistant.github.io/jqassistant/doc/1.6.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
 3. https://maven.apache.org[Apache Maven]
