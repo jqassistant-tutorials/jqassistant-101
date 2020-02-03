@@ -8,7 +8,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Describes the jQAssistant setup for using a remote Neo4j server within a CI build to provide teams a shared instance for exploration and analysis of their project.
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 1.7.0
+NOTE: This tutorial has been written for jQAssistant 1.8.0
 
 == Prerequisites
 
@@ -68,7 +68,9 @@ include::pom.xml[tag=profile,indent=0]
 <1> The URL of the running Neo4j 3.x server
 <2> The user name to be used for the connection.
 <3> The password of the user.
-
+<4> Defines if encryption shall be used for the server connection, valid values are `true` (default) or `false`.
+<5> The trust strategy in case encryption is enabled, valid values are `trustAllCertificates`,  `trustCustomCaSignedCertificates` or `trustSystemCaSignedCertificates`
+<6> The file name of the custom CA certificate (in case of selected trust strategy `trustCustomCaSignedCertificates`).
 ----
 mvn clean install -Pnightly
 ----

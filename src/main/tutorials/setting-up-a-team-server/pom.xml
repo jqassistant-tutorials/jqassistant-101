@@ -16,7 +16,7 @@
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>1.7.0</version>
+                <version>1.8.0</version>
                 <executions>
                     <execution>
                         <id>default-cli</id>
@@ -48,6 +48,12 @@
                                         <uri>bolt://localhost:7687</uri> <!-- 1 -->
                                         <username>neo4j</username>       <!-- 2 -->
                                         <password>secret</password>      <!-- 3 -->
+                                        <!-- optional settings -->
+                                        <!--
+                                        <encryption>true</encryption>                                        <4>
+                                        <trustStrategy>trustAllCertificates</trustStrategy>                  <5>
+                                        <trustCertificate>path-to-self-signed-certificate</trustCertificate> <6>
+                                        -->
                                     </store>
                                 </configuration>
                             </execution>
