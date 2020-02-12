@@ -41,7 +41,7 @@
         <maven.iteration.version>0.5.1</maven.iteration.version>
         <maven.deploy.version>3.0.0-M1</maven.deploy.version>
         <maven.resources.version>3.0.2</maven.resources.version>
-        <org.asciidoctor-plugin.version>1.5.6</org.asciidoctor-plugin.version>
+        <org.asciidoctor-plugin.version>2.0.0-RC.1</org.asciidoctor-plugin.version>
         <websitePath>${project.basedir}/website-test-deployment</websitePath>
         <tutorials.sourcedir>src/main/tutorials</tutorials.sourcedir>
     </properties>
