@@ -35,7 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.clean.version>3.0.0</maven.clean.version>
+        <maven.clean.version>3.1.0</maven.clean.version>
         <maven.install.version>2.5.2</maven.install.version>
         <maven.invoker.version>3.0.1</maven.invoker.version>
         <maven.iteration.version>0.5.1</maven.iteration.version>
