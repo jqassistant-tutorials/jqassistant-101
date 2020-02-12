@@ -80,7 +80,7 @@ imgEle.setAttribute('alt', altValue);
 imgEle.setAttribute('style', styValue);
 
 var aEle = document.createElement('a');
-var hrfValue = 'https://github.com/buschmais/jqassistant-101/';
+var hrfValue = 'https://github.com/jqassistant/jqassistant-101/';
 
 aEle.setAttribute('href', hrfValue);
 aEle.appendChild(imgEle);
