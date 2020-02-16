@@ -1,0 +1,40 @@
+// tag::metricsDefault[]
+[[metrics:Default]]
+[role=group,includesConcepts="metrics:*"]
+== Metrics
+
+This section describes metrics of the project.
+// end::metricsDefault[]
+
+// tag::metricsTop10LoCAndCC[]
+[[metrics:Top10LoCAndCC]]
+[source,cypher,role=concept]
+.The top 10 types with the highest LoC (lines of code) and aggregated CC (cyclomatic complexity).
+----
+MATCH
+  (:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(method:Method)
+RETURN
+  type AS Type, sum(method.cyclomaticComplexity) AS CC, sum(method.effectiveLineCount) AS LoC
+ORDER BY
+  LoC DESC, CC DESC
+LIMIT
+  10
+----
+// end::metricsTop10LoCAndCC[]
+
+// tag::metricsLoCTop10LoCAndCCAsCSV[]
+[[metrics:Top10LoCAndCCAsCSV]]
+[source,cypher,role=concept,reportType="csv"]
+.The top 10 types with the highest LoC (lines of code) and CC (cyclomatic complexity).
+----
+MATCH
+  (:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(method:Method)
+RETURN
+  type AS Type, sum(method.cyclomaticComplexity) AS CC, sum(method.effectiveLineCount) AS LoC
+ORDER BY
+  LoC DESC, CC DESC
+LIMIT
+  10
+----
+// end::metricsLoCTop10LoCAndCCAsCSV[]
+

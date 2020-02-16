@@ -32,6 +32,9 @@ include::./../integrating-jqa-maven-plugin/index.adoc[tag=lead]
 link:../manage-package-dependencies/index{outfilesuffix}[Manage Package Dependencies]::
 include::./../manage-package-dependencies/index.adoc[tag=lead]
 
+link:../generate-reports-about-structures-and-metrics/index{outfilesuffix}[Generate Reports About Structures and Metrics]::
+include::./../generate-reports-about-structures-and-metrics/index.adoc[tag=lead]
+
 link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
 include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
 
