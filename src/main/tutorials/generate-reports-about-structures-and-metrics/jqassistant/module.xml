@@ -1,0 +1,16 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.8">
+
+    <concept id="module-xml:DependenciesGraphML">
+        <description>Modules and their dependencies as GraphML report.</description>
+        <cypher><![CDATA[
+            MATCH
+              (module:Module)
+            OPTIONAL MATCH
+              (module)-[dependsOn:DEPENDS_ON_MODULE]->(:Module)
+            RETURN
+              *
+        ]]></cypher>
+        <report type="graphml" />
+    </concept>
+
+</jqassistant-rules>

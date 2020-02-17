@@ -1,4 +1,5 @@
-:imagesdir: includes
+:toc: left
+:imagesdir: _includes
 = Generate Reports About Structures and Metrics
 Dirk Mahler <dirk.mahler@jqassistant.org>
 
@@ -42,8 +43,8 @@ For this tutorial the following project structure is going to be used:
 
 [source,raw]
 ----
-your.project   <1>
-your.project.a <2>
+your.project      <1>
+your.project.a    <2>
 your.project.b
 your.project.c
 ----
@@ -67,7 +68,7 @@ include::pom.xml[tag=plugin,indent=0]
 ----
 
 TIP: To verify the setup a build should be triggered using `mvn verify`.
-The console output should contain scan and analysis messages by jQAssistant.
+The build should succeed and show a console output should containing jQAssistant's scan and analysis messages.
 
 The rules are embedded in Asciidoc documents which are located in the folder `jqassistant/`:
 
@@ -82,7 +83,7 @@ jqassistant/metrics.adoc    <3>
 <3> link:jqassistant/metrics.adoc[metrics.adoc]: rules for collecting and reporting metrics as tables and CSV documents.
 
 TIP: The file `index.adoc` is picked up by jQAssistant by default for rendering to HTML.
-It must contains at least one rule, usually this is a group declaration.
+It must contain at least one rule, usually this is a group declaration.
 The rendered HTML documents are located in the folder `target/jqassistant/report/asciidoc`.
 
 == Structural Reports
@@ -113,10 +114,7 @@ include::jqassistant/module.adoc[tags=moduleDependencies]
 This concept returns the modules (module1, module2) and their dependency relations (dependsOn).
 The result is used for generating a component diagram by setting the `reportType` attribute to `plantuml-component-diagram`.
 
-[plantuml]
-----
-include::target/jqassistant/report/plantuml/module_Dependencies.plantuml[]
-----
+image::module_component_diagram.png[]
 
 TIP: The generated .plantuml and .svg files are located in the folder `target/jqassistant/report/plantuml`.
 
@@ -132,13 +130,13 @@ include::jqassistant/module.adoc[tags=moduleDependenciesGraphML]
 
 The HTML document will provide a link to the GraphML file:
 
-image::graphml_report_link.png[Resultset]
+image::module_graphml_report_link.png[Resultset]
 
 TIP: The generated .graphml files are located in the folder `target/jqassistant/report/graphml`.
 They may be viewed using http://www.yworks.com/en/products/yfiles/yed/[yEd].
 After opening a file you should apply a layout, e.g. menu:Layout[Hierarchical].
 
-image::graphml_yed.png[]
+image::module_graphml_yed.png[]
 
 By extending the result structure the GraphML reports may be used to allow an interactive drill-down from module to type level:
 
@@ -149,7 +147,7 @@ include::jqassistant/module.adoc[tags=moduleDependenciesGraphMLDrilldown]
 This concept returns a graph for each module which is rendered as `parent` containing types (`nodes`) and dependencies (`relationships`) per module.
 The generated GraphML report file can be interactively explored in yEd by expanding (`+`) or collapsing (`-`) module nodes and applying the horizontal layout:
 
-image::graphml_drilldown_yed.png[]
+image::module_graphml_drilldown_yed.png[]
 
 [[class-diagrams]]
 === Class Diagrams
@@ -171,10 +169,7 @@ include::jqassistant/module.adoc[tags=moduleClassDiagram]
 
 As the report type is set to `plantuml-class-diagram` the following diagram is rendered and embedded into the HTML document:
 
-[plantuml]
-----
-include::target/jqassistant/report/plantuml/module_ClassDiagram.plantuml[]
-----
+image::module_class_diagram.png[]
 
 [[sequence-diagrams]]
 === Sequence Diagrams
@@ -188,10 +183,7 @@ include::jqassistant/module.adoc[tags=moduleSequenceDiagram]
 The nodes of the sequence are interpreted as participants and the relationships between them as messages.
 This results in the following diagram to be generated:
 
-[plantuml]
-----
-include::target/jqassistant/report/plantuml/module_SequenceDiagram.plantuml[]
-----
+image::module_sequence_diagram.png[]
 
 == Metrics
 
@@ -227,6 +219,20 @@ TIP: Generated .csv files are located in the folder `target/jqassistant/report/c
 The file can now be imported into tools providing support for CSV files:
 
 image::metrics_csv_sheet.png[]
+
+== Rules in XML files
+
+jQAssistant rules may be located in Asciidoc or XML files.
+The latter are not rendered to HTML but the results of concepts and constraints can be reported in a similar way as described in the previous sections.
+This can be achieved by adding a `<report>` element with a `type` attribute:
+
+[source,xml]
+.jqassistant/module.xml
+----
+include::jqassistant/module.xml[]
+----
+
+The generated files will be located in the according sub-directories of `target/jqassistant/report`.
 
 == Resources
 
