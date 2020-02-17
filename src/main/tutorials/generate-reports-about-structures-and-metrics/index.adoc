@@ -1,5 +1,5 @@
 :toc: left
-:imagesdir: _includes
+:imagesdir: includes
 = Generate Reports About Structures and Metrics
 Dirk Mahler <dirk.mahler@jqassistant.org>
 
