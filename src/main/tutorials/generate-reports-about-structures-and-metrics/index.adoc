@@ -134,7 +134,7 @@ image::module_graphml_report_link.png[Resultset]
 
 TIP: The generated .graphml files are located in the folder `target/jqassistant/report/graphml`.
 They may be viewed using http://www.yworks.com/en/products/yfiles/yed/[yEd].
-After opening a file you should apply a layout, e.g. menu:Layout[Hierarchical].
+After opening a file you need to apply a layout, Layout->Hierarchical (Alt-Shift-H).
 
 image::module_graphml_yed.png[]
 
