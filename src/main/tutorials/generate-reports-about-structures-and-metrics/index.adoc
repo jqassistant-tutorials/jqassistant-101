@@ -119,7 +119,7 @@ image::module_component_diagram.png[]
 TIP: The generated .plantuml and .svg files are located in the folder `target/jqassistant/report/plantuml`.
 
 [[graphml]]
-=== GraphML Reports
+=== GraphML Files
 
 If diagrams become more complex it may be useful to export them as GraphML documents.
 This can be achieved by setting the report type `graphml` as illustrated by the concept `module:DependenciesGraphML`:
@@ -161,7 +161,7 @@ The following elements are supported:
 * Inheritance relations between types (`:EXTENDS`, `:IMPLEMENTS`)
 * any other relations between types (rendered as associations)
 
-The concept `module:ClassDiagram` returns all types including their optional field and methods:
+The concept `module:ClassDiagram` returns all types including their optional fields and methods:
 
 ....
 include::jqassistant/module.adoc[tags=moduleClassDiagram]
@@ -187,7 +187,7 @@ image::module_sequence_diagram.png[]
 
 == Metrics
 
-=== Embedded Tables
+=== Tables
 
 The results of concepts or constraints are rendered to tables by default.
 This may be used to directly embed metrics into the HTML documents as illustrated by the concept `metrics:LoCAndComplexity` located in `metrics.adoc`:
