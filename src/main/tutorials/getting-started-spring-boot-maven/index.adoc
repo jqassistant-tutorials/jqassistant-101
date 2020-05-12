@@ -47,7 +47,7 @@ include::pom.xml[tag=plugin,indent=0]
 The configuration above...
 
 - activates the goals `scan` and `analyze` during a build
-- defines the rule group `spring-boot:Strict` to be executed during analysis (alternatively `spring-boot:Default`, for `Default` see <<ProjectSpecificRulesAndReports>>)
+- defines the rule group `spring-boot:Strict` to be executed during analysis (alternatively `spring-boot:Default`), for `Default` see <<ProjectSpecificRulesAndReports>>
 - sets severity thresholds for printing warnings and breaking the build to `MINOR` (concepts) and `BLOCKER` (constraints)
 - sets the default severity for concepts that cannot be applied to `INFO`
 
