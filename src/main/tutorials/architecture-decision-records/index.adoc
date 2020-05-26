@@ -1,0 +1,14 @@
+:imagesdir: includes
+
+= Documenting and Securing architecture decisions with ADRs and jQAssistant
+Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+Demonstrates how Architecture Decision Records can be enhanced with jQAssistant.
+// end::lead[]
+
+NOTE: This tutorial has been written for jQAssistant 1.8.0
+
