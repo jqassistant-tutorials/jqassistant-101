@@ -38,6 +38,9 @@ include::./../generate-reports-about-structures-and-metrics/index.adoc[tag=lead]
 link:../enforce-usage-of-a-logging-api/index{outfilesuffix}[Enforce Usage Of A Logging API]::
 include::./../enforce-usage-of-a-logging-api/index.adoc[tag=lead]
 
+link:../architecture-decision-records/index{outfilesuffix}[Documenting and Securing architecture decisions with ADRs and jQAssistant]::
+include::./../architecture-decision-records/index.adoc[tag=lead]
+
 == Exploration & Analysis
 
 link:../annotations-single/index{outfilesuffix}[Analyzing Java’s Annotations with jQAssistant]::
