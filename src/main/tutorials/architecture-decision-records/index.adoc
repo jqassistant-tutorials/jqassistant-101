@@ -12,3 +12,236 @@ Demonstrates how Architecture Decision Records can be enhanced with jQAssistant.
 
 NOTE: This tutorial has been written for jQAssistant 1.8.0
 
+== Prerequisites
+
+- Any Java application for which an ADR shall be written.
+
+== Overview
+
+jQAssistant comes with the ability to render AsciiDoc documents and to execute rules (i.e. concepts and constraints) which were defined inside them.
+
+With that it qualifies perfectly to connect with Michael Nygards Architecture Decision Records to document architectural decisions and to enforce their adherence.
+
+This tutorial will show:
+
+- <<what>>
+- <<setup>>
+- <<securing>>
+
+For this, the tutorial uses the following example scenario:
+
+The database for the product catalog of an online shop shall be migrated from a relational to a documented-oriented one.
+This decision was made due to performance and scalability reasons, but is out of scope for this example.
+
+However, document-oriented databases requires the modeling of aggregates in the data model and, above that, forbid deep links between aggregates.
+E.g., an entity must be referenced only inside one aggregate.
+
+Thus, the decision was made to prepare the migration by implementing aggregates and removing deep links between them.
+The example is therefore build around the deep linking decision.
+
+[[what]]
+== What are Architecture Decision Records?
+
+Architecture Decision Records are a lightweight way to document architectural decisions. They were first described by Michael Nygard (see [2]) and aim to:
+
+- spread the knowledge about architectural decisions to the team
+- make the decisions and their history transparent
+- provide context and implications in a nutshell
+
+Architecture Decision Records consist of the following parts:
+
+.Sections of ADRs
+|===
+|Section |Content
+
+|Title
+|Numbered title of the ADR
+
+|Status
+|Current phase in the lifecycle of ADRs, one of: Proposed, Accepted, Declined, Superseded.
+
+|Context
+|Brief description of the context for which the decision is valid. Describes the forces which lead to the decision.
+
+|Decision
+|Overview of the agreed on decision.
+
+|Consequences
+|Lists the implications for the developers both for exisitng and new source code. This may also contain needed refactorings.
+|===
+
+
+[[setup]]
+== Setting up Architecture Decision Records in the Project
+
+First, jQAssistant needs to be setup in the project.
+Therefore, the `jqassistant-maven-plugin` must be added to the build plugin section in the `pom.xml` s shown in the following listing.
+
+[[pom]]
+[source,xml]
+.pom.xml
+----
+include::pom.xml[tag=plugin,indent=0]
+----
+
+NOTE: The additional `jqassistant-java-ddd-plugin` is not needed to work with ADRs, but will be used later to simplify the example.
+Information about the DDD-Plugin can be found at [3].
+
+Secondly, the folder and file structure must be created as shown in <<adrFlat>>.
+The `index.adoc` is the entry point for jQAssistant and will include the other documents.
+
+NOTE: For larger projects, it's helpful to group ADRs by topic into subfolders,
+e.g. one folder for Structure-related topics, one for Logging, one for Testing, and so on.
+
+[[adrFlat]]
+[plantuml, format=svg]
+.Folder Structure for ADRs
+----
+skinparam Legend {
+	BackgroundColor transparent
+	BorderColor transparent
+	FontSize 17
+}
+legend
+<project-root>
+|_ jqassistant
+  |_ index.adoc
+  |_ 001-First-Example-ADR.adoc
+  |_ 002-Second-Element-ADR.adoc
+  |_ ...
+end legend
+----
+
+The following listing shows the basic structure of the `index.adoc`.
+It's used to build an index with cross-references to other documents and to include them.
+
+[source,asciidoc]
+.jqassistant/index.adoc
+----
+ = Example project for Architecture Decision Records
+
+ - <<adr:DeepLinking>> // <1>
+
+ include::001-Deep-Linking.adoc[] // <2>
+----
+<1> Generates a link to the anchor defined in the ADR
+<2> Includes the ADR
+
+The following listing shows the basic structure of an Architecture Decision Record.
+The complete ADR can be found at `jqassistant/001-Deep-Linking.adoc`.
+
+Important to mention is the definiton of the anchor `adr:DeepLinking` which can be used for creating cross-references in the document.
+
+[source,asciidoc]
+.jqassistant/001-Deep-Linking.adoc
+----
+ [[adr:DeepLinking]] // <1>
+ == 001 - No deep linking between aggregates
+
+ === Status: Proposed // <2>
+
+ === Context // <3>
+ ...
+
+ === Decision // <4>
+ ...
+
+ === Consequences // <5>
+ ...
+----
+<1> Anchor for referencing the ADR
+<2> Status of the ADR
+<3> Context section of the ADR
+<4> Decision section of the ADR
+<5> Consequences section of the ADR
+
+NOTE: For the full example, please check out the ADR directly.
+
+[[securing]]
+== Defining Concepts and Constraints to Secure Decisions
+
+Now that the basic setup is done, it is time to check that the architecture decision will be implemented correctly.
+
+For that, two parts are crucial:
+
+1. Identify aggregates in the code
+2. Determine violations regarding deep-linking
+
+For this, jQAssistant knows concepts (1) and constraints (2).
+
+With concepts it's possible to enrich the created graph with additional information, e.g. that a type node represents an Aggregate (Root).
+
+To simplify the 101, we'll use the `jqassistant-java-ddd-plugin` to take care of this.
+Further information how to use it can be found in the 101 about the plugin (see [3]).
+
+In our example, after integrating the plugin as shown in the <<pom>>, we have to annotate all aggregate roots as `@DDD.AggregateRoot` and the entities as `@DDD.Entity`.
+That way, the information will be automatically enriched in the graph.
+
+NOTE: It's also possible to enrich the information manually via a self-defined concept. In this 101, it's however only shown how to define the constraint.
+
+Next, the we need to define the constraint in the ADR.
+The following listing shows how to do this.
+
+[source,asciidoc]
+.Defining a Constraint in jqassistant/001-Deep-Linking.adoc
+----
+ [[adr:DeepLinking]]
+ [role=group,includesConstraints="adr:*"] // <1>
+ == 001 - No deep linking between aggregates
+ ...
+ === Consequences
+ ...
+
+ [[adr:NoDeepLinkingBetweenAggregates]] // <2>
+ [source,cypher,role=constraint,requiresConcepts="java-ddd:*"] // <3>
+ .Finds all entities that are referenced by more than one aggregate.
+ ----
+ MATCH shortestPath((a:DDD:AggregateRoot)-[:DEPENDS_ON*]->(e:DDD:Entity)) // <4>
+ WITH e, collect(a.name) AS aggregates
+ WHERE size(aggregates) > 1
+ RETURN e.name AS Entity, aggregates AS Aggregates
+ ----
+----
+<1> Defines the jQAssistant group and what constraints will be executed
+<2> Defines the name of the constraint
+<3> Defines the jQAssistant constraint and required concepts, here the DDD-Plugin
+<4> Defines the query to execute
+
+Afterward, the group must be added to the default group of jQAssistant to be executed as shown below.
+
+[source,asciidoc]
+.Referencing the Group in jqassistant/index.adoc
+----
+ ...
+ [[default]] // <1>
+ [role=group,includesGroups="adr:*"] // <2>
+ - <<adr:DeepLinking>>
+ ...
+----
+<1> Defines the name of the group
+<2> Defines what groups are contained
+
+When the project now gets build via maven, you'll see a constraint violation which leads to a failing build.
+
+----
+[ERROR] --[ Constraint Violation ]-----------------------------------------
+[ERROR] Constraint: adr:NoDeepLinkingBetweenAggregates
+[ERROR] Severity: MAJOR
+[ERROR] Number of rows: 1
+[ERROR] Finds all entities that are referenced by more than one aggregate.
+[ERROR]   Entity=ProductOption, Aggregates=Category, Product
+[ERROR] -------------------------------------------------------------------
+----
+
+Whenever there will be a new violation, the build will fail and we are forced to fix the issue.
+However, when introducing a new decision, it may make sense to either lower the severity of the constraint to `MINOR`
+in order to not fail build or to update the query to have a list of allowed violations.
+That way, the decision can be incorporated step-by-step.
+
+== Resources
+
+Architecture Decision Records are a lightweight way to document architectural decision. They were first described by Michael Nygard in [
+
+1. link:tutorial.zip[ZIP archive including the application]
+2. link:http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions[Architecture Decision Records by Michael Nygard]
+3. link:https://101.jqassistant.org/ddd-plugin/index.html[jQAssistat 101 on Domain Driven Design]

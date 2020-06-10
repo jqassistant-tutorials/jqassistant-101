@@ -22,6 +22,7 @@
     </dependencies>
     <build>
         <plugins>
+            <!-- tag::plugin[] -->
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
@@ -42,6 +43,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <!-- end::plugin[] -->
         </plugins>
     </build>
 
