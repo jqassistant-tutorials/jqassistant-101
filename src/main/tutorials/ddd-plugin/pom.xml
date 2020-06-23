@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jqassistant.version>1.7.0</jqassistant.version>
+        <jqassistant.version>1.8.0</jqassistant.version>
         <java.version>1.8</java.version>
     </properties>
 
@@ -22,8 +22,8 @@
         <!-- tag::dependency[] -->
         <dependency>
             <groupId>org.jqassistant.contrib.plugin</groupId>
-            <artifactId>jqassistant-java-ddd-plugin</artifactId>
-            <version>${jqassistant.version}</version>
+            <artifactId>jqassistant-java-ddd-annotations</artifactId>
+            <version>1.8.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- end::dependency[] -->
@@ -61,12 +61,7 @@
                     <dependency>
                         <groupId>org.jqassistant.contrib.plugin</groupId>
                         <artifactId>jqassistant-java-ddd-plugin</artifactId>
-                        <version>${jqassistant.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jqassistant.contrib.plugin</groupId>
-                        <artifactId>jqassistant-asciidoc-report-plugin</artifactId>
-                        <version>${jqassistant.version}</version>
+                        <version>1.8.0</version>
                     </dependency>
                 </dependencies>
             </plugin>

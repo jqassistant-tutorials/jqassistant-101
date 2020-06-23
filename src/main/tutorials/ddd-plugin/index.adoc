@@ -10,7 +10,7 @@ Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
 Demonstrates how to map DDD concepts in the code to the graph and apply constraints using the DDD plugin,
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 1.7.0
+NOTE: This tutorial has been written for jQAssistant 1.8.0
 
 == Prerequisites
 
@@ -29,6 +29,7 @@ The steps in this tutorial illustrate:
 - Checking the <<PreDefinedRules>>
 - Using the <<PreDefinedConcepts>>
 - Using the <<PreDefinedConstraints>>
+- Using the <<StrictGroup>>
 - Definition of <<ProjectSpecificRules>>
 
 [[MavenProject]]
@@ -47,9 +48,9 @@ The configuration above...
 
 - activates the goals `scan` and `analyze` during a build
 - adds the jQAssistant DDD plugin
-- adds the jQAssistant AsciiDoc Report plugin which is needed during this tutorial
+- activated the java-ddd:Default profile
 
-Furthermore, to make use of the provided annotations, the DDD plugin must be added as maven dependency to the project as shown below.
+Furthermore, to make use of the provided annotations, the DDD annotations must be added as maven dependency to the project as shown below.
 [source,xml]
 .pom.xml
 ----
@@ -68,56 +69,13 @@ mvn clean install
 The setup above activates the pre-defined group `java-ddd:Default` that provides some basic constraints for
 the structure and architecture of the project.
 
-Executing the goal `effective-rules` on the command line using
+You can execute the goal `effective-rules` on the command line using
 
 ----
 mvn jqassistant:effective-rules
 ----
 
-prints a summary of the activated rules including their descriptions:
-
-----
-[INFO] Groups [1]
-[INFO]   "java-ddd:Default"
-[INFO] Constraints [4]
-[INFO]   "java-ddd:IllegalDependenciesBetweenBoundedContexts" - Checks that dependencies between bounded contexts are present only where defined.
-[INFO]   "java-ddd:TypeInMultipleBoundedContexts" - Checks that a single DDD type is only part of one bounded context.
-[INFO]   "java-ddd:TypeInMultipleLayers" - Checks that a single DDD type is only part of one layer.
-[INFO]   "java-ddd:UnneededDependenciesBetweenBoundedContexts" - Checks that dependencies between bounded contexts are defined only where needed.
-[INFO] Concepts [21]
-[INFO]   "java-ddd:AggregateRootPackage" - Labels all Java types which are located in package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.AggregateRoot as :DDD:AggregateRoot.
-[INFO]   "java-ddd:AggregateRootType" - Labels all Java types which are annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.AggregateRoot as :DDD:AggregateRoot.
-[INFO]   "java-ddd:BoundedContextDependency" - Propagates the dependencies between Types of different Bounded Contexts to the level of Bounded Contexts including an aggregated weight.
-[INFO]   "java-ddd:BoundedContextPackage" - Maps all Java types which are located in a package annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.BoundedContext to the corresponding BoundedContext node.
-[INFO]   "java-ddd:BoundedContextType" - Maps all Java types which are annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.BoundedContext to the corresponding BoundedContext node.
-[INFO]   "java-ddd:DefinedBoundedContextDependencies" - Create the defined allowed dependencies between bounded contexts.
-[INFO]   "java-ddd:DomainEventPackage" - Labels all Java types which are located in a package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.DomainEvent as :DDD:DomainEvent.
-[INFO]   "java-ddd:DomainEventType" - Labels all Java types which are annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.DomainEvent as :DDD:DomainEvent.
-[INFO]   "java-ddd:EntityPackage" - Labels all Java types which are located in package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Entity as :DDD:Entity.
-[INFO]   "java-ddd:EntityType" - Labels all Java types which are annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Entity or javax.persistence.Entity as :DDD:Entity.
-[INFO]   "java-ddd:FactoryPackage" - Labels all Java types which are located in a package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Factory as :DDD:Factory.
-[INFO]   "java-ddd:FactoryType" - Labels all Java types which are annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.Factory as :DDD:Factory.
-[INFO]   "java-ddd:LayerPackage" - Associates all Java types in packages which are annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Layer.X
-            to the respective layer.
-[INFO]   "java-ddd:LayerType" - Associates all Java types which are annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Layer.X
-            to the respective layer.
-[INFO]   "java-ddd:PrepareBoundedContext" - Creates a bounded context node per defined bounded context (identified by name) based on org.jqassistant.contrib.plugin.ddd.annotation.DDD$BoundedContext.
-[INFO]   "java-ddd:PrepareLayer" - Creates a node for each of the following layer: Interface, Application, Domain, Infrastructure.
-[INFO]   "java-ddd:RepositoryPackage" - Labels all Java types which are located in a package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Repository as :DDD:Repository.
-[INFO]   "java-ddd:RepositoryType" - Labels all Java types which are annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.Repository as :DDD:Repository.
-[INFO]   "java-ddd:ServicePackage" - Labels all Java types which are located in a package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.Service as :DDD:Service.
-[INFO]   "java-ddd:ServiceType" - Labels all Java types which are annotated by
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.Service as :DDD:Service.
-[INFO]   "java-ddd:ValueObjectPackage" - Labels all Java types which are located in a package annotated by org.jqassistant.contrib.plugin.ddd.annotation.DDD.ValueObject as :DDD:ValueObject.
-[INFO]   "java-ddd:ValueObjectType" - Labels all Java types which are annotated by javax.persistence.Embeddable or
-            org.jqassistant.contrib.plugin.ddd.annotation.DDD.ValueObject as :DDD:ValueObject.
-----
+to print a summary of all currently active rules and a short description for each of them.
 
 [[PreDefinedConcepts]]
 == Pre-Defined Concepts
@@ -157,6 +115,30 @@ Following things will be checked during build time:
 - `java-ddd:IllegalDependenciesBetweenBoundedContexts`
 -- If there are dependencies between bounded contexts which were not defined
 
+[[StrictGroup]]
+== java-ddd:Strict Group
+
+Additionally to the `java-ddd:Default` group, the DDD plug-in comes with another, more strict group called `java-ddd:Strict`.
+
+This group can be activated via the following configuration in the `pom.xml` as shown below.
+
+[source,xml]
+----
+<configuration>
+    <groups>
+        <group>java-ddd:Strict</group>
+    </groups>
+</configuration>
+----
+
+Following concept will be provided:
+
+- `java-ddd:DefinedLayerDependencies`
+-- Adds `DEFINES_DEPENDENCY` relations between Layer nodes based on the allowed directions mentioned by Eric Evans
+
+Following constraint will be checked:
+- `java-ddd:IllegalDependenciesBetweenTechnicalLayers`
+-- If there are dependencies between layers implemented which are not allowed
 
 [[ProjectSpecificRules]]
 == Project Specific Rules
