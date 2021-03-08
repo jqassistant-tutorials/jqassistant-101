@@ -8,7 +8,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Integration of jQAssistant into a https://projects.spring.io/spring-boot/[Spring Boot] project which is built using http://maven.apache.org[Apache Maven].
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 1.8.0
+NOTE: This tutorial has been written for jQAssistant 1.9.1
 
 == Prerequisites
 
