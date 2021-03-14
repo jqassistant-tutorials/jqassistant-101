@@ -42,6 +42,8 @@ Maven and which version of it. Furthermore basic configuration is provided
 * the severities for log warnings or failing about if rules have failed
   during analysis
 
+NOTE: The execution id `default-cli` ensures that the given plugin configuration is used if goals of the jQAssistant Maven Plugin are invoked directly from the command line, e.g. `mvn jqassistant:scan`.
+
 To activate the plugin during the build you must add it to the plugin section.
 
 .Configuration of the jQAssistant Maven plugin
@@ -59,23 +61,24 @@ Using the shown configuration jQAssistant will be executed during a normal Maven
 ----
 $ mvn clean install
 ...
-[INFO]
-[INFO] --- jqassistant-maven-plugin:1.3.0:scan (default) @ parent ---
-[INFO] Loaded jQAssistant plugins [CDI, Common, Common Test, Core Analysis, EJB3, GraphML, JAX-RS, JPA 2, JSON, JUnit, Java, Java 8, Java EE 6, Maven 3, OSGi, RDBMS, TestNG, Tycho, XML, YAML].
-[INFO] Connecting to store at 'file:/Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/jqassistant/store/'
+[INFO] --- jqassistant-maven-plugin:1.9.1:scan (default-cli) @ parent ---
+[INFO] Scanning for jQAssistant plugins...
+[INFO] [Asciidoc Report, CDI, Common, Core Analysis, Core Report, EJB3, GraphML, GraphQL, JAX-RS, JPA 2, JSON, JUnit, Java, Java EE 6, Maven 2 Repository, Maven 3, OSGi, RDBMS, Spring, TestNG, Tycho, XML, YAML].
+[INFO] Connecting to store at 'file:/C:/Work/Development/Projects/jqassistant-101/src/main/tutorials/integrating-jqa-maven-plugin/target/jqassistant/store/'
+[INFO] Initializing embedded Neo4j server 3.x
 [INFO] Resetting store.
-[INFO] Reset finished (removed 138 nodes, 424 relations).
-[INFO] Entering /Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/classes
-[INFO] Leaving /Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/classes (4 entries, 209 ms)
-[INFO] Entering /Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/test-classes
-[INFO] Leaving /Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/test-classes (4 entries, 65 ms)
-[INFO] Entering /Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/surefire-reports
-[INFO] Leaving /Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/target/surefire-reports (2 entries, 50 ms)
+[INFO] Reset finished (removed 0 nodes, 0 relations).
+[INFO] Entering C:/Work/Development/Projects/jqassistant-101/src/main/tutorials/integrating-jqa-maven-plugin/target/classes
+[INFO] Leaving C:/Work/Development/Projects/jqassistant-101/src/main/tutorials/integrating-jqa-maven-plugin/target/classes (4 entries, 261 ms)
+[INFO] Entering C:/Work/Development/Projects/jqassistant-101/src/main/tutorials/integrating-jqa-maven-plugin/target/test-classes
+[INFO] Leaving C:/Work/Development/Projects/jqassistant-101/src/main/tutorials/integrating-jqa-maven-plugin/target/test-classes (4 entries, 79 ms)
+[INFO] Entering C:/Work/Development/Projects/jqassistant-101/src/main/tutorials/integrating-jqa-maven-plugin/target/surefire-reports
+[INFO] Leaving C:/Work/Development/Projects/jqassistant-101/src/main/tutorials/integrating-jqa-maven-plugin/target/surefire-reports (2 entries, 77 ms)
 [INFO]
-[INFO] --- jqassistant-maven-plugin:1.3.0:analyze (scan-and-analyze) @ parent ---
+[INFO] --- jqassistant-maven-plugin:1.9.1:analyze (default-cli) @ parent ---
 [INFO] Executing analysis for 'parent'.
-[INFO] Reading rules from directory /Users/obf/jqa/jqa-101/integrating-jqa-maven-plugin/jqassistant
-[INFO]
+[INFO] Will warn on violations starting from severity 'INFO'
+[INFO] Will fail on violations starting from severity 'MAJOR'.
 ...
 ----
 

@@ -16,7 +16,7 @@
 
   <!-- tag::prop[] -->
   <properties>
-    <jqassistant.version>1.3.0</jqassistant.version>
+    <jqassistant.version>1.9.1</jqassistant.version>
   </properties>
   <!-- end::prop[] -->
 
@@ -30,7 +30,7 @@
           <version>${jqassistant.version}</version>
           <executions>
             <execution>
-              <id>default</id>
+              <id>default-cli</id>
               <goals>
                 <goal>scan</goal>
                 <goal>analyze</goal>
