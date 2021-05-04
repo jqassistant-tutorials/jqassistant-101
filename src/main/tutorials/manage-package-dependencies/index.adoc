@@ -8,7 +8,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Define and verify allowed dependencies between components that are represented by package structures.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.7.0 of jQAssistant.
+NOTE: This tutorial is written for version 1.9.1 of jQAssistant.
 
 == Overview
 

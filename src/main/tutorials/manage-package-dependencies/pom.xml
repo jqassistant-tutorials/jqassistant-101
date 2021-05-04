@@ -11,12 +11,12 @@
   <version>0.1.1-SNAPSHOT</version>
 
   <prerequisites>
-    <maven>3.2.5</maven>
+    <maven>3.5.0</maven>
   </prerequisites>
 
   <!-- tag::plugin[] -->
   <properties>
-    <jqassistant.version>1.7.0</jqassistant.version>
+    <jqassistant.version>1.9.1</jqassistant.version>
   </properties>
 
   <build>
