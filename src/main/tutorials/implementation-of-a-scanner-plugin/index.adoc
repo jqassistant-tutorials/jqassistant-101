@@ -143,6 +143,10 @@ The test class `CSVScannerPluginTest` extends from `AbstractPluginIT` and
 include::src/test/java/my/project/plugin/scanner/CSVScannerPluginTest.java[tag=CSVScannerPluginTest]
 ----
 
+TIP: By default a Neo4j in-memory database is used by the test framework to keep build times short.
+During development it is helpful to use a running Neo4j server which provides a browser for exploring the nodes and relations created by the scanner.
+Therefore just start the server from the command line using `mvn jqassistant:server` and activate the `@TestStore` annotation.
+
 // TODO naming rules for Labels, properties and relations, probably in manual instead of here
 
 == Resources

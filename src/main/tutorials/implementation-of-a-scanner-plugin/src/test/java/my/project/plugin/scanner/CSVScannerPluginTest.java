@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CSVScannerPluginTest extends AbstractPluginIT {
 
     @Test
+//  @TestStore(type = TestStore.Type.REMOTE)
     public void scanCSVFile() {
         store.beginTransaction();
         // Scan the test CSV file located as resource in the classpath
