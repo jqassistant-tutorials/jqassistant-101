@@ -8,7 +8,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <jqassistant.version>1.8.0</jqassistant.version>
+        <jqassistant.version>1.10.0</jqassistant.version>
     </properties>
 
     <build>
@@ -16,11 +16,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -49,13 +54,13 @@
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
             <artifactId>scanner</artifactId>
-            <version>1.8.0</version>
+            <version>${jqassistant.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>common</artifactId>
-            <version>1.8.0</version>
+            <version>${jqassistant.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -68,26 +73,26 @@
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
             <artifactId>plugin</artifactId>
-            <version>1.8.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.buschmais.jqassistant.neo4jserver</groupId>
-            <artifactId>neo4jv3</artifactId>
-            <version>1.8.0</version>
+            <version>${jqassistant.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>common</artifactId>
             <type>test-jar</type>
-            <version>1.8.0</version>
+            <version>${jqassistant.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.jqassistant.neo4jserver</groupId>
+            <artifactId>neo4jv3</artifactId>
+            <version>${jqassistant.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.5.2</version>
+            <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
