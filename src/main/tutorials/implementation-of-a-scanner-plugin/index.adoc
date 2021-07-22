@@ -12,6 +12,9 @@ Demonstrates the implementation of a scanner plugin.
 
 NOTE: This tutorial is written for version 1.10.0 of jQAssistant.
 
+.Hands On: Implementation Of A Scanner Plugin (German language)
+video::577058109[vimeo,width=800,height=450]
+
 == Overview
 
 A scanner plugin allows extending the functionality of jQAssistant to read arbitrary structures (e.g. from
@@ -152,3 +155,4 @@ Therefore just start the server from the command line using `mvn jqassistant:ser
 == Resources
 
 1. link:tutorial.zip[ZIP archive including the plugin]
+2. link:https://vimeo.com/577058109[Hands On Video on Vimeo (German language)]
