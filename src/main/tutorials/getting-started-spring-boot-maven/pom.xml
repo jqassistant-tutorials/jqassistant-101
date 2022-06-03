@@ -22,6 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <jqassistant.version>1.12.0-M1</jqassistant.version>
     </properties>
 
     <dependencies>
@@ -56,7 +57,7 @@
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>1.10.1</version>
+                <version>${jqassistant.version}</version>
                 <executions>
                     <execution>
                         <id>default-cli</id>

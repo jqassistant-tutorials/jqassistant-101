@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <jqassistant.version>1.8.0</jqassistant.version>
+        <jqassistant.version>1.12.0-M1</jqassistant.version>
     </properties>
 
     <dependencies>

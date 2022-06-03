@@ -7,3 +7,4 @@ target
 *.log
 .DS_Store
 *.ignore
+.java-version

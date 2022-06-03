@@ -8,7 +8,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <jqassistant.version>1.4.0</jqassistant.version>
+        <jqassistant.version>1.12.0-M1</jqassistant.version>
     </properties>
 
     <build>
