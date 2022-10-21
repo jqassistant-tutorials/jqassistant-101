@@ -16,7 +16,7 @@
 
   <!-- tag::plugin[] -->
   <properties>
-    <jqassistant.version>1.12.0-M1</jqassistant.version>
+    <jqassistant.version>1.9.1</jqassistant.version>
   </properties>
 
   <build>

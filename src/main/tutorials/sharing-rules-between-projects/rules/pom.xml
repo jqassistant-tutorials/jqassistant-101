@@ -7,10 +7,6 @@
     <artifactId>rules</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <properties>
-        <jqassistant.version>1.12.0-M1</jqassistant.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -30,47 +26,40 @@
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
             <artifactId>store</artifactId>
-            <version>${jqassistant.version}</version>
+            <version>1.8.0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
-            <artifactId>test</artifactId>
-            <version>${jqassistant.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.buschmais.jqassistant.core</groupId>
             <artifactId>plugin</artifactId>
-            <version>${jqassistant.version}</version>
+            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>common</artifactId>
             <type>test-jar</type>
-            <version>${jqassistant.version}</version>
+            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>java</artifactId>
             <type>test-jar</type>
-            <version>${jqassistant.version}</version>
+            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>java</artifactId>
-            <version>${jqassistant.version}</version>
+            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.neo4jserver</groupId>
             <artifactId>neo4jv3</artifactId>
-            <version>${jqassistant.version}</version>
+            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
