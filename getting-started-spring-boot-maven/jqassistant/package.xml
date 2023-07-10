@@ -1,0 +1,30 @@
+<jqassistant-rules
+        xmlns="http://schema.jqassistant.org/rule/v2.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.0 https://schema.jqassistant.org/rule/jqassistant-rule-v2.0.xsd">
+
+    <!-- tag::content[] -->
+    <!--1-->
+    <group id="package:Default">
+        <includeConstraint refId="package:*"/>
+    </group>
+
+    <!--2-->
+    <constraint id="package:ServicePackage">
+        <requiresConcept refId="spring-component:Service"/>
+        <description>
+            Spring Services must be located in packages named `service`.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (package:Package)-[:CONTAINS]->(service:Spring:Service)
+            WHERE
+                package.name <> "service"
+            RETURN
+                service as ServicesInInvalidPackage
+        ]]></cypher>
+    </constraint>
+
+    <!-- end::content[] -->
+
+</jqassistant-rules>

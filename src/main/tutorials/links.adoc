@@ -1,6 +1,0 @@
-//
-// Common links to be used in our tutorials
-//
-
-
-:c_cypher: http://neo4j.com/docs/developer-manual/current/cypher/
