@@ -15,4 +15,3 @@ There are several ways to help and contribute:
 - Find and fix grammar or spelling issuses and send us a pull request.
 - If you miss a topic, please link:./issues/^[create a issue^] for
   the topic we should cover
-

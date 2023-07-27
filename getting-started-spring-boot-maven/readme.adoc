@@ -1,0 +1,197 @@
+= Getting started with jQAssistant, Spring Boot and Maven
+Dirk Mahler <dirk.mahler@jqassistant.org>
+
+:numbered:
+
+// tag::lead[]
+Integration of jQAssistant into a https://projects.spring.io/spring-boot/[Spring Boot] project which is built using http://maven.apache.org[Apache Maven].
+// end::lead[]
+
+NOTE: This tutorial has been written for jQAssistant 2.0.4
+
+== Prerequisites
+
+- Spring Boot project based on http://maven.apache.org[Maven] as created by https://start.spring.io/[] using the required dependencies (e.g. `Web`, `JPA` and `H2`).
+
+== Overview
+
+=== Steps of the tutorial
+
+- Integration of the <<MavenPlugin>>
+- Working with the <<PreDefinedRules>>
+- Definition of <<ProjectSpecificRulesAndReports>>
+
+=== Goal of the tutorial
+
+- learn how to configure the jQAssistant Maven plugin
+- learn how to enable the `jqassistant-spring-plugin` in your jQAssistant Maven plugin
+- learn how to use pre defined rules for best practices that are provided by the `jqassistant-spring-plugin`
+- learn how to create your own basic rules using the
+
+
+
+Detected violations will be printed as warnings at the end of the build or might even break it if required.
+
+[[MavenPlugin]]
+== Configuring jQAssistant Maven Plugin
+
+
+=== Configuring your pom.xml
+jQAssistant runs as part of the build process and therefore needs to be integrated as a Maven plugin.
+This is done by adding the following setup to the `build/plugins` section of the file `pom.xml`:
+
+[source,xml]
+.pom.xml
+----
+include::pom.xml[tag=plugin,indent=0]
+----
+
+The configuration above...
+
+- integrates the `jqassistant-maven-plugin` with version `2.0.4` into your Maven project.
+- activates the goals `scan` and `analyze` during a build
+
+[[YMLConfig]]
+=== Configuring your .jqassistant.yml
+
+jQAssistant automatically loads YAML files from several different locations. In this tutorial we use the `.jqassistant.yml` from your working directory.
+
+TIP: You may find more information on how jQAssistant loads yaml configurations in the https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#_yaml_files[jQAssistant User Manual]
+
+[source, yaml]
+.jqassistant.yml
+----
+include::.jqassistant.yml[tag=plugin,indent=0]
+----
+
+<1> loads the `spring-boot-plugin` for jQAssistant
+<2> loads the `jqassistant-plantuml-report-plugin` for jQAssistant. This is needed for creating diagrams from jQAssistant concepts. This is used in the <<PlantumlDiagramUse, Defining your own rules section>>
+<3> sets the default severity for concepts that cannot be applied to `INFO`
+<4> sets severity thresholds for printing warnings to `MINOR`
+<5> sets severity thresholds for breaking the build to `BLOCKER`
+<6> defines the rule group `spring-boot:Strict` to be executed during analysis (alternatively `spring-boot:Default`); for `Default` see <<ProjectSpecificRulesAndReports>>
+
+NOTE: The default severity of concepts is `MINOR` and therefore the default setup (and our setup: see `warn-on-severity`) of jQAssistant would issue a warning for each concept that could not be applied (e.g. if there are no @Configuration annotated beans present in the code).
+For this reason this configuration sets the `default-concept-severity` to `INFO`.
+
+=== Starting your Maven build
+With the above configuration it is as simple as building your Maven project to trigger the jQAssistant plugin. This can be done as usual on the command line:
+
+----
+mvn clean install
+----
+
+[[PreDefinedRules]]
+== Pre-Defined Rules
+
+The setup above activates the pre-defined group `spring-boot:Strict` that provides recommended constraints for the structure and architecture of the project. These include:
+
+- allowed dependencies between Controllers, Services and Repositories
+- correct usage of transactional methods
+- enforcing constructor injection instead of field injection.
+- ...
+
+You can check which rules exactly are activated by executing the goal `effective-rules` on the command line:
+
+----
+mvn jqassistant:effective-rules
+----
+
+This prints a summary of the activated rules including their descriptions:
+
+----
+[INFO] Groups [7]
+[INFO]   "spring-boot:Default"
+[INFO]   "spring-boot:Strict"
+[INFO]   "spring-component:Default"
+[INFO]   "spring-component:Strict"
+[INFO]   "spring-injection:Default"
+[INFO]   "spring-injection:Strict"
+[INFO]   "spring-transaction:Default"
+[INFO] Constraints [15]
+[INFO]   "spring-boot:AllTypesInApplicationPackage" - All types of of a Spring Boot application must be located in the same package or a sub-package of
+            the application class.
+
+[INFO]   "spring-component:ControllerMustOnlyDependOnServicesRepositoriesOrComponents" - A Spring controller can only have dependencies to other Spring components that are services or
+            repositories.
+...
+----
+
+NOTE: There is also a pre-defined group activating a smaller and less strict set of rules.
+For using it just replace `spring-boot:Strict` with `spring-boot:Default` in your `.jqassistant.yml`.
+
+TIP: If you want to display all available rules, you can use `mvn jqassistant:available-rules`.
+
+TIP: For a detailed description of available concepts and constraints refer to the https://github.com/jqassistant-plugin/jqassistant-spring-plugin[plugin documentation]. For an overview of all available plugins refer to https://github.com/orgs/jqassistant-plugin/repositories[plugin repositories]
+
+
+[[ProjectSpecificRulesAndReports]]
+== Project Specific Rules And Reports
+
+The concepts defined by the Spring plugin are also a good base for project specific rules.
+Such rules must be located in the directory `/jqassistant` and are written as XML files.
+
+WARNING: Via the https://github.com/jqassistant-plugin/jqassistant-asciidoc-report-plugin[Asciidoc-report-plugin] it is also possible to use Asciidoc for the rule definition. But this practice is not recommended anymore!
+
+=== Defining your own rules
+
+In this tutorial the xml files are used to create a custom Default group with underlying concepts and constraints.
+Therefore, the directory contains the files `default.xml`, `package.xml` and `maven.xml`.
+
+
+.jqassistant/default.xml
+....
+include::jqassistant/default.xml[]
+....
+
+<1> This is the root node of every xml document you want to define jQAssistant rules in
+<2> This defines a group `Default` which just includes the two groups maven:Default and package:Default
+
+CAUTION: In the following xml files the root node is skipped to make the included files more readable.
+
+.jqassistant/package.xml
+....
+include::jqassistant/package.xml[tag=content, indent=1]
+....
+<1> This defines a matching group `package:Default`  which itself includes all constraints matching `package:ServicePackage`
+<2> The example constraint `package:ServicePackage` ensures that Spring services (i.e. classes annotated with `@Service`) are located in packages named `service`.
+
+[[PlantumlDiagramUse]]
+.jqassistant/maven.xml
+....
+include::jqassistant/maven.xml[tag=content, indent=1]
+....
+
+<1> In a similar way `maven.xml` defines a group `maven:Default` but it includes all concepts matching `maven:*Report`
+<2> The concept `maven:ProjectArtifactDependencyReport` defines the report type `plantuml-component-diagram`.
+This will render the rule result (i.e. nodes and relations returned by the Cypher query) to the desired diagram type.
+
+TIP: Using wildcard for including groups, concepts or constraints allows easily adding new rules.
+
+=== Using your own rules
+
+Finally, the group `Default` must be activated in the configuration section of the .jqassistant.yml. Refer to <<YMLConfig>>.
+
+The project can be built and verified by running the following command:
+
+----
+mvn clean install
+----
+
+After the execution the file `target/jqassistant/jqassistant-report.xml` is generated. This file contains a report generated by jQAssistant. This report can be parsed using to many different document types using the https://github.com/jqassistant-tooling/jqassistant-asciidoctorj-extensions[jqassistant-asciidoctorj-extensions]. There are also some other files generated inside the `target/jqassistant` folder. Feel free to explore.
+
+== Hands on video
+The following video is not related to this tutorial in particular. Nevertheless it shows many of the same basic concepts of jQAssistant.
+
+.Hands On: Integrating jQAssistant with Spring Boot, Apache Maven & SonarQube. (language: German )
+video::589270911[vimeo,width=800,height=450]
+
+WARNING: The video references an older version of jQAssistant (1.10.1). Even though many basic concepts remain the same, there are some important changes when setting up the project.
+
+== Resources
+
+1. https://github.com/jqassistant-plugin/jqassistant-spring-plugin[jQAssistant Spring Plugin documentation]
+2. https://github.com/orgs/jqassistant-plugin/repositories[All available plugins for jQAssistant]
+3. https://projects.spring.io/spring-boot/[Spring Boot project]
+4. https://start.spring.io[Spring Initializr]
+5. https://maven.apache.org[Apache Maven]

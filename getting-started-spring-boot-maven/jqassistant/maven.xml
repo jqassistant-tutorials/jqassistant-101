@@ -1,0 +1,29 @@
+<jqassistant-rules
+        xmlns="http://schema.jqassistant.org/rule/v2.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.0 https://schema.jqassistant.org/rule/jqassistant-rule-v2.0.xsd">
+
+    <!-- tag::content[] -->
+    <!--1-->
+    <group id="maven:Default">
+        <includeConcept refId="maven:*Report"/>
+    </group>
+
+    <!--2-->
+    <concept id="maven:ProjectArtifactDependencyReport">
+        <description>
+            Report about project artifacts and their direct dependencies.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (:Maven:Project)-[:CREATES]->(artifact:Artifact)
+            OPTIONAL MATCH
+                (artifact)-[dependsOn:DEPENDS_ON]->(dependency:Artifact)
+            RETURN
+                *
+        ]]></cypher>
+        <report type="plantuml-component-diagram"/>
+    </concept>
+    <!-- end::content[] -->
+
+</jqassistant-rules>
