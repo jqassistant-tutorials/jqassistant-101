@@ -7,7 +7,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Integration of jQAssistant into a https://projects.spring.io/spring-boot/[Spring Boot] project which is built using http://maven.apache.org[Apache Maven].
 // end::lead[]
 
-NOTE: This tutorial has been written for jQAssistant 2.0.3
+NOTE: This tutorial has been written for jQAssistant 2.0.4
 
 == Prerequisites
 
@@ -48,7 +48,7 @@ include::pom.xml[tag=plugin,indent=0]
 
 The configuration above...
 
-- integrates the `jqassistant-maven-plugin` with version `2.0.3` into your Maven project.
+- integrates the `jqassistant-maven-plugin` with version `2.0.4` into your Maven project.
 - activates the goals `scan` and `analyze` during a build
 
 [[YMLConfig]]
@@ -136,16 +136,16 @@ WARNING: Via the https://github.com/jqassistant-plugin/jqassistant-asciidoc-repo
 === Defining your own rules
 
 In this tutorial the xml files are used to create a custom Default group with underlying concepts and constraints.
-Therefore, the directory contains the files `index.xml`, `package.xml` and `maven.xml`.
+Therefore, the directory contains the files `default.xml`, `package.xml` and `maven.xml`.
 
 
-.jqassistant/index.xml
+.jqassistant/default.xml
 ....
-include::jqassistant/index.xml[]
+include::jqassistant/default.xml[]
 ....
 
 <1> This is the root node of every xml document you want to define jQAssistant rules in
-<2> This defines a group `Default` which just includes all groups matching the pattern `*:Default`
+<2> This defines a group `Default` which just includes the two groups maven:Default and package:Default
 
 CAUTION: In the following xml files the root node is skipped to make the included files more readable.
 
@@ -153,17 +153,17 @@ CAUTION: In the following xml files the root node is skipped to make the include
 ....
 include::jqassistant/package.xml[tag=content, indent=1]
 ....
-<1> This defines a matching group `package:Default` (matches the `\*:Default` pattern from the `Default` group) which itself includes all constraints matching `package:*`
+<1> This defines a matching group `package:Default`  which itself includes all constraints matching `package:ServicePackage`
 <2> The example constraint `package:ServicePackage` ensures that Spring services (i.e. classes annotated with `@Service`) are located in packages named `service`.
 
 [[PlantumlDiagramUse]]
-.jqassistant/maven.adoc
+.jqassistant/maven.xml
 ....
 include::jqassistant/maven.xml[tag=content, indent=1]
 ....
 
-<1> In a similar way `maven.xml` defines a group `maven:Default` but it includes all concepts matching `maven:*`
-<2> The concept `maven:ProjectArtifactDependencies` defines the report type `plantuml-component-diagram`.
+<1> In a similar way `maven.xml` defines a group `maven:Default` but it includes all concepts matching `maven:*Report`
+<2> The concept `maven:ProjectArtifactDependencyReport` defines the report type `plantuml-component-diagram`.
 This will render the rule result (i.e. nodes and relations returned by the Cypher query) to the desired diagram type.
 
 TIP: Using wildcard for including groups, concepts or constraints allows easily adding new rules.

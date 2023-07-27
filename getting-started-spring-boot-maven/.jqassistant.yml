@@ -9,7 +9,7 @@ jqassistant:
     #<2>
     - group-id: org.jqassistant.plugin
       artifact-id: jqassistant-plantuml-report-plugin
-      version: 2.0.0
+      version: 2.0.1
 
   analyze:
     rule:

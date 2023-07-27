@@ -6,11 +6,11 @@
     <!-- tag::content[] -->
     <!--1-->
     <group id="maven:Default">
-        <includeConcept refId="maven:*"/>
+        <includeConcept refId="maven:*Report"/>
     </group>
 
     <!--2-->
-    <concept id="maven:ProjectArtifactDependencies">
+    <concept id="maven:ProjectArtifactDependencyReport">
         <description>
             Report about project artifacts and their direct dependencies.
         </description>

@@ -6,7 +6,8 @@
 
     <!--2-->
     <group id="Default">
-        <includeGroup refId="*:Default"/>
+        <includeGroup refId="maven:Default"/>
+        <includeGroup refId="package:Default"/>
     </group>
 
 </jqassistant-rules>

@@ -6,7 +6,7 @@
     <!-- tag::content[] -->
     <!--1-->
     <group id="package:Default">
-        <includeConstraint refId="package:*"/>
+        <includeConstraint refId="package:ServicePackage"/>
     </group>
 
     <!--2-->
