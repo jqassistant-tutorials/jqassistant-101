@@ -1,0 +1,205 @@
+= Migrating from jQAssistant 1.x to 2.0
+
+== Overview
+
+jQAssistant 2.0 comes with improvements which require changes to existing setups based on 1.x releases.
+The most notable changes are:
+
+* Upgrade of the embedded Neo4j 3.x database to 4.x (raising the required minimum Java version to 11)
+* Support for connecting to Neo4j 5.x databases using bolt connections
+* Reduced set of plugins which delivered with the jQAssistant distribution (i.e. Maven plugin and command line utility)
+* Configuration using `.jqassistant.yml` files which can be extended or overwritten by environment variables or system properties (based on Eclipse Microprofile config, introduced with jQAssistant 1.12.x)
+** Removal of pom.xml based configuration for the Maven plugin making it more independent of reactor structures and setups
+** Plugin provisioning using Maven repositories
+* Simplified structure of jQAssistant GitHub organizations
+https://github.com/jqassistant[]:: jQAssistant core framework and distributions
+https://github.com/jqassistant-plugin[]:: Plugins for jQAssistant, i.e. scanners, rules and reports
+https://github.com/jqassistant-tooling[]:: Integration with toolchains, e.g. SonarQube and Asciidoctor
+https://github.com/jqassistant-101[]:: Tutorials and demo applications illustrating use cases around jQAssistant
+https://github.com/jqassistant-archive[]:: Projects and plugins around jQAssistant that are no longer actively maintained
+
+== Migration Steps
+
+=== Upgrade to Java 11 or newer
+
+Java 8 is no longer support, so for executing jQAssistant at least Java 11 is required now.
+
+
+=== Java 17 Setup
+
+If Java 16 or newer is used then additional Java options must be provided to the JVM:
+
+.Maven
+----
+// Windows
+set MAVEN_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED
+
+// Linux
+export MAVEN_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED
+----
+
+An alternative option is to place these settings into a file `.mvn/jvm.config` in the root Maven module:
+
+[source]
+..mvn/jvm.config
+----
+--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED
+----
+
+.Command Line Utility (CLI)
+----
+// Windows
+set JQASSISTANT_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED
+
+// Linux
+export JQASSISTANT_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED
+----
+
+=== Migrate jQAssistant Configuration
+
+All configuration options have been __moved__ to the mechanism based on `.jqassistant.yml` file, environment variables and system properties.
+
+The Maven plugin now supports only a very small set of configuration options in the pom.xml, mainly for locating configuration (.jqassistant.yml) files. The same holds for the command line utility.
+
+Previously used configuration options should be migrated to the according options in a `.jqassistant.yml` file located in the root directory of the project to be analyzed. The set of supported options is documented in the https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#core:Configuration[manual].
+
+NOTE: Existing options can easily be mapped to the new options by their name. The only notable exception is `jqassistant.storeLifeCycle=REACTOR|MODULE` of the Maven plugin which has been renamed and converted to `jqassistant.maven.reuse-store=true|false`.
+
+=== Declare Plugins In Configuration File
+
+The set of plugins provided with the core distributions has been reduced to Java, JUnit, JSON, XML and Maven 3.
+
+Other plugins have been moved to the new https://github.com/jqassistant-plugin/[jQAssistant Plugin organization] on GitHub and must be declared explicitly in the configuration:
+
+[source,yaml]
+.jqassistant.yml
+----
+jqassistant:
+  plugins:
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-spring-plugin
+      version: 2.0.0
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin
+      version: 2.0.1
+----
+
+The following plugins have been removed from the core distributions and must now be declared explicitly:
+
+[options=header]
+|===
+| Plugin | GitHub Project
+
+| Asciidoc Report Plugin
+| https://github.com/jqassistant-plugin/jqassistant-asciidoc-report-plugin[]
+
+| GraphML Report Plugin
+| https://github.com/jqassistant-plugin/jqassistant-graphml-plugin[]
+
+| GraphQL Plugin
+| https://github.com/jqassistant-plugin/jqassistant-graphql-plugin[]
+
+| Java EE, JPA2 and JAX-RS Plugin
+| https://github.com/jqassistant-plugin/jqassistant-jee-plugin[]
+
+| M2 Repo Plugin
+| https://github.com/jqassistant-plugin/jqassistant-m2repo-plugin[]
+
+| OSGi Plugin
+| no longer maintained (https://github.com/jqassistant-archive/jqa-osgi-plugin[archive])
+
+| PlantUML Report Plugin
+| https://github.com/jqassistant-plugin/jqassistant-plantuml-report-plugin[]
+
+| RDBMS Plugin
+| https://github.com/jqassistant-plugin/jqassistant-rdbms-plugin[]
+
+| Spring Plugin
+| https://github.com/jqassistant-plugin/jqassistant-spring-plugin[]
+
+|===
+
+
+Refer to the documentation of each plugin for the coordinates.
+
+NOTE: Declaring jQAssistant plugins as dependency of the jQAssistant Maven plugin in a `pom.xml` __might__ still work but is no longer supported. Such declarations must be migrated to the `plugins` section of the `.jqassistant.yml` file.
+
+=== Configure Plugin Repositories (Command Line Utility)
+
+Plugins are now longer distributed with the command line distribution. Declared plugins (see chapter before) including their required dependencies are resolved and downloaded on startup from Maven repositories (defaulting to Maven Central).
+
+For specific setups (e.g. in corporate environments) an existing Maven configuration in the user's home directory (`~/.m2/settings.xml`) is used automatically.
+
+Alternatively the proxy and repositories can be specified in the file `.jqassistant.yml`:
+
+[source,yaml]
+.jqassistant.yml
+----
+jqassistant:
+  repositories:
+    local: ~/.jqassistant/repository # local repository, caching downloaded plugins
+    proxy:
+      protocol: https
+      host: proxy.acme.com
+      port: 80
+      username: user
+      password: secrect
+    remotes:
+      corporate-repo:
+        url: https://corporate-repo.acme.com
+        username: user
+        password: secrect
+
+  plugins:
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-spring-plugin
+      version: 2.0.0
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin
+      version: 2.0.1
+----
+
+=== Activate Or Migrate Asciidoc Rules
+
+Support for embedding rules in Asciidoc files (.adoc) has been removed from the core distribution. It can be activated by declaring the Asciidoc Report Plugin in the configuration:
+
+[source,yaml]
+.jqassistant.yml
+----
+jqassistant:
+  plugins:
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-asciidoc-report-plugin
+      version: 2.0.0
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin # Often used together with the Asciidoc plugin
+      version: 2.0.1
+----
+
+NOTE: It is highly recommended to migrate rules embedded Asciidoc files to XML. The integration with Asciidoc is handled by the https://github.com/jqassistant-tooling/jqassistant-asciidoctorj-extensions[jQAssistant Asciidoc Extensions] which allow better interoperability with existing tool chains (e.g. http://doctoolchain.org/docToolchain/v2.0.x/[docToolchain] and https://confluence-publisher.atlassian.net/wiki/spaces/CPD/overview[Confluence Publisher])
+
+=== Migrate Used Concepts And Constraints
+
+The following rules have been renamed, any references (inclusions in groups or requirements in concepts or constraints) must be adopted:
+
+[options=header]
+|===
+| 1.x | 2.x
+
+| dependency:Package
+| java:PackageDependency
+
+| dependency:Artifact
+| java:ArtifactDependency
+
+| dependency:PackageCycles
+| java:AvoidCyclicPackageDependencies
+
+| dependency:ArtifactCycles
+| java:AvoidCyclicArtifactDependencies
+
+|===
+
+== Feedback
+
+In case we missed some valuebale information in this guide please let us know and create an https://github.com/jqassistant-tutorials/jqassistant-101/issues/new[issue].
