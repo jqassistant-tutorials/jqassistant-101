@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>your.project</groupId>
+    <artifactId>parent</artifactId>
+
+    <version>1.0.0-SNAPSHOT</version>
+
+    <prerequisites>
+        <maven>3.5.0</maven>
+    </prerequisites>
+
+    <build>
+        <plugins>
+            <!-- tag::plugin[] -->
+            <!-- tag::jQAplugin[] -->
+            <plugin>
+                <groupId>com.buschmais.jqassistant</groupId>
+                <artifactId>jqassistant-maven-plugin</artifactId>
+                <version>2.0.4</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>scan</goal>
+                            <goal>analyze</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- end::jQAplugin[] -->
+            <!-- tag::Asciidocplugin[] -->
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>2.2.4</version>
+                <configuration>
+                    <backend>html5</backend> <!--1-->
+                    <preserveDirectories>true</preserveDirectories> <!--2-->
+                    <attributes>
+                        <jqassistant-report-path>${project.build.directory}/jqassistant/jqassistant-report.xml
+                        </jqassistant-report-path> <!--3-->
+                        <imagesDir>images</imagesDir> <!--4-->
+                    </attributes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>output-html</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!--5-->
+                    <dependency>
+                        <groupId>org.jqassistant.tooling.asciidoctorj</groupId>
+                        <artifactId>jqassistant-asciidoctorj-extensions</artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- end::Asciidocplugin[] -->
+        </plugins>
+    </build>
+    <!-- end::plugin[] -->
+
+</project>
