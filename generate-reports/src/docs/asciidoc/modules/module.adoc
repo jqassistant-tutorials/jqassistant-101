@@ -1,6 +1,7 @@
 = Module
 
-This section displays rules from the module.xml.
+This section displays rules from the module.xml. The following is a summary of all "module:*" rules.
+include::jQAssistant:Summary[concepts="module:*"]
 
 == Tables
 This is the table report described in the `readme.adoc` file in section "3.2.1 Tables":
