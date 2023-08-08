@@ -1,0 +1,20 @@
+[[ADR_001:DeepLinking]]
+== 001 - No deep linking between aggregates
+
+=== Status: Proposed
+
+=== Context
+
+* Migration of the product catalog from relational to document-based database
+
+=== Decision
+
+* Document-based databases require modeling of aggregates
+** Deep links between aggregates are not allowed
+
+=== Consequences
+
+* All entities must only be referenced from one aggregate root
+* Existing deep linking between aggregates must be removed
+
+include::jQAssistant:Rules[constraints="adr:NoDeepLinkingBetweenAggregates", leveloffset=+3]

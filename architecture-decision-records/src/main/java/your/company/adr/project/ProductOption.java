@@ -1,7 +1,7 @@
 package your.company.adr.project;
 
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
+import org.jmolecules.ddd.annotation.*;
 
-@DDD.Entity
+@Entity
 public class ProductOption {
 }
