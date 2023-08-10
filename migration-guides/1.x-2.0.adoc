@@ -7,7 +7,7 @@ The most notable changes are:
 
 * Upgrade of the embedded Neo4j 3.x database to 4.x (raising the required minimum Java version to 11)
 * Support for connecting to Neo4j 5.x databases using bolt connections
-* Reduced set of plugins which delivered with the jQAssistant distribution (i.e. Maven plugin and command line utility)
+* Reduced set of plugins which are delivered with the jQAssistant distribution (i.e. Maven plugin and command line utility)
 * Configuration using `.jqassistant.yml` files which can be extended or overwritten by environment variables or system properties (based on Eclipse Microprofile config, introduced with jQAssistant 1.12.x)
 ** Removal of pom.xml based configuration for the Maven plugin making it more independent of reactor structures and setups
 ** Plugin provisioning using Maven repositories
@@ -23,7 +23,6 @@ https://github.com/jqassistant-archive[]:: Projects and plugins around jQAssista
 === Upgrade to Java 11 or newer
 
 Java 8 is no longer support, so for executing jQAssistant at least Java 11 is required now.
-
 
 === Java 17 Setup
 
@@ -61,13 +60,15 @@ All configuration options have been __moved__ to the mechanism based on `.jqassi
 
 The Maven plugin now supports only a very small set of configuration options in the pom.xml, mainly for locating configuration (.jqassistant.yml) files. The same holds for the command line utility.
 
-Previously used configuration options should be migrated to the according options in a `.jqassistant.yml` file located in the root directory of the project to be analyzed. The set of supported options is documented in the https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#core:Configuration[manual].
+Previously used configuration options should be migrated to the according options in a `.jqassistant.yml` file located in the root directory of the project to be analyzed.
+The set of supported options is documented in the https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#core:Configuration[manual].
 
-NOTE: Existing options can easily be mapped to the new options by their name. The only notable exception is `jqassistant.storeLifeCycle=REACTOR|MODULE` of the Maven plugin which has been renamed and converted to `jqassistant.maven.reuse-store=true|false`.
+NOTE: Existing options can easily be mapped to the new options by their name, e.g. `<groups>...</groups>` -> `jqassistant.analyze.groups`.
+The only notable exception is `jqassistant.storeLifeCycle=REACTOR|MODULE` of the Maven plugin which has been renamed and converted to `jqassistant.maven.reuse-store=true|false`.
 
 === Declare Plugins In Configuration File
 
-The set of plugins provided with the core distributions has been reduced to Java, JUnit, JSON, XML and Maven 3.
+The set of plugins provided with the core distributions has been reduced to Java, JUnit, JSON, Maven, XML and YAML.
 
 Other plugins have been moved to the new https://github.com/jqassistant-plugin/[jQAssistant Plugin organization] on GitHub and must be declared explicitly in the configuration:
 
@@ -76,107 +77,246 @@ Other plugins have been moved to the new https://github.com/jqassistant-plugin/[
 ----
 jqassistant:
   plugins:
-    - group-id: org.jqassistant.plugin
-      artifact-id: jqassistant-spring-plugin
-      version: 2.0.0
-    - group-id: org.jqassistant.plugin
-      artifact-id: jqassistant-plantuml-report-plugin
-      version: 2.0.1
+  # Asciidoc Report Plugin: https://github.com/jqassistant-plugin/jqassistant-asciidoc-report-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-asciidoc-report-plugin
+    version: 2.0.0
+  # GraphML Report Plugin: https://github.com/jqassistant-plugin/jqassistant-graphml-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-graphml-plugin
+    version: 2.0.1
+  # GraphQL Plugin: https://github.com/jqassistant-plugin/jqassistant-graphql-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-graphql-plugin
+    version: 2.0.0
+  # Java EE, JPA2 and JAX-RS Plugin: https://github.com/jqassistant-plugin/jqassistant-jee-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-jee-plugin
+    version: 1.0.0
+  # M2 Repo Plugin, https://github.com/jqassistant-plugin/jqassistant-m2repo-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-m2repo-plugin
+    version: 2.0.1
+  # PlantUML Report Plugin, https://github.com/jqassistant-plugin/jqassistant-plantuml-report-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-plantuml-report-plugin
+    version: 2.0.1
+  # RDBMS Plugin: https://github.com/jqassistant-plugin/jqassistant-rdbms-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-rdbms-plugin
+    version: 2.0.0
+  # Spring Plugin: https://github.com/jqassistant-plugin/jqassistant-spring-plugin
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-spring-plugin
+    version: 2.0.0
 ----
 
-The following plugins have been removed from the core distributions and must now be declared explicitly:
+The OSGi plugin is no longer maintained and has been moved to the https://github.com/jqassistant-archive/jqa-osgi-plugin[jQAssistant Archive].
 
-[options=header]
-|===
-| Plugin | GitHub Project
-
-| Asciidoc Report Plugin
-| https://github.com/jqassistant-plugin/jqassistant-asciidoc-report-plugin[]
-
-| GraphML Report Plugin
-| https://github.com/jqassistant-plugin/jqassistant-graphml-plugin[]
-
-| GraphQL Plugin
-| https://github.com/jqassistant-plugin/jqassistant-graphql-plugin[]
-
-| Java EE, JPA2 and JAX-RS Plugin
-| https://github.com/jqassistant-plugin/jqassistant-jee-plugin[]
-
-| M2 Repo Plugin
-| https://github.com/jqassistant-plugin/jqassistant-m2repo-plugin[]
-
-| OSGi Plugin
-| no longer maintained (https://github.com/jqassistant-archive/jqa-osgi-plugin[archive])
-
-| PlantUML Report Plugin
-| https://github.com/jqassistant-plugin/jqassistant-plantuml-report-plugin[]
-
-| RDBMS Plugin
-| https://github.com/jqassistant-plugin/jqassistant-rdbms-plugin[]
-
-| Spring Plugin
-| https://github.com/jqassistant-plugin/jqassistant-spring-plugin[]
-
-|===
-
-
-Refer to the documentation of each plugin for the coordinates.
-
-NOTE: Declaring jQAssistant plugins as dependency of the jQAssistant Maven plugin in a `pom.xml` __might__ still work but is no longer supported. Such declarations must be migrated to the `plugins` section of the `.jqassistant.yml` file.
+NOTE: Declaring jQAssistant plugins as dependency of the jQAssistant Maven plugin in a `pom.xml` __might__ still work but is no longer officially supported.
+Such declarations must be migrated to the `plugins` section of the `.jqassistant.yml` file.
 
 === Configure Plugin Repositories (Command Line Utility)
 
-Plugins are now longer distributed with the command line distribution. Declared plugins (see chapter before) including their required dependencies are resolved and downloaded on startup from Maven repositories (defaulting to Maven Central).
+Plugins are no longer distributed with the command line distribution.
+Declared plugins (see chapter before) including their required dependencies are resolved and downloaded on startup from Maven repositories (defaulting to Maven Central).
 
-For specific setups (e.g. in corporate environments) an existing Maven configuration in the user's home directory (`~/.m2/settings.xml`) is used automatically.
+For specific setups (e.g. in corporate environments) an existing Maven configuration in the user's home directory (`~/.m2/settings.xml`) is picked up automatically.
 
-Alternatively the proxy and repositories can be specified in the file `.jqassistant.yml`:
+Alternatively proxy and Maven repositories can be specified in the file `.jqassistant.yml`:
 
 [source,yaml]
 .jqassistant.yml
 ----
 jqassistant:
   repositories:
-    local: ~/.jqassistant/repository # local repository, caching downloaded plugins
-    proxy:
-      protocol: https
-      host: proxy.acme.com
-      port: 80
-      username: user
-      password: secrect
-    remotes:
-      corporate-repo:
-        url: https://corporate-repo.acme.com
-        username: user
-        password: secrect
+  local: ~/.jqassistant/repository # local repository, caching downloaded plugins and their dependencies
+  proxy:
+    protocol: https
+    host: proxy.acme.com
+    port: 80
+    username: user
+    password: secrect
+  remotes:
+    corporate-repo:
+    url: https://corporate-repo.acme.com
+    username: user
+    password: secrect
 
   plugins:
-    - group-id: org.jqassistant.plugin
-      artifact-id: jqassistant-spring-plugin
-      version: 2.0.0
-    - group-id: org.jqassistant.plugin
-      artifact-id: jqassistant-plantuml-report-plugin
-      version: 2.0.1
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-spring-plugin
+    version: 2.0.0
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-plantuml-report-plugin
+    version: 2.0.1
 ----
 
 === Activate Or Migrate Asciidoc Rules
 
-Support for embedding rules in Asciidoc files (.adoc) has been removed from the core distribution. It can be activated by declaring the Asciidoc Report Plugin in the configuration:
+Support for embedding rules in AsciiDoc files (.adoc) has been removed from the core distribution.
+For a migration it can be re-activated by declaring the https://github.com/jqassistant-plugin/jqassistant-asciidoc-report-plugin[Asciidoc Report Plugin] in the configuration:
 
 [source,yaml]
 .jqassistant.yml
 ----
 jqassistant:
   plugins:
-    - group-id: org.jqassistant.plugin
-      artifact-id: jqassistant-asciidoc-report-plugin
-      version: 2.0.0
-    - group-id: org.jqassistant.plugin
-      artifact-id: jqassistant-plantuml-report-plugin # Often used together with the Asciidoc plugin
-      version: 2.0.1
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-asciidoc-report-plugin
+    version: 2.0.0
+  - group-id: org.jqassistant.plugin
+    artifact-id: jqassistant-plantuml-report-plugin # Often used together with the Asciidoc plugin
+    version: 2.0.1
 ----
 
-NOTE: It is highly recommended to migrate rules embedded Asciidoc files to XML. The integration with Asciidoc is handled by the https://github.com/jqassistant-tooling/jqassistant-asciidoctorj-extensions[jQAssistant Asciidoc Extensions] which allow better interoperability with existing tool chains (e.g. http://doctoolchain.org/docToolchain/v2.0.x/[docToolchain] and https://confluence-publisher.atlassian.net/wiki/spaces/CPD/overview[Confluence Publisher])
+NOTE: The AsciiDoc report plugin is now deprecated, i.e. minor bugs will still be fixed but no new functionality will be added in the future.
+
+Therefore, it is strongly recommended to migrate rules embedded in AsciiDoc files to XML and provide rule summaries or results using the https://github.com/jqassistant-tooling/jqassistant-asciidoctorj-extensions[jQAssistant AsciiDoc Extensions] to existing tool chains, e.g. http://doctoolchain.org/docToolchain/v2.0.x/[docToolchain] or https://confluence-publisher.atlassian.net/wiki/spaces/CPD/overview[Confluence Publisher].
+
+The following steps illustrate the migration for using the Asciidoctor Maven Plugin including the jQAssistant Asciidoctor Extension to render documentation.
+
+==== Convert Rules From Asciidoc To XML
+
+The `adoc` files in the rules directory (`jqassistant/`) are replaced by XML files:
+
+[source,asciidoc]
+.jqassistant/my-rules.adoc
+....
+= My Project
+
+include::jQA:Summary[constraints="*"]
+
+[[my-group]]
+[role=group,includesConcepts="my-rules:*", includesConstraints="my-rules:*"]
+== My Rules
+
+[[my-rules:Concept]]
+[source,cypher,role=concept,reportType="csv"]
+.My concept description
+----
+MATCH ... SET ... RETURN ...
+----
+
+[[my-rules:Constraint]]
+[source,cypher,role=constraint,requiresConcepts="my-rules:Concept"]
+.My constraint description
+----
+MATCH ... RETURN ...
+----
+....
+
+[source,xml]
+.jqassistant/my-rules.xml
+----
+<jqassistant-rules
+    xmlns="http://schema.jqassistant.org/rule/v2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.0 https://schema.jqassistant.org/rule/jqassistant-rule-v2.0.xsd">
+
+  <group id="my-group">
+    <includeConcept refId="my-rules:*"/>
+    <includeConstraint refId="my-rules:*"/>
+  </group>
+
+  <concept id="my-rules:Concept">
+    <description>My concept description</description>
+    <cypher><![CDATA[
+      MATCH ... SET ... RETURN ...
+    ]]></cypher>
+    <report type="csv"/>
+  </concept>
+
+  <constraint id="my-rules:Constraint">
+    <requireConcept refId="my-rules:Concept" />
+    <description>My constraint description</description>
+    <cypher><![CDATA[
+      MATCH ... RETURN ...
+    ]]></cypher>
+  </constraint>
+</jqassistant-rules>
+----
+
+==== Configure Asciidoctor Maven Plugin
+
+Add the Asciidoctor Maven Plugin to the `pom.xml` to be executed __after__ the jQAssistant Maven Plugin (note the order of plugin declarations and the `verify` phase).
+
+[source,xml]
+.pom.xml
+----
+<build>
+  <plugins>
+    <!-- jQAssistant Maven Plugin -->
+    <plugin>
+      <groupId>com.buschmais.jqassistant</groupId>
+        <artifactId>jqassistant-maven-plugin</artifactId>
+        <version>2.0.5</version>
+        <executions>
+          <execution>
+            <id>default-cli</id>
+            <goals>
+              <goal>scan</goal>
+              <goal>analyze</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Asciidoctor Maven Plugin -->
+      <plugin>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctor-maven-plugin</artifactId>
+        <version>2.2.4</version>
+        <executions>
+          <execution>
+            <id>html</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>html5</backend>
+              <attributes>
+                <jqassistant-report-path>${project.build.directory}/jqassistant/jqassistant-report.xml</jqassistant-report-path> <!-- <1> -->
+              </attributes>
+            </configuration>
+          </execution>
+        </executions>
+      <dependencies>
+        <!-- jQAssistant AsciidoctorJ Extension -->
+        <dependency>
+          <groupId>org.jqassistant.tooling.asciidoctorj</groupId>
+          <artifactId>jqassistant-asciidoctorj-extensions</artifactId>
+          <version>1.0.0</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
+</build>
+----
+<1> Specifies the path to the jQAssistant report created by the `analyze` goal.
+
+
+==== Use jQAssistant Include Directives
+
+The jQAssistant include directives supported by the https://github.com/jqassistant-tooling/jqassistant-asciidoctorj-extensions[jQAssistant Asciidoctor Extensions] can be used in regular Asciidoc files:
+
+[source,asciidoc]
+.src/main/asciidoc/index.adoc
+....
+= My Project
+
+// Include a summary table
+\include::jQAssistant:Summary[constraints="*"]
+
+// Include specific rule results
+\include::jQAssistant:Rules[concepts="my-rules:Concept", constraints="my-rules:Constraint"]
+
+// Include rule results by wildcard
+\include::jQAssistant:Rules[constraints="my-rules:*", concepts="my-rules:*"]
+
+....
+
+NOTE: The setup above can be applied in a similar way to the https://confluence-publisher.atlassian.net/wiki/spaces/CPD/overview[Confluence Publisher Maven Plugin].
 
 === Migrate Used Concepts And Constraints
 
@@ -202,4 +342,4 @@ The following rules have been renamed, any references (inclusions in groups or r
 
 == Feedback
 
-In case we missed some valuebale information in this guide please let us know and create an https://github.com/jqassistant-tutorials/jqassistant-101/issues/new[issue].
+In case we missed some valuable information in this guide please let us know and create an https://github.com/jqassistant-tutorials/jqassistant-101/issues/new[issue].
