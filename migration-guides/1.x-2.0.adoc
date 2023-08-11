@@ -61,8 +61,26 @@ All configuration options have been __moved__ to the mechanism based on `.jqassi
 
 The Maven plugin now supports only a very small set of configuration options in the pom.xml, mainly for locating configuration (.jqassistant.yml) files. The same holds for the command line utility.
 
-Previously used configuration options should be migrated to the according options in a `.jqassistant.yml` file located in the root directory of the project to be analyzed.
+Previously used configuration options must be migrated to the according options in a `.jqassistant.yml` file located in the root directory of the project to be analyzed.
 The set of supported options is documented in the https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#core:Configuration[manual].
+
+[source,yaml]
+.jqassistant.yml (Example)
+----
+jqassistant:
+  plugins:
+    # Spring Plugin: https://github.com/jqassistant-plugin/jqassistant-spring-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-spring-plugin
+      version: 2.0.0
+  scan:
+    include:
+      files:
+        - src/my-folder
+  analyze:
+    groups:
+      - spring-boot:Strict
+----
 
 NOTE: Existing options can easily be mapped to the new options by their name, e.g. `<groups>...</groups>` -> `jqassistant.analyze.groups`.
 The only notable exception is `jqassistant.storeLifeCycle=REACTOR|MODULE` of the Maven plugin which has been renamed and converted to `jqassistant.maven.reuse-store=true|false`.
@@ -78,38 +96,38 @@ Other plugins have been moved to the new https://github.com/jqassistant-plugin/[
 ----
 jqassistant:
   plugins:
-  # Asciidoc Report Plugin: https://github.com/jqassistant-plugin/jqassistant-asciidoc-report-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-asciidoc-report-plugin
-    version: 2.0.0
-  # GraphML Report Plugin: https://github.com/jqassistant-plugin/jqassistant-graphml-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-graphml-plugin
-    version: 2.0.1
-  # GraphQL Plugin: https://github.com/jqassistant-plugin/jqassistant-graphql-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-graphql-plugin
-    version: 2.0.0
-  # Java EE, JPA2 and JAX-RS Plugin: https://github.com/jqassistant-plugin/jqassistant-jee-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-jee-plugin
-    version: 1.0.0
-  # M2 Repo Plugin, https://github.com/jqassistant-plugin/jqassistant-m2repo-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-m2repo-plugin
-    version: 2.0.1
-  # PlantUML Report Plugin, https://github.com/jqassistant-plugin/jqassistant-plantuml-report-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-plantuml-report-plugin
-    version: 2.0.1
-  # RDBMS Plugin: https://github.com/jqassistant-plugin/jqassistant-rdbms-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-rdbms-plugin
-    version: 2.0.0
-  # Spring Plugin: https://github.com/jqassistant-plugin/jqassistant-spring-plugin
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-spring-plugin
-    version: 2.0.0
+    # Asciidoc Report Plugin: https://github.com/jqassistant-plugin/jqassistant-asciidoc-report-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-asciidoc-report-plugin
+      version: 2.0.0
+    # GraphML Report Plugin: https://github.com/jqassistant-plugin/jqassistant-graphml-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-graphml-plugin
+      version: 2.0.1
+    # GraphQL Plugin: https://github.com/jqassistant-plugin/jqassistant-graphql-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-graphql-plugin
+      version: 2.0.0
+    # Java EE, JPA2 and JAX-RS Plugin: https://github.com/jqassistant-plugin/jqassistant-jee-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-jee-plugin
+      version: 1.0.0
+    # M2 Repo Plugin, https://github.com/jqassistant-plugin/jqassistant-m2repo-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-m2repo-plugin
+      version: 2.0.1
+    # PlantUML Report Plugin, https://github.com/jqassistant-plugin/jqassistant-plantuml-report-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin
+      version: 2.0.1
+    # RDBMS Plugin: https://github.com/jqassistant-plugin/jqassistant-rdbms-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-rdbms-plugin
+      version: 2.0.0
+    # Spring Plugin: https://github.com/jqassistant-plugin/jqassistant-spring-plugin
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-spring-plugin
+      version: 2.0.0
 ----
 
 The OSGi plugin is no longer maintained and has been moved to the https://github.com/jqassistant-archive/jqa-osgi-plugin[jQAssistant Archive].
