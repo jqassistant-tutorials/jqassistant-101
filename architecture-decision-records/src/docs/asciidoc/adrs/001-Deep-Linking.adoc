@@ -17,4 +17,4 @@
 * All entities must only be referenced from one aggregate root
 * Existing deep linking between aggregates must be removed
 
-include::jQAssistant:Rules[constraints="adr:NoDeepLinkingBetweenAggregates", leveloffset=+3]
+include::jQAssistant:Rules[constraints="adr:DeepLinking:NoDeepLinkingBetweenAggregates", leveloffset=+3]
