@@ -141,7 +141,7 @@ Such declarations must be migrated to the `plugins` section of the `.jqassistant
 Plugins are no longer distributed with the command line distribution.
 Declared plugins (see chapter before) including their required dependencies are resolved and downloaded on startup from Maven repositories (defaulting to Maven Central).
 
-For specific setups (e.g. in corporate environments) an existing Maven configuration in the user's home directory (`~/.m2/settings.xml`) is picked up automatically.
+TIP: An existing Maven configuration in the user's home directory (i.e. `~/.m2/settings.xml`) is picked up automatically.
 
 Alternatively proxy and Maven repositories can be specified in the file `.jqassistant.yml`:
 
