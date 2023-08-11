@@ -143,7 +143,7 @@ Declared plugins (see chapter before) including their required dependencies are 
 
 TIP: An existing Maven configuration in the user's home directory (i.e. `~/.m2/settings.xml`) is picked up automatically.
 
-Alternatively proxy and Maven repositories can be specified in the file `.jqassistant.yml`:
+Proxy settings and Maven repositories can be specified in the file `.jqassistant.yml`:
 
 [source,yaml]
 .jqassistant.yml
