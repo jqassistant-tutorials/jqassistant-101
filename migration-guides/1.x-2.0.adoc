@@ -1,3 +1,4 @@
+:toc:
 = Migrating from jQAssistant 1.x to 2.0
 
 == Overview
@@ -319,7 +320,7 @@ The jQAssistant include directives supported by the https://github.com/jqassista
 
 NOTE: The setup above can be applied in a similar way to the https://confluence-publisher.atlassian.net/wiki/spaces/CPD/overview[Confluence Publisher Maven Plugin].
 
-=== Migrate Used Concepts And Constraints
+=== Migrate Renamed Concepts And Constraints
 
 The following rules have been renamed, any references (inclusions in groups or requirements in concepts or constraints) must be adopted:
 
