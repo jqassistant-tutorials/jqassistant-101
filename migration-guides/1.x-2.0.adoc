@@ -156,20 +156,20 @@ jqassistant:
     host: proxy.acme.com
     port: 80
     username: user
-    password: secrect
+    password: secret
   remotes:
     corporate-repo:
-    url: https://corporate-repo.acme.com
-    username: user
-    password: secrect
+      url: https://corporate-repo.acme.com
+      username: user
+      password: secret
 
   plugins:
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-spring-plugin
-    version: 2.0.0
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-plantuml-report-plugin
-    version: 2.0.1
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-spring-plugin
+      version: 2.0.0
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin
+      version: 2.0.1
 ----
 
 === Activate Or Migrate Asciidoc Rules
@@ -182,12 +182,12 @@ For a migration it can be re-activated by declaring the https://github.com/jqass
 ----
 jqassistant:
   plugins:
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-asciidoc-report-plugin
-    version: 2.0.0
-  - group-id: org.jqassistant.plugin
-    artifact-id: jqassistant-plantuml-report-plugin # Often used in combination with the Asciidoc plugin
-    version: 2.0.1
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-asciidoc-report-plugin
+      version: 2.0.0
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin # Often used in combination with the Asciidoc plugin
+      version: 2.0.1
 ----
 
 NOTE: The AsciiDoc report plugin is now deprecated, i.e. minor bugs will still be fixed but no new functionality will be added in the future.
@@ -266,41 +266,43 @@ Add the Asciidoctor Maven Plugin to the `pom.xml` to be executed __after__ the j
 ----
 <build>
   <plugins>
+
     <!-- jQAssistant Maven Plugin -->
     <plugin>
       <groupId>com.buschmais.jqassistant</groupId>
-        <artifactId>jqassistant-maven-plugin</artifactId>
-        <version>2.0.5</version>
-        <executions>
-          <execution>
-            <id>default-cli</id>
-            <goals>
-              <goal>scan</goal>
-              <goal>analyze</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+      <artifactId>jqassistant-maven-plugin</artifactId>
+      <version>2.0.5</version>
+      <executions>
+        <execution>
+          <id>default-cli</id>
+          <goals>
+            <goal>scan</goal>
+            <goal>analyze</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+
       <!-- Asciidoctor Maven Plugin -->
-      <plugin>
-        <groupId>org.asciidoctor</groupId>
-        <artifactId>asciidoctor-maven-plugin</artifactId>
-        <version>2.2.4</version>
-        <executions>
-          <execution>
-            <id>html</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>process-asciidoc</goal>
-            </goals>
-            <configuration>
-              <backend>html5</backend>
-              <attributes>
-                <jqassistant-report-path>${project.build.directory}/jqassistant/jqassistant-report.xml</jqassistant-report-path> <!-- <1> -->
-              </attributes>
-            </configuration>
-          </execution>
-        </executions>
+    <plugin>
+      <groupId>org.asciidoctor</groupId>
+      <artifactId>asciidoctor-maven-plugin</artifactId>
+      <version>2.2.4</version>
+      <executions>
+        <execution>
+          <id>html</id>
+          <phase>verify</phase>
+          <goals>
+            <goal>process-asciidoc</goal>
+          </goals>
+          <configuration>
+            <backend>html5</backend>
+            <attributes>
+              <jqassistant-report-path>${project.build.directory}/jqassistant/jqassistant-report.xml</jqassistant-report-path> <!-- > -->
+            </attributes>
+          </configuration>
+        </execution>
+      </executions>
       <dependencies>
         <!-- jQAssistant AsciidoctorJ Extension -->
         <dependency>
