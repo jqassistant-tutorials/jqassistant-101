@@ -149,19 +149,20 @@ Proxy settings and Maven repositories can be specified in the file `.jqassistant
 .jqassistant.yml
 ----
 jqassistant:
-  repositories:
-  local: ~/.jqassistant/repository # local repository, caching downloaded plugins and their dependencies
   proxy:
     protocol: https
     host: proxy.acme.com
     port: 80
     username: user
     password: secret
-  remotes:
-    corporate-repo:
-      url: https://corporate-repo.acme.com
-      username: user
-      password: secret
+
+  repositories:
+    local: ~/.jqassistant/repository # local repository, caching downloaded plugins and their dependencies
+    remotes:
+      corporate-repo:
+        url: https://corporate-repo.acme.com
+        username: user
+        password: secret
 
   plugins:
     - group-id: org.jqassistant.plugin
