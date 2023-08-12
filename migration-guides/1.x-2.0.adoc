@@ -55,13 +55,45 @@ set JQASSISTANT_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens jav
 export JQASSISTANT_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED
 ----
 
+=== Get Command Line Utility
+
+Download the latest command line distribution from https://central.sonatype.com/artifact/com.buschmais.jqassistant.cli/jqassistant-commandline-distribution/2.0.0/versions[Maven Central].
+Click `Browse` on the desired version and download the ZIP file (~100MB) and unzip it on your machine.
+
+=== Update Maven Plugin
+
+If the jQAssistant Maven plugin is used then simply upgrade to the desired 2.0.x version:
+
+[source,xml]
+.pom.xml
+----
+<build>
+  <plugins>
+      <plugin>
+        <groupId>com.buschmais.jqassistant</groupId>
+        <artifactId>jqassistant-maven-plugin</artifactId>
+        <version>2.0.5</version>
+        <executions>
+          <execution>
+            <id>default-cli</id>
+            <goals>
+              <goal>scan</goal>
+              <goal>analyze</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+  </plugins>
+</build>
+----
+
 === Migrate jQAssistant Configuration
 
 All configuration options have been __moved__ to the mechanism based on `.jqassistant.yml` file, environment variables and system properties.
 
 The Maven plugin now supports only a very small set of configuration options in the pom.xml, mainly for locating configuration (.jqassistant.yml) files. The same holds for the command line utility.
 
-Previously used configuration options must be migrated to the according options in a `.jqassistant.yml` file located in the root directory of the project to be analyzed.
+Therefore, previously used configuration options must be migrated to the according options in a `.jqassistant.yml` file located in the root directory of the project to be analyzed.
 The set of supported options is documented in the https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#core:Configuration[manual].
 
 [source,yaml]
@@ -82,12 +114,12 @@ jqassistant:
       - spring-boot:Strict
 ----
 
-NOTE: Existing options can easily be mapped to the new options by their name, e.g. `<groups>...</groups>` -> `jqassistant.analyze.groups`.
+NOTE: Existing options can easily be mapped to the new options by their name, e.g. `<groups>...</groups>` or `-groups ...` -> `jqassistant.analyze.groups`.
 The only notable exception is `jqassistant.storeLifeCycle=REACTOR|MODULE` of the Maven plugin which has been renamed and converted to `jqassistant.maven.reuse-store=true|false`.
 
 === Declare Plugins In Configuration File
 
-The set of plugins provided with the core distributions has been reduced to Java, JUnit, JSON, Maven, XML and YAML.
+The set of plugins provided with the core distributions has been reduced to Java, JUnit, JSON, Maven, XML and YAML. These are automatically activated.
 
 Other plugins have been moved to the new https://github.com/jqassistant-plugin/[jQAssistant Plugin organization] on GitHub and must be declared explicitly in the configuration:
 
