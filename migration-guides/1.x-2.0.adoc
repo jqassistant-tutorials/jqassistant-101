@@ -58,7 +58,9 @@ export JQASSISTANT_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens 
 === Get Command Line Utility
 
 Download the latest command line distribution from https://central.sonatype.com/artifact/com.buschmais.jqassistant.cli/jqassistant-commandline-distribution/2.0.0/versions[Maven Central].
-Click `Browse` on the desired version and download the ZIP file (~100MB) and unzip it on your machine.
+
+Click `Browse` on the desired version, download the ZIP file (~100MB) and unzip it on your machine.
+This will create a folder `jqassistant-commandline-distribution-<version>`, containing a `bin/` folder with the executable scripts `jqassistant.sh` (Unix) and `jqassistant.cmd` (Windows).
 
 === Update Maven Plugin
 
