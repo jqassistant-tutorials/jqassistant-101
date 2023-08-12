@@ -27,7 +27,7 @@ Java 8 is no longer support, so for executing jQAssistant at least Java 11 is re
 
 === Java 17 Setup
 
-If Java 16 or newer is used then additional Java options must be provided to the JVM:
+If Java 16 or newer is used then additional Java options must be provided as environment variables to the JVM:
 
 .Maven
 ----
