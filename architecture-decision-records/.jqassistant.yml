@@ -1,9 +1,9 @@
 jqassistant:
   plugins:
     #<1>
-    - group-id: org.jqassistant.contrib.plugin
+    - group-id: org.jqassistant.plugin
       artifact-id: jqassistant-jmolecules-plugin
-      version: 1.4.0
+      version: 2.0.0
 
   analyze:
     groups:

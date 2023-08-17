@@ -149,7 +149,7 @@ For this, jQAssistant knows concepts (1) and constraints (2).
 With concepts it's possible to enrich the created graph with additional information, e.g. that a type node represents an Aggregate (Root).
 
 To simplify the 101, we'll use the `jqassistant-jmolecules-plugin` to take care of this.
-Further information how to use it can be found in the 101 about the plugin (TODO: Link).
+Further information how to use it can be found in the 101 about the link:https://github.com/jqassistant-tutorials/jqassistant-101/tree/master/jmolecules-plugin-ddd[jmolecules-plugin-ddd].
 
 In our example, after integrating the `jmolecules-ddd` dependency (as shown in <<pom-jmolecules, the pom section>> of this tutorial) and the `jqassistant-jmolecules-plugin` plugin (as shown in <<yaml, the yml section>>), we have to annotate all aggregate roots as `@AggregateRoot` and the entities as `@Entity`.
 That way, the information will be automatically enriched in the jQAssistant-graph each time the aforementioned `jmolecules-ddd:Default` group is executed.
@@ -323,6 +323,5 @@ NOTE: For the full example, please check out the link:src/docs/asciidoc/adrs/001
 
 1. link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/[jQAssistant user manual]
 2. link:http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions[Architecture Decision Records by Michael Nygard]
-3. https://github.com/jqassistant-tutorials/jqassistant-101/tree/master/ddd-plugin[jQAssistat 101 on Domain Driven Design]
-TODO: change link later
+3. link:https://github.com/jqassistant-tutorials/jqassistant-101/tree/master/jmolecules-plugin-ddd[jQAssistat 101 on Domain Driven Design]
 4. https://docs.asciidoctor.org/maven-tools/latest/plugin/goals/process-asciidoc[Asciidoctor Maven plugin Documentation]
