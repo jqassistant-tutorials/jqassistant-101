@@ -1,8 +1,8 @@
 package your.company.project.catalog;
 
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
+import org.jmolecules.ddd.annotation.Repository;
 
-@DDD.Repository
+@Repository
 public interface ProductRepository {
 
     Product findProductById(long id);

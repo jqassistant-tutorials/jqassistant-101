@@ -1,8 +1,9 @@
 package your.company.project.order;
 
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
+import org.jmolecules.ddd.annotation.Repository;
+import org.jmolecules.ddd.annotation.Service;
 
-@DDD.Repository
+@Repository
 public interface OrderRepository {
 
     Order findById(long id);

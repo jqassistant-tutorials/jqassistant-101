@@ -1,7 +1,7 @@
 package your.company.project.catalog;
 
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
+import org.jmolecules.ddd.annotation.Service;
 
-@DDD.Service
+@Service
 public class ProductService {
 }

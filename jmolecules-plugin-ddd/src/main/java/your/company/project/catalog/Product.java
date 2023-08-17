@@ -1,10 +1,10 @@
 package your.company.project.catalog;
 
-import lombok.Getter;
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
+import lombok.*;
+import org.jmolecules.ddd.annotation.AggregateRoot;
 
 @Getter
-@DDD.AggregateRoot
+@AggregateRoot
 public class Product {
 
     private Long id;
@@ -12,5 +12,4 @@ public class Product {
     private String name;
 
     private ProductPrice price;
-
 }

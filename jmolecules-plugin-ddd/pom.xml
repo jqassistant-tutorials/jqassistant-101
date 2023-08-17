@@ -14,19 +14,18 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jqassistant.version>1.7.0</jqassistant.version>
-        <java.version>1.8</java.version>
+        <jqassistant.version>2.0.4</jqassistant.version>
+        <java.version>1.11</java.version>
     </properties>
 
     <dependencies>
-        <!-- tag::dependency[] -->
+        <!-- tag::jMolecules[] -->
         <dependency>
-            <groupId>org.jqassistant.contrib.plugin</groupId>
-            <artifactId>jqassistant-java-ddd-plugin</artifactId>
-            <version>${jqassistant.version}</version>
-            <scope>provided</scope>
+            <groupId>org.jmolecules</groupId>
+            <artifactId>jmolecules-ddd</artifactId>
+            <version>1.6.0</version>
         </dependency>
-        <!-- end::dependency[] -->
+        <!-- end::jMolecules[] -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -37,46 +36,59 @@
 
     <build>
         <plugins>
-            <!-- tag::plugin[] -->
+            <!-- tag::jQAplugin[] -->
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>${jqassistant.version}</version>
+                <version>2.0.4</version>
                 <executions>
                     <execution>
-                        <id>default-cli</id>
                         <goals>
                             <goal>scan</goal>
                             <goal>analyze</goal>
                         </goals>
-                        <configuration>
-                            <groups>
-                                <group>java-ddd:Default</group>
-                                <group>architecture:Default</group>
-                            </groups>
-                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- end::jQAplugin[] -->
+            <!-- tag::Asciidocplugin[] -->
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>2.2.4</version>
+                <configuration>
+                    <backend>html5</backend> <!--1-->
+                    <preserveDirectories>true</preserveDirectories> <!--2-->
+                    <attributes>
+                        <jqassistant-report-path>${project.build.directory}/jqassistant/jqassistant-report.xml
+                        </jqassistant-report-path> <!--3-->
+                    </attributes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>output-html</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
                     </execution>
                 </executions>
                 <dependencies>
+                    <!--4-->
                     <dependency>
-                        <groupId>org.jqassistant.contrib.plugin</groupId>
-                        <artifactId>jqassistant-java-ddd-plugin</artifactId>
-                        <version>${jqassistant.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jqassistant.contrib.plugin</groupId>
-                        <artifactId>jqassistant-asciidoc-report-plugin</artifactId>
-                        <version>${jqassistant.version}</version>
+                        <groupId>org.jqassistant.tooling.asciidoctorj</groupId>
+                        <artifactId>jqassistant-asciidoctorj-extensions</artifactId>
+                        <version>1.0.0</version>
                     </dependency>
                 </dependencies>
             </plugin>
-            <!-- end::plugin[] -->
+            <!-- end::Asciidocplugin[] -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>

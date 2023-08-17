@@ -1,13 +1,13 @@
 package your.company.project.order;
 
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
+import org.jmolecules.ddd.annotation.Service;
 import your.company.project.catalog.Product;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 // tag::dddType[]
-@DDD.Service
+@Service
 public class OrderService {
 // end::dddType[]
 

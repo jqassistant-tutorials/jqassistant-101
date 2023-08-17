@@ -1,0 +1,12 @@
+ContextMap Project {
+    type = SYSTEM_LANDSCAPE
+    state = TO_BE
+
+    contains order
+    contains catalog
+
+    catalog -> order
+}
+
+BoundedContext order { }
+BoundedContext catalog { }

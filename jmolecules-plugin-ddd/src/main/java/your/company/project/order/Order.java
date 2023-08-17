@@ -1,11 +1,11 @@
 package your.company.project.order;
 
 import lombok.AllArgsConstructor;
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
+import org.jmolecules.ddd.annotation.AggregateRoot;
 
 import java.util.List;
 
-@DDD.AggregateRoot
+@AggregateRoot
 @AllArgsConstructor
 public class Order {
 
