@@ -10,7 +10,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Demonstrates the implementation of a scanner plugin.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.10.0 of jQAssistant.
+NOTE: This tutorial is written for version 2.0.6 of jQAssistant.
 
 .Hands On: Implementation Of A Scanner Plugin (German language)
 video::577058109[vimeo,width=800,height=450]
