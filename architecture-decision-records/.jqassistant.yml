@@ -11,3 +11,7 @@ jqassistant:
       - jmolecules-ddd:Default
       #<3>
       - Default
+
+    report:
+      #<4>
+      continue-on-failure: true
