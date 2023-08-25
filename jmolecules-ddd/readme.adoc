@@ -7,7 +7,7 @@ Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
 
 [.lead]
 // tag::lead[]
-Demonstrates how to map DDD concepts in the code to the jQAssistant-graph and apply constraints using the `jqassistant-jmolecules-plugin` plugin.
+Demonstrates how to map DDD (Domain Driven Design) concepts from the code to the jQAssistant-graph and apply constraints using the `jqassistant-jmolecules-plugin` plugin.
 // end::lead[]
 
 NOTE: This tutorial has been written for jQAssistant 2.0.4
@@ -19,9 +19,9 @@ NOTE: This tutorial has been written for jQAssistant 2.0.4
 == Overview
 
 The `jmolecules-ddd` dependency provides the ability to annotate the source code with well-known DDD concepts. In combination with the `jqassistant-jmolecules-plugin` for jQAssistant it's possible to generate an enriched jQAssistant-graph that directly uses these annotations.
-Based on this, it allows to define and verify DDD-specific constraints.
+This allows to define and verify DDD-specific constraints.
 
-Detected violations will be printed as warnings at the end of the build or might even break it if required.
+Detected violations will be printed as warnings at the end of the build or might even break the build if required.
 
 The steps in this tutorial illustrate:
 
@@ -52,7 +52,7 @@ Furthermore, to make use of the jmolecules annotations, the `jmolecules-ddd` plu
 include::pom.xml[tag=jMolecules,indent=0]
 ----
 
-At last the `jqassistant-jmolecules-plugin` must be added to jQAssistant (this is required to use predefined sets of rules discussed later):
+At last some additional configurations need to be made in the link:.jqassistant.yml[]:
 
 [[yml]]
 [source,yml]
@@ -64,21 +64,19 @@ include::.jqassistant.yml[]
 <2> Ads the `jqassistant-context-mapper-plugin` to jQAssistant. (It's required for the section about the <<cml, context-mapper-plugin>>)
 <3> Ads the `jqassistant-plantuml-report-plugin` to jQAssistant. (It's required for creating picture reports like in the section <<plantumlPicture>>)
 <4> Defines where the `jqassistant-context-mapper-plugin` finds the cml files. (It's required for the section about the <<cml, context-mapper-plugin>>)
-<5> enables the `jmolecules-ddd:Strict` group (pre-defined rules of the `jqassistant-jmolecules-plugin`; used in section <<jmdddStrict>>)
+<5> enables the `jmolecules-ddd:Strict` group. The `jmolecules-ddd:Strict` group contains all the rules from `jmolecules-ddd:Default` and some additional ones. Both include pre-defined rules of the `jqassistant-jmolecules-plugin`. They are used in sections <<jmdddDefault>> and <<jmdddStrict>>.
 <6> enables the `architecture:Default` group (user-defined rules; used in section <<ProjectSpecificRules>>)
-
-NOTE: The `jmolecules-ddd:Strict` group contains all the rules from `jmolecules-ddd:Default` and some additional ones.
 
 The Maven build can be triggered as usual on the command line:
 
 ----
-mvn clean install
+mvn clean verify
 ----
 
 [[PreDefinedRules]]
 == Checking active Rules
 
-The setup above activates among others the pre-defined group `jmolecules-ddd:Default` that provides some basic constraints for the structure and architecture of the project.
+The setup above activates (among others) the pre-defined group `jmolecules-ddd:Default` that provides some basic constraints for the structure and architecture of the project.
 
 Executing the goal `effective-rules` on the command line using
 
@@ -87,6 +85,9 @@ mvn jqassistant:effective-rules
 ----
 
 prints a summary of the activated rules including their descriptions:
+
+
+NOTE: The following console output reflects the case in which only the `jmolecules-ddd:Default` group is activated. If you execute this command on your own, some more rules will be displayed.
 
 ----
 [INFO] Groups [1]
@@ -140,8 +141,6 @@ prints a summary of the activated rules including their descriptions:
             org.jmolecules.ddd.annotation.ValueObject as :JMolecules:DDD:ValueObject.
 ----
 
-NOTE: This console output reflects the case in which only the `jmolecules-ddd:Default` group is activated. If you execute this command on your own, some more rules will be displayed.
-
 [[jmdddDefault]]
 == Using jmolecules-ddd:Default
 
@@ -165,13 +164,27 @@ Or directly by annotating a specific Java class as shown next.
 include::src/main/java/your/company/project/order/OrderService.java[tags=dddType]
 ----
 
-NOTE: In both cases you need to import these annotations via `import org.jmolecules.ddd.annotation.*` to your files.
+[source,java]
+.link:src/main/java/your/company/project/order/OrderRepository.java[]
+----
+include::src/main/java/your/company/project/order/OrderRepository.java[tags=dddType]
+----
+
+[source,java]
+.link:src/main/java/your/company/project/catalog/Product.java[]
+----
+include::src/main/java/your/company/project/catalog/Product.java[tags=dddType]
+----
+
+NOTE: In all cases you need to import these annotations via `import org.jmolecules.ddd.annotation.*` to your files.
+
+TIP: There are even more possible annotations. Check the directories in `src/main/java/your/company/project/`  for more examples. Also check link:https://github.com/jqassistant-plugin/jqassistant-jmolecules-plugin#concepts-for-domain-driven-design[jmolecules jQAssistant plugin] for more supported annotations and link:https://github.com/xmolecules/jmolecules/blob/main/readme.adoc[jmolecules-ddd readme] for general use of `jmolecules-ddd` annotations
 
 When executing the `jmolecules-ddd:Default` group several concepts will be applied, that map the annotated ddd notions to the jQAssistant graph.
 
 === Pre-Defined Constraints
 
-These Concepts enable the execution of several constraints (also provided by `jmolecules-ddd:Default`). These check for basic architecture violations.
+The applied Concepts enable the execution of several constraints (also provided by `jmolecules-ddd:Default`). These check for basic architecture violations.
 The following things will be checked during build time:
 
 * jmolecules-ddd:MutableEntityId
@@ -188,7 +201,7 @@ The following things will be checked during build time:
 [[jmdddStrict]]
 == Using jmolecules-ddd:Strict
 
-Just like `jmolecules-ddd:Default`, `jmolecules-ddd:Strict` provides some rules for basic ddd validation. Like the name implies, these rules are a bit stricter and may not be applicable for all cases (hence they are in their own group).
+Just like `jmolecules-ddd:Default`, `jmolecules-ddd:Strict` provides some rules for basic ddd validation. Like the name implies, these rules are a bit stricter and may not be applicable for all cases (hence they can be enabled on their own; if you do not want to use them, change the `jmolecules-ddd:Strict` group to `jmolecules-ddd:Default` (see section <<yml>>)).
 
 Most importantly `jmolecules-ddd:Strict` contains 3 additional constraints:
 
@@ -199,7 +212,7 @@ Most importantly `jmolecules-ddd:Strict` contains 3 additional constraints:
 * jmolecules-ddd:IllegalDependenciesBetweenBoundedContexts
 ** Checks that dependencies between BoundedContexts exist only where allowed.
 
-For the last constraint it's necessary to tell jQAssistant, which dependencies between BoundedContexts are allowed. This is achieved with the `jqassistant-context-mapper-plugin` (see section <<yml>> above):
+For the third constraint it's necessary to tell jQAssistant, which dependencies between BoundedContexts are allowed. This is achieved with the `jqassistant-context-mapper-plugin` (see section <<yml>> above):
 
 [[cml]]
 [source, cml]
@@ -263,7 +276,7 @@ The following examples will be defined in the file `link:jqassistant/architectur
 include::jqassistant/architecture.xml[tag=architectureGroup,indent=0]
 ....
 
-It defines a group `architecture:Default` which must be activated in the `.jqassistant.yml` file (see section <<yml>> above).
+This defines a group `architecture:Default` which must be activated in the `.jqassistant.yml` file (see section <<yml>> above).
 This group contains project specific constraints and concepts matching the intended project structure.
 
 === Adding DDD Constraints
@@ -282,9 +295,7 @@ NOTE: The `requiresConcept` node defines, which concepts need to be executed bef
 
 === Visualization of Building Blocks
 
-As shown earlier, the plugin comes with annotations for identifying technical layers and bounded contexts in the source code.
-
-The current structure of the application can, when using those annotations (i.e. `@BoundedContext`)
+The current structure of the application can, when using the DDD-annotations (i.e. `@BoundedContext`)
 be easily visualized by automatically generated plantuml diagrams.
 
 The generation of the component diagrams will be accomplished by the added jQAssistant AsciiDoc Report plugin.
@@ -298,8 +309,6 @@ It defines:
 ....
 include::jqassistant/architecture.xml[tag=boundedcontexts]
 ....
-
-Finally the group `architecture:Default` must be activated in the `link:.jqassistant.yml[]` file (see section <<yml>> above).
 
 The resulting component diagram will be located in `target/jqassistant/report/plantuml/` and looks as following:
 
@@ -315,5 +324,7 @@ mvn clean verify
 
 == Resources
 
-2. https://jqassistant.github.io/jqassistant/doc/1.6.0/index.html#_concepts_and_constraints_provided_by_the_spring_plugin[jQAssistant Spring Plugin documentation]
-3. https://maven.apache.org[Apache Maven]
+1. link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/[jQAssistant user manual]
+2. link:https://github.com/xmolecules/jmolecules/blob/main/readme.adoc[jmolecules-ddd]
+3. link:https://github.com/jqassistant-plugin/jqassistant-jmolecules-plugin#concepts-for-domain-driven-design[jQAssistant jmolecules plugin]
+4. https://maven.apache.org[Apache Maven]

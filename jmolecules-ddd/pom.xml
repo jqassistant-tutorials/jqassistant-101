@@ -14,7 +14,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jqassistant.version>2.0.4</jqassistant.version>
         <java.version>1.11</java.version>
     </properties>
 
