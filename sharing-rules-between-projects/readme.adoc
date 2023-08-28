@@ -10,7 +10,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 Create a plugin containing shared rules for using them in different projects.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.8.0 of jQAssistant.
+NOTE: This tutorial is written for version 2.0.6 of jQAssistant.
 
 == Overview
 
@@ -47,7 +47,7 @@ include::rules/pom.xml[indent=0]
 
 The file mainly declares test dependencies that will be used later for verifying the rules.
 
-jQAssistant expects a plugin descriptor `/META-INF/jqassistant-plugin.xml` as classpath resource.
+jQAssistant expects a plugin descriptor `resources/META-INF/jqassistant-plugin.xml` as classpath resource.
 It declares files containing rules that shall be shared:
 
 [source,xml]
@@ -56,7 +56,7 @@ It declares files containing rules that shall be shared:
 include::rules/src/main/resources/META-INF/jqassistant-plugin.xml[]
 ----
 
-The referenced files are expected as classpath resources located in the folder `/META-INF/jqassistant-rules`.
+The referenced files are expected as classpath resources located in the folder `resources/META-INF/jqassistant-rules`.
 This tutorial uses XML documents to declare the rules.
 Thus the following folder structure is expected:
 
@@ -69,9 +69,6 @@ META-INF/
     ├── jqassistant-plugin.xmlmaven.xml
     └── my-organization.xml
 ----
-
-NOTE: Asciidoc files are supported as well but take longer time to load at startup.
-Therefore the recommended format is XML to not negatively affect the build process of other projects.
 
 The next sections describe the shared rules in detail.
 
@@ -121,7 +118,7 @@ include::rules/src/test/java/my/organization/rules/PackageTest.java[tags=Test]
 
 === Grouping Rules For Execution
 
-The file `my-organization.xml` contains defines a group:
+The file `my-organization.xml` defines a group:
 
 [source,xml]
 .src/main/resources/META-INF/jqassistant-rules/my-organization.xml
