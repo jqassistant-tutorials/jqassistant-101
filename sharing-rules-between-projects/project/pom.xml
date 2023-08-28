@@ -7,26 +7,22 @@
     <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <properties>
-        <jqassistant.version>1.8.0</jqassistant.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.11.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <!-- tag::plugin[] -->
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>${jqassistant.version}</version>
+                <version>2.0.6</version>
                 <executions>
                     <execution>
                         <id>default</id>
@@ -36,26 +32,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <groups>
-                        <!-- shared rules -->
-                        <group>my-organization:Default</group>
-                        <!-- project specific rules -->
-                        <group>project:Default</group>
-                    </groups>
-                    <ruleParameters>
-                        <!-- parameter required by the shared constraint "package:RootPackage" -->
-                        <rootPackage>my.organization</rootPackage>
-                    </ruleParameters>
-                </configuration>
-                <dependencies>
-                    <!-- plugin providing the shared rules -->
-                    <dependency>
-                        <groupId>my.organization</groupId>
-                        <artifactId>rules</artifactId>
-                        <version>1.0.0-SNAPSHOT</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <!-- end::plugin[] -->
         </plugins>

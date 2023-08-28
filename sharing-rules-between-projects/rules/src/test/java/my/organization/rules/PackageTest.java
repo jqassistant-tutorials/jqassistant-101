@@ -1,6 +1,7 @@
 package my.organization.rules;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.core.rule.api.model.RuleException;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.FAILURE;
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
@@ -47,10 +47,10 @@ public class PackageTest extends AbstractJavaPluginIT {
 
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(FAILURE);
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size()).isEqualTo(1);
-        Map<String, Object> row = rows.get(0);
-        TypeDescriptor typeOutsideRootPackage = (TypeDescriptor) row.get("TypeOutsideRootPackage");
+        Row row = rows.get(0);
+        TypeDescriptor typeOutsideRootPackage = (TypeDescriptor) row.getColumns().get("TypeOutsideRootPackage").getValue();
         MatcherAssert.assertThat(typeOutsideRootPackage, typeDescriptor(PackageTest.class));
         store.commitTransaction();
     }

@@ -1,0 +1,15 @@
+jqassistant:
+  plugins:
+    #<1>
+    - group-id: my.organization
+      artifact-id: rules
+      version: 1.0.0-SNAPSHOT
+
+  analyze:
+    #<2>
+    groups:
+      - my-organization:Default
+      - project:Default
+    #<3>
+    rule-parameters:
+      rootPackage: my.organization

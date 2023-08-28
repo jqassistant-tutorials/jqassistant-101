@@ -1,9 +1,0 @@
-= Project
-
-[[project:Default]]
-[role=group]
-== Default Project Rules
-
-This section describes the default rules for this project.
-
-// project specific rules to be added below or in other documents
