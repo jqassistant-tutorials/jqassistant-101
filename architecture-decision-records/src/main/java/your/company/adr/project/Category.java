@@ -1,10 +1,10 @@
 package your.company.adr.project;
 
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
 
 import java.util.List;
+import org.jmolecules.ddd.annotation.*;
 
-@DDD.AggregateRoot
+@AggregateRoot
 public class Category {
 
     private List<ProductOption> productOptions;

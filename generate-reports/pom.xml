@@ -2,25 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>your.company.adr</groupId>
-    <artifactId>project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <groupId>your.project</groupId>
+    <artifactId>parent</artifactId>
 
-    <dependencies>
-        <!-- tag::jMolecules[] -->
-        <dependency>
-            <groupId>org.jmolecules</groupId>
-            <artifactId>jmolecules-ddd</artifactId>
-            <version>1.6.0</version>
-        </dependency>
-        <!-- end::jMolecules[] -->
-    </dependencies>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <prerequisites>
+        <maven>3.5.0</maven>
+    </prerequisites>
 
     <build>
         <plugins>
+            <!-- tag::plugin[] -->
             <!-- tag::jQAplugin[] -->
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
@@ -28,6 +24,7 @@
                 <version>2.0.4</version>
                 <executions>
                     <execution>
+                        <id>default</id>
                         <goals>
                             <goal>scan</goal>
                             <goal>analyze</goal>
@@ -47,6 +44,7 @@
                     <attributes>
                         <jqassistant-report-path>${project.build.directory}/jqassistant/jqassistant-report.xml
                         </jqassistant-report-path> <!--3-->
+                        <imagesDir>images</imagesDir> <!--4-->
                     </attributes>
                 </configuration>
                 <executions>
@@ -59,7 +57,7 @@
                     </execution>
                 </executions>
                 <dependencies>
-                    <!--4-->
+                    <!--5-->
                     <dependency>
                         <groupId>org.jqassistant.tooling.asciidoctorj</groupId>
                         <artifactId>jqassistant-asciidoctorj-extensions</artifactId>
@@ -70,5 +68,6 @@
             <!-- end::Asciidocplugin[] -->
         </plugins>
     </build>
+    <!-- end::plugin[] -->
 
 </project>
