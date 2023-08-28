@@ -5,9 +5,9 @@ jqassistant:
       artifact-id: jqassistant-jmolecules-plugin
       version: 2.0.0
     #<2>
-    - group-id: org.jqassistant.contrib.plugin
+    - group-id: org.jqassistant.plugin
       artifact-id: jqassistant-context-mapper-plugin
-      version: 1.1.0
+      version: 2.0.0
     #<3>
     - group-id: org.jqassistant.plugin
       artifact-id: jqassistant-plantuml-report-plugin
