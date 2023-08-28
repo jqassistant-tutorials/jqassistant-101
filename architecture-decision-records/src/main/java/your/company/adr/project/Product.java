@@ -1,10 +1,9 @@
 package your.company.adr.project;
 
-import org.jqassistant.contrib.plugin.ddd.annotation.DDD;
-
 import java.util.Map;
+import org.jmolecules.ddd.annotation.*;
 
-@DDD.AggregateRoot
+@AggregateRoot
 public class Product {
 
     private Category category;

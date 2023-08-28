@@ -1,0 +1,17 @@
+jqassistant:
+  plugins:
+    #<1>
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-jmolecules-plugin
+      version: 2.0.0
+
+  analyze:
+    groups:
+      #<2>
+      - jmolecules-ddd:Default
+      #<3>
+      - Default
+
+    report:
+      #<4>
+      continue-on-failure: true
