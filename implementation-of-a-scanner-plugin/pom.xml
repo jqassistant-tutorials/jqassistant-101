@@ -14,33 +14,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>1.11</source>
-                    <target>1.11</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/plugin-dependencies</outputDirectory>
-                            <includeScope>runtime</includeScope>
-                            <prependGroupId>true</prependGroupId>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -59,26 +40,31 @@
 
     <!-- tag::dependencies[] -->
     <dependencies>
+        <!-- tag::opencsv[] -->
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>5.8</version>
             <scope>provided</scope>
         </dependency>
-        <!--jQA dependencies -->
+        <!-- end::opencsv[] -->
+        <!-- tag::jQADependencies[] -->
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
             <artifactId>store</artifactId>
+            <version>2.0.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
             <artifactId>scanner</artifactId>
+            <version>2.0.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>common</artifactId>
+            <version>2.0.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -86,15 +72,12 @@
             <artifactId>xo.api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        -->
+        <!-- end::jQADependencies[] -->
+        <!-- tag::testDependencies[] -->
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
             <artifactId>test</artifactId>
+            <version>2.0.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -117,6 +100,7 @@
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- end::testDependencies[] -->
     </dependencies>
     <!-- end::dependencies[] -->
 
