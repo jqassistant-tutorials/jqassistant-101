@@ -1,0 +1,139 @@
+<jqassistant-rules
+        xmlns="http://schema.jqassistant.org/rule/v2.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.0 https://schema.jqassistant.org/rule/jqassistant-rule-v2.0.xsd">
+
+    <!-- tag::content[] -->
+    <!-- tag::moduleDefault[] -->
+    <group id="module:Default">
+        <includeConcept refId="module:*"/>
+    </group>
+    <!-- end::moduleDefault[] -->
+
+    <!-- tag::moduleModule[] -->
+    <concept id="module:Module">
+        <description>
+            All packages in the root package of the main artifact are labeled as `Module`.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (:Main:Artifact)-[:CONTAINS]->(root:Package)-[:CONTAINS]->(module:Package)
+            WHERE
+                root.fqn = "your.project"
+            SET
+                module:Module
+            RETURN
+                module.name as Module, module.fqn as Package
+            ORDER BY
+                module.name
+        ]]></cypher>
+    </concept>
+    <!-- end::moduleModule[] -->
+
+    <!-- tag::moduleDependencies[] -->
+    <concept id="module:Dependencies">
+        <requiresConcept refId="module:Module"/>
+        <description>
+            A module depends on another module if there is a dependency of Java types between both.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (module1:Module)-[:CONTAINS*]->(t1:Type),
+                (module2:Module)-[:CONTAINS*]->(t2:Type),
+                (t1)-[:DEPENDS_ON]->(t2)
+            WHERE
+                module1 <> module2
+            WITH
+                module1, module2, COUNT(*) AS weight
+            MERGE
+                (module1)-[dependsOn:DEPENDS_ON_MODULE]->(module2)
+            SET
+                dependsOn.weight = weight
+            RETURN
+                module1, dependsOn, module2
+        ]]></cypher>
+        <report type="plantuml-component-diagram"/>
+    </concept>
+    <!-- end::moduleDependencies[] -->
+
+    <!-- tag::moduleDependenciesGraphML[] -->
+    <concept id="module:DependenciesGraphML">
+        <requiresConcept refId="module:Dependencies"/>
+        <description>
+            Modules and their dependencies as GraphML report.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (module:Module)
+            OPTIONAL MATCH
+                (module)-[dependsOn:DEPENDS_ON_MODULE]->(:Module)
+            RETURN
+                *
+        ]]></cypher>
+        <report type="graphml"/>
+    </concept>
+    <!-- end::moduleDependenciesGraphML[] -->
+
+    <!-- tag::moduleDependenciesGraphMLDrilldown[] -->
+    <concept id="module:DependenciesGraphMLDrilldown">
+        <requiresConcept refId="module:Module"/>
+        <description>
+            Modules and their dependencies as GraphML report with drill-down to type level.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (module:Module)-[:CONTAINS*]->(type:Type)
+            OPTIONAL MATCH
+                (type)-[dependsOn:DEPENDS_ON]->(:Type)<-[:CONTAINS*]-(:Module)
+            RETURN
+                {
+                    role: "graph",
+                    parent: module,
+                    nodes: collect(type),
+                    relationships: collect(dependsOn)
+                }
+        ]]></cypher>
+        <report type="graphml"/>
+    </concept>
+    <!-- end::moduleDependenciesGraphMLDrilldown[] -->
+
+    <!-- tag::moduleClassDiagram[] -->
+    <concept id="module:ClassDiagram">
+        <requiresConcept refId="module:Module"/>
+        <description>
+            Class Diagram
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (module:Module:Package)-[:CONTAINS*]->(type:Type)
+            OPTIONAL MATCH
+                (type)-[extends:EXTENDS|IMPLEMENTS]->(:Type)
+            OPTIONAL MATCH
+                (type)-[:DECLARES]->(field:Field)
+            OPTIONAL MATCH
+                (type)-[:DECLARES]->(method:Method)
+            RETURN
+                *
+        ]]></cypher>
+        <report type="plantuml-class-diagram"/>
+    </concept>
+    <!-- end::moduleClassDiagram[] -->
+
+    <!-- tag::moduleSequenceDiagram[] -->
+    <concept id="module:SequenceDiagram">
+        <description>
+            Sequence Diagram
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (:Type{name:"ServiceCImpl"})-[:DECLARES]->(method:Method{name:"run"}),
+                sequence=((method)-[:INVOKES*]->(:Method))
+            RETURN
+                sequence
+        ]]></cypher>
+        <report type="plantuml-sequence-diagram"/>
+    </concept>
+    <!-- end::moduleSequenceDiagram[] -->
+    <!-- end::content[] -->
+
+</jqassistant-rules>
