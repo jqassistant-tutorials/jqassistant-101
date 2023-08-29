@@ -175,29 +175,6 @@ The project can now be built as usual and all required rules will be executed:
 mvn install
 ----
 
-== Using Shared Rules With The Command Line Utility
-
-For using shared rules the plugin JAR file must be copied to the folder `plugins/` of the command line utility.
-
-Furthermore a properties file must be created providing rule parameters, i.e. `rootPackage` required by the constraint `package:RootPackage`:
-
-[source,properties]
-.ruleParameters.properties
-----
-rootPackage=my.organization
-----
-
-Now the analysis can be executed using the following command:
-
-[source,raw]
-----
-# Unix
-jqassistant.sh analyze -groups my-organization:Default,project:Default -ruleParameters ruleParameters.properties
-
-# Windows
-jqassistant.cmd analyze -groups my-organization:Default,project:Default -ruleParameters ruleParameters.properties
-----
-
 == Resources
 
 1. link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/[jQAssistant manual]
