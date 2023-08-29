@@ -1,17 +1,54 @@
 = 101 of jQAssistant
 
+:numbered:
+
 http://jqassistant.org/[jQAssistant] helps you to analyse, understand and
 keep you software project under control.
 
-To help you to get started with jQAssistant we provide since October 2017
-a collection of small tutorials at
-https://101.jqassistant.org/startpage/[101.jqassistant.org^]. This
-repository contains the sources of there tutorials.
+To help you to get started with jQAssistant we provide since September 2023 this git repository. There are currently 6 <<Tutorials>> to getting started with jQAssistant. Furthermore, there are <<Migration Guides>> for migrating your older jQAssistant projects to the newer versions.
+
+== Tutorials
+
+=== Getting started with JQAssistant, Spring Boot and Maven
+
+This tutorial is about integrating jQAssistant into a Spring Boot project which is built using Apache Maven.
+//TODO: link
+
+=== Generate Reports About Structures
+
+This tutorial is about generating different types of reports and convert them to human-readable reports. In this tutorial full on documents including rules with their embedded result tables, diagrams or CSV files are created.
+//TODO: link
+
+=== Getting started with jQAssistant and Domain Driven Design
+
+This tutorial demonstrates how to map DDD (Domain Driven Design) concepts from the code to the jQAssistant-graph and apply constraints using the jqassistant-jmolecules-plugin plugin.
+//TODO: link
+
+=== Documenting and Securing architecture decisions with ADRs and jQAssistant
+
+This tutorial demonstrates how Architecture Decision Records (ADRs) can be enhanced with jQAssistant. The tutorial shows how jQAssistant can display dynamic results directly inside your ADRs.
+//TODO: link
+
+=== Sharing Rules Between Projects
+
+This tutorial is about sharing rules between different projects. Specifically a plugin containing shared rules will be created that can be used in several different projects.
+//TODO: link
+
+=== Implementation Of A Scanner Plugin
+
+This tutorial shows how to read other file types that are not natively supported by jQAssistant. Specifically a scanner plugin for jQAssistant will be created, that can parse csv files to the jQAssistant-graph.
+//TODO: link
+
+== Migration Guides
+
+=== Migration Guide 1.x -> 2.x
+
+This migration guide is about adapting your jQAssistant integration when upgrading from versions 1.x to 2.x.
+//TODO: link
 
 == Contributing
 
 There are several ways to help and contribute:
 
 - Find and fix grammar or spelling issuses and send us a pull request.
-- If you miss a topic, please link:./issues/^[create a issue^] for
-  the topic we should cover
+- If you miss a topic, please link:./issues/^[create a issue^] for the topic we should cover
