@@ -1,6 +1,6 @@
 :toc: left
 :imagesdir: includes
-= Generate Reports About Structures and Metrics
+= Generate Reports About Structures
 Dirk Mahler <dirk.mahler@jqassistant.org>
 
 :numbered:
