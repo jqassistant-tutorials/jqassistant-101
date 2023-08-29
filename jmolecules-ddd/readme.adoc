@@ -7,7 +7,7 @@ Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
 
 [.lead]
 // tag::lead[]
-Demonstrates how to map DDD (Domain Driven Design) concepts from the code to the jQAssistant-graph and apply constraints using the `jqassistant-jmolecules-plugin` plugin.
+This tutorial demonstrates how to map DDD (Domain Driven Design) concepts from the code to the jQAssistant-graph and apply constraints using the `jqassistant-jmolecules-plugin` plugin.
 // end::lead[]
 
 NOTE: This tutorial has been written for jQAssistant 2.0.4
