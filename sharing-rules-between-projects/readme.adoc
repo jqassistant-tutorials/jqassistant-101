@@ -7,7 +7,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-Create a plugin containing shared rules for using them in different projects.
+This tutorial is about sharing rules between different projects. Specifically a plugin containing shared rules will be created that can be used in several different projects.
 // end::lead[]
 
 NOTE: This tutorial is written for version 2.0.6 of jQAssistant.
