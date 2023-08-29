@@ -7,7 +7,7 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-Demonstrates the implementation of a scanner plugin.
+This tutorial shows how to read other file types that are not natively supported by jQAssistant. Specifically a scanner plugin for jQAssistant will be created, that can parse csv files to the jQAssistant-graph.
 // end::lead[]
 
 NOTE: This tutorial is written for version 2.0.6 of jQAssistant.
