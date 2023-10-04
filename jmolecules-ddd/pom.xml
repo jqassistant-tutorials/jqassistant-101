@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>your.company.adr</groupId>
+    <groupId>your.company</groupId>
     <artifactId>project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <name>project</name>
+    <description>Demo project for the jMolecules Plugin</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.11</java.version>
+    </properties>
 
     <dependencies>
         <!-- tag::jMolecules[] -->
@@ -17,6 +25,12 @@
             <version>1.6.0</version>
         </dependency>
         <!-- end::jMolecules[] -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -68,6 +82,14 @@
                 </dependencies>
             </plugin>
             <!-- end::Asciidocplugin[] -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

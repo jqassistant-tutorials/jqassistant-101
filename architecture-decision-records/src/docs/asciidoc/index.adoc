@@ -1,0 +1,6 @@
+= Example project for Architecture Decision Records
+
+== ADRs:
+* <<ADR_001:DeepLinking>>
+
+include::adrs/001-Deep-Linking.adoc[]

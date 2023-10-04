@@ -1,0 +1,330 @@
+:imagesdir: includes
+
+= Getting started with jQAssistant and Domain Driven Design
+Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+This tutorial demonstrates how to map DDD (Domain Driven Design) concepts from the code to the jQAssistant-graph and apply constraints using the `jqassistant-jmolecules-plugin` plugin.
+// end::lead[]
+
+NOTE: This tutorial has been written for jQAssistant 2.0.4
+
+== Prerequisites
+
+- Any Java application which implements (or shall implement) DDD concepts
+
+== Overview
+
+The `jmolecules-ddd` dependency provides the ability to annotate the source code with well-known DDD concepts. In combination with the `jqassistant-jmolecules-plugin` for jQAssistant it's possible to generate an enriched jQAssistant-graph that directly uses these annotations.
+This allows to define and verify DDD-specific constraints.
+
+Detected violations will be printed as warnings at the end of the build or might even break the build if required.
+
+The steps in this tutorial illustrate:
+
+- Setup of the <<MavenProject>>
+- Show all <<PreDefinedRules, Active Rules>>
+- <<jmdddDefault>>
+- <<jmdddStrict>>
+- Definition of <<ProjectSpecificRules>>
+
+[[MavenProject]]
+== Setting up jQAssistant
+
+jQAssistant runs as part of the build process and therefore needs to be integrated as Maven plugin.
+This is done by adding the following setup to the `build/plugins` section of the file `pom.xml`:
+
+[source,xml]
+.link:pom.xml[] jQA integration
+----
+include::pom.xml[tag=jQAplugin,indent=0]
+----
+
+The configuration above activates the goals `scan` and `analyze` during a build.
+
+Furthermore, to make use of the jmolecules annotations, the `jmolecules-ddd` plugin must be added as a maven dependency to the project as shown below.
+[source,xml]
+.link:pom.xml[] jmolecules dependency
+----
+include::pom.xml[tag=jMolecules,indent=0]
+----
+
+At last some additional configurations need to be made in the link:.jqassistant.yml[]:
+
+[[yml]]
+[source,yml]
+.link:.jqassistant.yml[]
+----
+include::.jqassistant.yml[]
+----
+<1> Ads the `jqassistant-jmolecules-plugin` to jQAssistant.
+<2> Ads the `jqassistant-context-mapper-plugin` to jQAssistant. (It's required for the section about the <<cml, context-mapper-plugin>>)
+<3> Ads the `jqassistant-plantuml-report-plugin` to jQAssistant. (It's required for creating picture reports like in the section <<plantumlPicture>>)
+<4> Defines where the `jqassistant-context-mapper-plugin` finds the cml files. (It's required for the section about the <<cml, context-mapper-plugin>>)
+<5> enables the `jmolecules-ddd:Strict` group. The `jmolecules-ddd:Strict` group contains all the rules from `jmolecules-ddd:Default` and some additional ones. Both include pre-defined rules of the `jqassistant-jmolecules-plugin`. They are used in sections <<jmdddDefault>> and <<jmdddStrict>>.
+<6> enables the `architecture:Default` group (user-defined rules; used in section <<ProjectSpecificRules>>)
+
+The Maven build can be triggered as usual on the command line:
+
+----
+mvn clean verify
+----
+
+[[PreDefinedRules]]
+== Checking active Rules
+
+The setup above activates (among others) the pre-defined group `jmolecules-ddd:Default` that provides some basic constraints for the structure and architecture of the project.
+
+Executing the goal `effective-rules` on the command line using
+
+----
+mvn jqassistant:effective-rules
+----
+
+prints a summary of the activated rules including their descriptions:
+
+
+NOTE: The following console output reflects the case in which only the `jmolecules-ddd:Default` group is activated. If you execute this command on your own, some more rules will be displayed.
+
+----
+[INFO] Groups [1]
+[INFO]   "jmolecules-ddd:Default"
+[INFO] Constraints [5]
+[INFO]   "jmolecules-ddd:MutableEntityId" - Checks that the id field of an entity (identifiable) is only manipulated via the constructor.
+[INFO]   "jmolecules-ddd:MutableValueObject" - Checks that fields of a value object are only manipulated via the constructor. The check includes fields from super types.
+[INFO]   "jmolecules-ddd:TypeInMultipleBoundedContexts" - Checks that a single DDD type is only part of one bounded context.
+[INFO]   "jmolecules-ddd:TypeInMultipleModules" - Checks that a single DDD type is only part of one module.
+[INFO]   "jmolecules-ddd:ValueObjectReferencingEntityOrAggregateRoot" - Checks that a :ValueObject does not reference :Entity and :AggregateRoot nodes (identifiable). This check includes super types.
+[INFO] Concepts [20]
+[INFO]   "java:MemberInheritedFrom" - Creates a relationship INHERITS between two "Member" labeled nodes if a member is inherited from a
+            super type.
+[INFO]   "java:MethodOverrides" - Creates a relationship OVERRIDES between two "Method" labeled nodes if a method overrides another
+            one from a super type.
+[INFO]   "jmolecules-ddd:AggregateRootExtend" - Labels all Java types which extend from
+            org.jmolecules.ddd.types.AggregateRoot as :JMolecules:DDD:AggregateRoot:Entity:Identifiable.
+[INFO]   "jmolecules-ddd:AggregateRootType" - Labels all Java types which are annotated by
+            org.jmolecules.ddd.annotation.AggregateRoot as :JMolecules:DDD:AggregateRoot:Entity:Identifiable.
+[INFO]   "jmolecules-ddd:BoundedContextDependency" - Propagates the dependencies between Types of different Bounded Contexts to the level of Bounded
+            Contexts including an aggregated weight.
+[INFO]   "jmolecules-ddd:BoundedContextPackage" - Maps all Java types which are located in a package annotated by
+            org.jmolecules.ddd.annotation.BoundedContext to the corresponding BoundedContext node.
+[INFO]   "jmolecules-ddd:EntityExtend" - Labels all Java types which extend from org.jmolecules.ddd.annotation.Entity as
+            :JMolecules:DDD:Entity:Identifiable.
+[INFO]   "jmolecules-ddd:EntityType" - Labels all Java types which are annotated by org.jmolecules.ddd.annotation.Entity as
+            :JMolecules:DDD:Entity:Identifiable.
+[INFO]   "jmolecules-ddd:FactoryType" - Labels all Java types which are annotated by
+            org.jmolecules.ddd.annotation.Factory as :JMolecules:DDD:Factory.
+[INFO]   "jmolecules-ddd:IdentifiedByAnnotation" - Merges a :HAS_IDENTITY relation for each member that is annotated by
+            org.jmolecules.ddd.annotation.Identity between the defining type and the member and marks the member as
+            :JMolecules:DDD:Identity.
+[INFO]   "jmolecules-ddd:IdentifiedByMethod" - Merges a :HAS_IDENTITY relation between the defining type and the 'getId' method when the type
+            extends from either 'AggregateRoot' or 'Entity' and marks the method as :JMolecules:DDD:Identity.
+[INFO]   "jmolecules-ddd:IdentifiedBySuperClass" - Transfers the :HAS_IDENTITY relation from a base class to its implementing classes.
+[INFO]   "jmolecules-ddd:IdentifierExtend" - Labels all Java types which extend from org.jmolecules.ddd.types.Identifier as
+            :JMolecules:DDD:Identifier.
+[INFO]   "jmolecules-ddd:ModuleDependency" - Propagates the dependencies between Types of different Modules to the level of Module including an
+            aggregated weight.
+[INFO]   "jmolecules-ddd:ModulePackage" - Maps all Java types which are located in a package annotated by
+            org.jmolecules.ddd.annotation.Module to the corresponding Module node.
+[INFO]   "jmolecules-ddd:RepositoryExtend" - Labels all Java types which extend from
+            org.jmolecules.ddd.types.Repository as :JMolecules:DDD:Repository.
+[INFO]   "jmolecules-ddd:RepositoryType" - Labels all Java types which are annotated by
+            org.jmolecules.ddd.annotation.Repository as :JMolecules:DDD:Repository.
+[INFO]   "jmolecules-ddd:ServiceType" - Labels all Java types which are annotated by
+            org.jmolecules.ddd.annotation.Service as :JMolecules:DDD:Service.
+[INFO]   "jmolecules-ddd:ValueObjectExtend" - Labels all Java types which extend from org.jmolecules.ddd.types.ValueObject as
+            :JMolecules:DDD:ValueObject.
+[INFO]   "jmolecules-ddd:ValueObjectType" - Labels all Java types which are annotated by
+            org.jmolecules.ddd.annotation.ValueObject as :JMolecules:DDD:ValueObject.
+----
+
+[[jmdddDefault]]
+== Using jmolecules-ddd:Default
+
+=== Pre-Defined Concepts
+The `jqassistant-jmolecules-plugin` comes with pre-defined jQAssistant concepts.
+For each DDD notion, there is a mapping on type and package level.
+
+With that, you can either declare all classes in a package (and its sub-packages) as, e.g. part of a bounded context as shown below.
+
+[source,java]
+.link:src/main/java/your/company/project/order/package-info.java[]
+----
+include::src/main/java/your/company/project/order/package-info.java[]
+----
+
+Or directly by annotating a specific Java class as shown next.
+
+[source,java]
+.link:src/main/java/your/company/project/order/OrderService.java[]
+----
+include::src/main/java/your/company/project/order/OrderService.java[tags=dddType]
+----
+
+[source,java]
+.link:src/main/java/your/company/project/order/OrderRepository.java[]
+----
+include::src/main/java/your/company/project/order/OrderRepository.java[tags=dddType]
+----
+
+[source,java]
+.link:src/main/java/your/company/project/catalog/Product.java[]
+----
+include::src/main/java/your/company/project/catalog/Product.java[tags=dddType]
+----
+
+NOTE: In all cases you need to import these annotations via `import org.jmolecules.ddd.annotation.*` to your files.
+
+TIP: There are even more possible annotations. Check the directories in `src/main/java/your/company/project/`  for more examples. Also check link:https://github.com/jqassistant-plugin/jqassistant-jmolecules-plugin#concepts-for-domain-driven-design[jmolecules jQAssistant plugin] for more supported annotations and link:https://github.com/xmolecules/jmolecules/blob/main/readme.adoc[jmolecules-ddd readme] for general use of `jmolecules-ddd` annotations
+
+When executing the `jmolecules-ddd:Default` group several concepts will be applied, that map the annotated ddd notions to the jQAssistant graph.
+
+=== Pre-Defined Constraints
+
+The applied Concepts enable the execution of several constraints (also provided by `jmolecules-ddd:Default`). These check for basic architecture violations.
+The following things will be checked during build time:
+
+* jmolecules-ddd:MutableEntityId
+** Checks that the id field of an entity is only manipulated via the constructor
+* jmolecules-ddd:MutableValueObject
+** Checks that fields of a ValueObject are only manipulated by the constructor (including fields inherited from super types)
+* jmolecules-ddd:TypeInMultipleBoundedContexts
+** Checks that a single DDD type is only part of one bounded context
+* jmolecules-ddd:TypeInMultipleModules
+** Checks that a single DDD type is only part of one module.
+* jmolecules-ddd:ValueObjectReferencingEntityOrAggregateRoot
+** Checks that a ValueObject does not reference an Entity or AggregateRoot (including super types)
+
+[[jmdddStrict]]
+== Using jmolecules-ddd:Strict
+
+Just like `jmolecules-ddd:Default`, `jmolecules-ddd:Strict` provides some rules for basic ddd validation. Like the name implies, these rules are a bit stricter and may not be applicable for all cases (hence they can be enabled on their own; if you do not want to use them, change the `jmolecules-ddd:Strict` group to `jmolecules-ddd:Default` (see section <<yml>>)).
+
+Most importantly `jmolecules-ddd:Strict` contains 3 additional constraints:
+
+* jmolecules-ddd:NonFinalFieldInValueObject
+** Reports all fields inside ValueObjects that are not final (including fields inherited from super types)
+* jmolecules-ddd:NonFinalEntityId
+** Checks that the id field of an entity is final.
+* jmolecules-ddd:IllegalDependenciesBetweenBoundedContexts
+** Checks that dependencies between BoundedContexts exist only where allowed.
+
+For the third constraint it's necessary to tell jQAssistant, which dependencies between BoundedContexts are allowed. This is achieved with the `jqassistant-context-mapper-plugin` (see section <<yml>> above):
+
+[[cml]]
+[source, cml]
+.link:jqassistant/context-mapper/context-map.cml[]
+....
+include::jqassistant/context-mapper/context-map.cml[]
+....
+
+This `context-map.cml` defines that Objects from the BoundedContext `catalog` may be implemented in the BoundedContext `order`. Without this, the `jmolecules-ddd:IllegalDependenciesBetweenBoundedContexts`-constraint would fail.
+This cml can be expanded to be applicable for bigger projects:
+
+[source, cml]
+----
+ContextMap Project {
+    type = SYSTEM_LANDSCAPE
+    state = TO_BE
+
+    contains order
+    contains catalog
+    contains yourNewBoundedContext
+    contains yourSecondNewBoundedContext
+
+    catalog -> order
+    yourNewBoundedContext <-> order
+    yourSecondNewBoundedContext <- yourNewBoundedContext
+}
+
+BoundedContext order { }
+BoundedContext catalog { }
+BoundedContext yourNewBoundedContext { }
+BoundedContext yourSecondNewBoundedContext { }
+----
+
+This additionally allows that Objects from the BoundedContext `yourNewBoundedContext` may be implemented in the BoundedContext `yourSecondNewBoundedContext`. And that Objects from the BoundedContexts `yourNewBoundedContext` and `order` may implement each other.
+
+NOTE: `jmolecules-ddd:Strict` also contains the concept `jmolecules-ddd:AllowedBoundedContextDependency`. It reports :DEFINES_DEPENDENCY relations between :BoundedContext nodes.
+
+[[ProjectSpecificRules]]
+== Project Specific Rules
+
+The concepts defined by the `jmolecules-ddd:Default` group are also a good base for project specific rules.
+This is especially true as the plugin comes only with a few, relaxed constraints.
+
+There are two use cases imaginable for the DDD plugin
+
+1. A given application shall be refactored to match a DDD-like structure.
+This refactoring has to take place during daily development and in small steps as continuous improvement steps.
+The DDD plugin will be used to track and secure the improvements.
+
+2. A new application shall be implemented with a DDD-like structure.
+The DDD plugin will be used from start on to verify that the designed architecture is actually implemented.
+
+Depending on the state of the application, it is possible to define additional, more or less strict constraints. e.g that only aggregate roots may be accessible through repositories.
+
+The rules must be located in `/jqassistant` and are written in XML files.
+
+The following examples will be defined in the file `link:jqassistant/architecture.xml[]`:
+
+.link:.jqassistant/architecture.xml[]
+....
+include::jqassistant/architecture.xml[tag=architectureGroup,indent=0]
+....
+
+This defines a group `architecture:Default` which must be activated in the `.jqassistant.yml` file (see section <<yml>> above).
+This group contains project specific constraints and concepts matching the intended project structure.
+
+=== Adding DDD Constraints
+
+Besides the group definition, the example defines that repositories are allowed to only return aggregates which will be checked by
+
+- the constraint `architecture:AggregateRepository` that ensures that only DDD AggregateRoots (i.e. classes annotated with
+`@AggregateRoot`) are returned by repositories (i.e. classes annotated with `@Repository`)
+
+.Aggregate constraint definition as defined in link:jqassistant/architecture.xml[]
+....
+include::jqassistant/architecture.xml[tag=aggregates]
+....
+
+NOTE: The `requiresConcept` node defines, which concepts need to be executed before this constraint may be applied.
+
+=== Visualization of Building Blocks
+
+The current structure of the application can, when using the DDD-annotations (i.e. `@BoundedContext`)
+be easily visualized by automatically generated plantuml diagrams.
+
+The generation of the component diagrams will be accomplished by the added jQAssistant AsciiDoc Report plugin.
+
+An example to visualize the defined bounded contexts including their defined and actual dependencies is shown in the following listing.
+It defines:
+
+* the concept `architecture:BoundedContextOverview` that identifies all defined bounded contexts and their dependencies
+
+.Bounded Context overview as defined in link:jqassistant/architecture.xml[]
+....
+include::jqassistant/architecture.xml[tag=boundedcontexts]
+....
+
+The resulting component diagram will be located in `target/jqassistant/report/plantuml/` and looks as following:
+
+[[plantumlPicture]]
+image::architecture_BoundedContextOverview.svg[]
+
+
+The project can be verified by running the following command:
+
+----
+mvn clean verify
+----
+
+== Resources
+
+1. link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/[jQAssistant user manual]
+2. link:https://github.com/xmolecules/jmolecules/blob/main/readme.adoc[jmolecules-ddd]
+3. link:https://github.com/jqassistant-plugin/jqassistant-jmolecules-plugin#concepts-for-domain-driven-design[jQAssistant jmolecules plugin]
+4. https://maven.apache.org[Apache Maven]

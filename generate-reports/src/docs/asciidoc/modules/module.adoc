@@ -1,0 +1,31 @@
+= Module
+
+This section displays rules from the module.xml.
+
+== Tables
+This is the table report described in the `readme.adoc` file in section "3.2.1 Tables":
+
+include::jQAssistant:Rules[concepts="module:Module", leveloffset=+2]
+
+== Component Diagrams
+This is the Component Diagram result described in the `readme.adoc` file in section "3.2.2 Component Diagrams":
+
+include::jQAssistant:Rules[concepts="module:Dependencies", leveloffset=+2]
+
+
+== GraphML Files
+This is the GraphML File result described in the `readme.adoc` file in section "3.2.3 GraphML Files":
+
+include::jQAssistant:Rules[concepts="module:DependenciesGraphML", leveloffset=+2]
+
+
+== Class Diagrams
+This is the Class Diagram result described in the `readme.adoc` file in section "3.2.4 Class Diagrams":
+
+include::jQAssistant:Rules[concepts="module:ClassDiagram", leveloffset=+2]
+
+
+== Sequence Diagrams
+This is the Sequence Diagram result described in the `readme.adoc` file in section "3.2.5 Sequence Diagrams":
+
+include::jQAssistant:Rules[concepts="module:SequenceDiagram", leveloffset=+2]

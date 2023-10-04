@@ -1,0 +1,28 @@
+jqassistant:
+  plugins:
+    #<1>
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-jmolecules-plugin
+      version: 2.0.0
+    #<2>
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-context-mapper-plugin
+      version: 2.0.0
+    #<3>
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin
+      version: 2.0.1
+
+  scan:
+    include:
+      files:
+        #<4>
+        - jqassistant/context-mapper/context-map.cml
+
+  analyze:
+    groups:
+      #<5>
+      - jmolecules-ddd:Strict
+      #<6>
+      - architecture:Default
+

@@ -1,0 +1,15 @@
+jqassistant:
+  plugins:
+    #<1>
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin
+      version: 2.0.1
+    #<2>
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-graphml-plugin
+      version: 2.0.1
+
+  analyze:
+    groups:
+      #<3>
+      - Default

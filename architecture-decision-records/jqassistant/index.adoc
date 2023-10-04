@@ -1,7 +1,0 @@
-= Example project for Architecture Decision Records
-
-[[default]]
-[role=group,includesGroups="adr:*"]
-- <<adr:DeepLinking>>
-
-include::001-Deep-Linking.adoc[]
