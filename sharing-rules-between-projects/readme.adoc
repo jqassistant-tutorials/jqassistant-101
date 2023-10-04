@@ -7,10 +7,10 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-Create a plugin containing shared rules for using them in different projects.
+This tutorial is about sharing rules between different projects. Specifically a plugin containing shared rules will be created that can be used in several different projects.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.8.0 of jQAssistant.
+NOTE: This tutorial is written for version 2.0.6 of jQAssistant.
 
 == Overview
 
@@ -34,6 +34,8 @@ For convenience reasons the rules are bundled into groups to ease execution and 
 
 == Providing Rules As Plugin
 
+IMPORTANT: The following part of the tutorial refers to the `rules` directory. This directory itself represents a maven project, which creates a plugin that defines jQAssistant-rules. These can later be shared to other projects. (The plugin will be implemented into another project in section <<Using Shared Rules In A Maven Project>>)
+
 === The Plugin Structure
 
 The standard approach of sharing rules is by distributing them as a jQAssistant plugin.
@@ -47,7 +49,7 @@ include::rules/pom.xml[indent=0]
 
 The file mainly declares test dependencies that will be used later for verifying the rules.
 
-jQAssistant expects a plugin descriptor `/META-INF/jqassistant-plugin.xml` as classpath resource.
+jQAssistant expects a plugin descriptor `resources/META-INF/jqassistant-plugin.xml` as classpath resource.
 It declares files containing rules that shall be shared:
 
 [source,xml]
@@ -56,7 +58,7 @@ It declares files containing rules that shall be shared:
 include::rules/src/main/resources/META-INF/jqassistant-plugin.xml[]
 ----
 
-The referenced files are expected as classpath resources located in the folder `/META-INF/jqassistant-rules`.
+The referenced files are expected as classpath resources located in the folder `resources/META-INF/jqassistant-rules`.
 This tutorial uses XML documents to declare the rules.
 Thus the following folder structure is expected:
 
@@ -69,9 +71,6 @@ META-INF/
     ├── jqassistant-plugin.xmlmaven.xml
     └── my-organization.xml
 ----
-
-NOTE: Asciidoc files are supported as well but take longer time to load at startup.
-Therefore the recommended format is XML to not negatively affect the build process of other projects.
 
 The next sections describe the shared rules in detail.
 
@@ -121,7 +120,7 @@ include::rules/src/test/java/my/organization/rules/PackageTest.java[tags=Test]
 
 === Grouping Rules For Execution
 
-The file `my-organization.xml` contains defines a group:
+The file `my-organization.xml` defines a group:
 
 [source,xml]
 .src/main/resources/META-INF/jqassistant-rules/my-organization.xml
@@ -139,17 +138,19 @@ After validation they can be moved to `my-organization:Default` (or groups inclu
 
 == Using Shared Rules In A Maven Project
 
+IMPORTANT:  The following part of the tutorial refers to the `project` directory. This directory itself represents a maven project, which uses the rules from the plugin. (More precise the plugin that was created in section <<Providing Rules As Plugin>>)
+
 This section demonstrates how the set of shared rules may be activated in a Maven based project.
 The latter defines its own set of specific rules.
 These are bundled in the group `project:Default` which is declared in the file `jqassistant/index.adoc`
 
-[source,asciidoc]
+[source,xml]
 .jqassistant/index.adoc
 ....
-include::project/jqassistant/index.adoc[]
+include::project/jqassistant/index.xml[]
 ....
 
-The Maven build descriptor `pom.xml` contains the declaration for the jQAssistant plugin:
+The Maven build descriptor `pom.xml` enables jQAssistant and configures it to execute the goals "scan" and "analyze":
 
 [source,xml]
 .pom.xml
@@ -157,9 +158,15 @@ The Maven build descriptor `pom.xml` contains the declaration for the jQAssistan
 include::project/pom.xml[tags=plugin,indent=0]
 ----
 
-- The plugin containing the shared rules is declared as dependency.
-- The configuration section selects the groups `my-organization:Default` and `project:Default` for execution.
-- Furthermore a value for the parameter `rootPackage` required by the constraint `package:RootPackage` is defined.
+[source,yml]
+..jqassistant.yml
+----
+include::project/.jqassistant.yml[indent=0]
+----
+
+<1> JQAssistant is told to use the plugin containing the shared rules.
+<2> The configuration section selects the groups `my-organization:Default` and `project:Default` for execution.
+<3> Furthermore, a value for the parameter `rootPackage` required by the constraint `package:RootPackage` is defined.
 
 The project can now be built as usual and all required rules will be executed:
 
@@ -168,30 +175,8 @@ The project can now be built as usual and all required rules will be executed:
 mvn install
 ----
 
-== Using Shared Rules With The Command Line Utility
-
-For using shared rules the plugin JAR file must be copied to the folder `plugins/` of the command line utility.
-
-Furthermore a properties file must be created providing rule parameters, i.e. `rootPackage` required by the constraint `package:RootPackage`:
-
-[source,properties]
-.ruleParameters.properties
-----
-rootPackage=my.organization
-----
-
-Now the analysis can be executed using the following command:
-
-[source,raw]
-----
-# Unix
-jqassistant.sh analyze -groups my-organization:Default,project:Default -ruleParameters ruleParameters.properties
-
-# Windows
-jqassistant.cmd analyze -groups my-organization:Default,project:Default -ruleParameters ruleParameters.properties
-----
-
 == Resources
 
-1. link:tutorial.zip[ZIP archive including a Maven example for sharing rules]
+1. link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/[jQAssistant manual]
+
 
