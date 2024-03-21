@@ -1,0 +1,327 @@
+:imagesdir: includes
+
+= Documenting and Securing architecture decisions with ADRs and jQAssistant
+Stephan Pirnbaum <stephan.pirnbaum@buschmais.com>
+
+:numbered:
+
+[.lead]
+// tag::lead[]
+This tutorial demonstrates how Architecture Decision Records (ADRs) can be enhanced with jQAssistant. The tutorial shows how jQAssistant can display dynamic results directly inside your ADRs.
+// end::lead[]
+
+NOTE: This tutorial has been written for jQAssistant 2.0.4
+
+== Prerequisites
+
+- Any Java application for which an ADR shall be written.
+
+== Overview
+
+jQAssistant comes with the ability to execute rules (i.e. groups, concepts and constraints) which can then be rendered as results inside AsciiDoc documents.
+
+With that it qualifies perfectly to connect with Michael Nygards Architecture Decision Records to document architectural decisions and to enforce their adherence.
+
+This tutorial will show:
+
+- <<what>>
+- <<setup>>
+- <<securing>>
+- <<documenting>>
+
+For this, the tutorial uses the following example scenario:
+
+The database for the product catalog of an online shop shall be migrated from a relational to a document-oriented one.
+This decision was made due to performance and scalability reasons, but is out of scope for this example.
+
+However, document-oriented databases requires the modeling of aggregates in the data model and, above that, forbid deep links between aggregates.
+E.g., an entity must be referenced only inside one aggregate.
+
+Thus, the decision was made to prepare the migration by implementing aggregates and removing deep links between them.
+The example is therefore build around the deep linking decision.
+
+[[what]]
+== What are Architecture Decision Records?
+
+Architecture Decision Records are a lightweight way to document architectural decisions. They were first described by Michael Nygard (see link:http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions[ADRs by Michael Nygard]) and aim to:
+
+- spread the knowledge about architectural decisions to the team
+- make the decisions and their history transparent
+- provide context and implications in a nutshell
+
+Architecture Decision Records consist of the following parts:
+
+.Sections of ADRs
+|===
+|Section |Content
+
+|Title
+|Numbered title of the ADR
+
+|Status
+|Current phase in the lifecycle of ADRs, one of: Proposed, Accepted, Declined, Superseded.
+
+|Context
+|Brief description of the context for which the decision is valid. Describes the forces which lead to the decision.
+
+|Decision
+|Overview of the agreed on decision.
+
+|Consequences
+|Lists the implications for the developers both for exisitng and new source code. This may also contain needed refactorings.
+|===
+
+
+[[setup]]
+== Setting up your project
+
+=== Setting up jQAssistant
+
+First, jQAssistant needs to be setup in the project.
+Therefore, the `jqassistant-maven-plugin` must be added to the `build/plugin` section in the `link:pom.xml[]` as shown:
+
+[[pom]]
+[source,xml]
+.link:pom.xml[] enabling jQAssistant
+----
+include::pom.xml[tag=jQAplugin,indent=0]
+----
+
+Secondly, the project uses the `jmolecules-ddd` dependency. This dependency provides helpful annotations which are used for some predefined rules of jQAssistant. The following snippet is located in your `link:pom.xml[]` in the `dependencies` section:
+
+[[pom-jmolecules]]
+[source,xml]
+.link:pom.xml[] enabling ddd annotations
+----
+include::pom.xml[tag=jMolecules,indent=0]
+----
+
+To use the aforementioned predefined rules, the following configurations have to be added to the `link:.jqassistant.yml[]`:
+
+[[yaml]]
+[source,yaml]
+.link:jqassistant.yml[]
+----
+include::.jqassistant.yml[]
+----
+<1> includes a plugin for jQAssistant which allows jQAssistant to resolve `jmolecules-ddd`-annotations.
+<2> enables the execution of the `jmolecules-ddd:Default` group. This group is part of the plugin from (1)
+<3> enables execution of the `Default` group (the group is defined in the <<Default-group-use, Defining Concepts and Constraints to Secure Decisions>> section)
+
+NOTE: To see all available configuration options from the .jqassistant.yml refer to the link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#_yaml_files[jQAssistant user manual]
+
+=== Set up the adr-rules
+
+This tutorial uses a basic structure for the jQAssistant rules:
+
+[[adrFlat]]
+[plantuml, format=svg]
+.Folder Structure jQAssistant rules
+----
+skinparam Legend {
+	BackgroundColor transparent
+	BorderColor transparent
+	FontSize 17
+}
+legend
+<project-root>
+|_ jqassistant
+  |_ index.xml
+  |_ 001-Deep-Linking.xml
+end legend
+----
+
+NOTE: For larger projects, it's helpful to group ADRs by topic into sub-folders,
+e.g. one folder for Structure-related topics, one for Logging, one for Testing, and so on.
+
+[[securing]]
+== Defining Concepts and Constraints to Secure Decisions
+
+Now that the basic setup is done, it is time to check that the architecture decision will be implemented correctly.
+
+For that, two parts are crucial:
+
+1. Identify aggregates in the code
+2. Determine violations regarding deep-linking
+
+For this, jQAssistant knows concepts (1) and constraints (2).
+
+With concepts it's possible to enrich the created graph with additional information, e.g. that a type node represents an Aggregate (Root).
+
+To simplify the 101, we'll use the `jqassistant-jmolecules-plugin` to take care of this.
+Further information how to use it can be found in the 101 about the link:https://github.com/jqassistant-tutorials/jqassistant-101/tree/master/jmolecules-plugin-ddd[jmolecules-plugin-ddd].
+
+In our example, after integrating the `jmolecules-ddd` dependency (as shown in <<pom-jmolecules, the pom section>> of this tutorial) and the `jqassistant-jmolecules-plugin` plugin (as shown in <<yaml, the yml section>>), we have to annotate all aggregate roots as `@AggregateRoot` and the entities as `@Entity`.
+That way, the information will be automatically enriched in the jQAssistant-graph each time the aforementioned `jmolecules-ddd:Default` group is executed.
+
+WARNING: Be aware, that both annotations need to be imported to your .java files. Both are part of `org.jmolecules.ddd.annotation.*`.
+
+NOTE: The mentioned annotations are used exemplary in `link:src/main/java/your/company/adr/project/Category.java[Category.java]` and `link:src/main/java/your/company/adr/project/ProductOption.java[ProductOption.java]`.
+
+NOTE: It's also possible to enrich the information manually via a self-defined concept. In this 101, it's however only shown how to define the constraint on top of the pre-defined concepts the `jqassistant-jmolecules-plugin` provides.
+
+Next, the constraint for the ADR is created. The following snippet stems from the `link:jqassistant/001-Deep-Linking.xml[001-Deep-Linking.xml]` file.
+
+[source,xml]
+----
+include::jqassistant/001-Deep-Linking.xml[tag=content]
+----
+<1> Defines the jQAssistant group, that includes all constraints starting with `adr:DeepLinking:`
+<2> Defines the name of a new constraint (the constraint starts with `adr:DeepLinking:` so it's included in the aforementioned group)
+<3> Defines that the constraint requires the concepts starting with `jmolecules-ddd:`. This includes all concepts generated by the `jqassistant-jmolecules-plugin`.
+<4> Sets the description for the constraint
+<5> Sets the jQAssistant-query, which is executed by this constraint
+
+Furthermore the `link:jqassistant/default.xml[default.xml]` defines the group `Default`, that includes all rules starting with `adr:`:
+
+[[Default-group-use]]
+[source,xml]
+----
+include::jqassistant/default.xml[tag=content]
+----
+
+NOTE: The `Default` group is defined to be analyzed when jQAssistant is executed. This behaviour is explained in <<yaml, yml section>> of this tutorial.
+
+Now when the project gets build via maven, you'll see a constraint violation which leads to a failing build.
+
+----
+[ERROR] --[ Constraint Violation ]-----------------------------------------
+[ERROR] Constraint: adr:DeepLinking:NoDeepLinkingBetweenAggregates
+[ERROR] Severity: MAJOR
+[ERROR] Number of rows: 1
+[ERROR]             Finds all entities that are referenced by more than one aggregate.
+[ERROR]
+[ERROR]   Entity=ProductOption, Aggregates=Category, Product, Product
+[ERROR] -------------------------------------------------------------------
+----
+
+Whenever there will be a new violation, the build will fail and we are forced to fix the issue.
+However, when introducing a new decision, it may make sense to either lower the severity of the constraint to `MINOR`
+in order to not fail build or to update the query to have a list of allowed violations.
+That way, the decision can be incorporated step-by-step.
+
+[[documenting]]
+== Documenting your ADR results
+
+WARNING: To continue with this tutorial you have to change something in the code yourself!
+
+In the current state the execution of the maven build stops after analyzing the `adr:DeepLinking:NoDeepLinkingBetweenAggregates` constraint!
+
+=== Stop build failures on constraint violation
+
+There are a few ways to work around this. The following two are presented:
+
+1. <<Changing the severity>> of the constraint to `MINOR`.
+2. <<Reconfigure jQAssistant to continue on error, Configure jQAssistant>> to continue the build on a produced error. (preferred for this tutorial)
+
+==== Changing the severity
+You can simply add `severity="minor"` to the constraint:
+
+[source,xml]
+----
+<!--Add the severity attribute to line 16:-->
+<constraint id="adr:DeepLinking:NoDeepLinkingBetweenAggregates">
+<!--Afterward the line should look like this:-->
+<constraint id="adr:DeepLinking:NoDeepLinkingBetweenAggregates" severity="minor">
+----
+
+From now on the constraint violation only produces a warning.
+
+==== Reconfigure jQAssistant to continue on error
+You can simply add `continue-on-failure: true` to the `analyze/report` section of your `link:.jqassistant.yml[]`. Afterward it should look like this:
+
+[source, yaml]
+----
+jqassistant:
+  plugins:
+    #<1>
+    - group-id: org.jqassistant.contrib.plugin
+      artifact-id: jqassistant-jmolecules-plugin
+      version: 1.4.0
+
+  analyze:
+    groups:
+      #<2>
+      - jmolecules-ddd:Default
+      #<3>
+      - Default
+
+    report:
+      continue-on-failure: true
+----
+
+==== More Options
+It's also possible to change the default severity for constraints or tell jQAssistant to not throw an error on violation of a rule with a high severity. To learn more about this check the https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/#_yaml_files[jQAssistant Manual]
+
+=== Setting up Asciidoctor
+
+To render actual ADRs from adoc files, Asciidoctor is added to the project. Also the `jqassistant-asciidoctorj-extensions` needs to be added to Asciidoctor. This is needed later to process and include the results generated by jQAssistant:
+
+[[pom-asciidoc]]
+[source,xml]
+.link:pom.xml[pom.xml] enabling Asciidoctor
+----
+include::pom.xml[tag=Asciidocplugin,indent=0]
+----
+<1> defines the file type for our reports
+<2> defines that Asciidoctor preserves the folder structure we created inside our `src/docs/asciidoc` directory
+<3> defines where jQAssistant puts the jqassistant-report.xml (normally you do not have to change this attribute, because jQAssistant puts the file in the already specified location)
+<4> `jqassistant-asciidoctorj-extensions` is added
+
+TIP: If you want to know more about the `asciidoctor-maven-plugin` and the available configuration attributes check the https://docs.asciidoctor.org/maven-tools/latest/plugin/goals/process-asciidoc/#configuration[Asciidoctor Maven plugin Documentation].
+
+=== Visually representing ADRs
+
+Firstly the `link:src/docs/asciidoc/index.adoc[]` is created (`src/docs/asciidoc/` is the default location for asciidoctor to look for adoc files):
+
+[source,asciidoc]
+.link:src/docs/asciidoc/index.adoc[index.adoc]
+----
+= Example project for Architecture Decision Records <1>
+
+== ADRs:
+* <<ADR_001:DeepLinking>> <2>
+
+\include::adrs/001-Deep-Linking.adoc[] <3>
+----
+<1> Translates to a level 1 heading (== translates to level 2 heading)
+<2> creates a hyperlink to a different section of the adoc document. The anchor which is referenced here is shown in the next code snippet
+<3> includes the content from `link:src/docs/asciidoc/adrs/001-Deep-Linking.adoc[001-Deep-Linking.adoc]` seamless into this file.
+
+Secondly the `link:src/docs/asciidoc/adrs/001-Deep-Linking.adoc[]` is created. It uses the basic structure of an ADR.
+
+[source,asciidoc]
+.link:src/docs/asciidoc/adrs/001-Deep-Linking.adoc[001-Deep-Linking.adoc]
+----
+ [[ADR_001:DeepLinking]] // <1>
+ == 001 - No deep linking between aggregates
+
+ === Status: Proposed // <2>
+
+ === Context // <3>
+ ...
+
+ === Decision // <4>
+ ...
+
+ === Consequences // <5>
+ ...
+include::jQAssistant:Rules[constraints="adr:NoDeepLinkingBetweenAggregates", leveloffset=+3] <6>
+----
+<1> Anchor for referencing the ADR (as mentioned in the code snippet before)
+<2> Status of the ADR
+<3> Context section of the ADR
+<4> Decision section of the ADR
+<5> Consequences section of the ADR
+<6> This is an include statement that will be replaced by a dynamic report about the jQAssistant analysis results. For this the `jqassistant-asciidoctorj-extensions` as shown in <<Setting up Asciidoctor>> section is required.
+
+TIP: To learn more about the include statement (6) check out the `generate-reports` tutorial in the jqassistant-101 tutorials.
+
+NOTE: For the full example, please check out the link:src/docs/asciidoc/adrs/001-Deep-Linking.adoc[001-Deep-Linking ADR] directly.
+
+== Resources
+
+1. link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/[jQAssistant user manual]
+2. link:http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions[Architecture Decision Records by Michael Nygard]
+3. link:https://github.com/jqassistant-tutorials/jqassistant-101/tree/master/jmolecules-plugin-ddd[jQAssistat 101 on Domain Driven Design]
+4. https://docs.asciidoctor.org/maven-tools/latest/plugin/goals/process-asciidoc[Asciidoctor Maven plugin Documentation]

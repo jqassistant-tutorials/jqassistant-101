@@ -1,0 +1,12 @@
+:toc: left
+= My Project
+
+Here will be displayed a summary, which summarizes all your rules in one table as described in the `readme.adoc` file in section "4.1 Rendering summaries":
+
+// tag::summary[]
+include::jQAssistant:Summary[]
+// end::summary[]
+
+The following part is an include of the module.adoc's content.
+
+include::modules/module.adoc[leveloffset=+1]

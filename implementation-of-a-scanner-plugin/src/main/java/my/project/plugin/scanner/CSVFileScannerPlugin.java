@@ -9,6 +9,7 @@ import com.buschmais.jqassistant.plugin.common.api.model.FileDescriptor;
 import com.buschmais.jqassistant.plugin.common.api.scanner.AbstractScannerPlugin;
 import com.buschmais.jqassistant.plugin.common.api.scanner.filesystem.FileResource;
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import my.project.plugin.scanner.model.CSVColumnDescriptor;
 import my.project.plugin.scanner.model.CSVFileDescriptor;
 import my.project.plugin.scanner.model.CSVRowDescriptor;
@@ -60,6 +61,8 @@ public class CSVFileScannerPlugin extends AbstractScannerPlugin<FileResource, CS
                 row++;
             }
             return csvFileDescriptor;
+        } catch (CsvValidationException e) {
+            throw new IOException(e);
         }
     }
 }

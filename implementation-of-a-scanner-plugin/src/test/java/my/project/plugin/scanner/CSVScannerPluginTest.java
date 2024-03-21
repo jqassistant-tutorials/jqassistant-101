@@ -2,7 +2,7 @@ package my.project.plugin.scanner;
 
 import com.buschmais.jqassistant.core.scanner.api.DefaultScope;
 import com.buschmais.jqassistant.core.store.api.model.Descriptor;
-import com.buschmais.jqassistant.plugin.common.test.AbstractPluginIT;
+import com.buschmais.jqassistant.core.test.plugin.AbstractPluginIT;
 import my.project.plugin.scanner.model.CSVColumnDescriptor;
 import my.project.plugin.scanner.model.CSVFileDescriptor;
 import my.project.plugin.scanner.model.CSVRowDescriptor;

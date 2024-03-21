@@ -7,13 +7,10 @@ Dirk Mahler <dirk.mahler@jqassistant.org>
 
 [.lead]
 // tag::lead[]
-Demonstrates the implementation of a scanner plugin.
+This tutorial shows how to read other file types that are not natively supported by jQAssistant. Specifically a scanner plugin for jQAssistant will be created, that can parse csv files to the jQAssistant-graph.
 // end::lead[]
 
-NOTE: This tutorial is written for version 1.10.0 of jQAssistant.
-
-.Hands On: Implementation Of A Scanner Plugin (German language)
-video::577058109[vimeo,width=800,height=450]
+NOTE: This tutorial is written for version 2.0.6 of jQAssistant.
 
 == Overview
 
@@ -21,30 +18,51 @@ A scanner plugin allows extending the functionality of jQAssistant to read arbit
 files) and create the corresponding information in the database.
 The following example demonstrates this for CSV files using a Maven project.
 
+The tutorial is divided into the following sections:
+
+1. <<Setup Maven Project>> (integrating necessary dependencies)
+2. <<Define The Graph Model>> (defining the basic structure of the scanner with interfaces)
+3. <<Implement The Scanner Plugin>> (implementing and embedding the plugin)
+4. <<Testing>> (writing a basic test with the jQAssistant test API)
+
 == Setup Maven Project
 
 The plugin is an artifact which contains the scanner implementation, model classes and a plugin descriptor.
 A Maven project needs to declare the following dependencies:
 
-[source,xml]
-.pom.xml
-----
-include::pom.xml[tags=dependencies,indent=0]
-----
-
-The following artifacts dependencies are declared:
+Dependencies for writing a scanner plugin for jQAssistant:
 
 com.buschmais.jqassistant.core:scanner::
-  Provides the scanner plugin API
+Provides the scanner plugin API
 
 com.buschmais.jqassistant.plugin:common::
-  Contains common functionality shared by plugins,
+Contains common functionality shared by plugins,
+
+[source,xml]
+.pom.xml dependencies for writing a scanner
+----
+include::pom.xml[tags=jQADependencies,indent=0]
+----
+
+Dependencies for testing a jQAssistant scanner plugin:
+
+[source,xml]
+.pom.xml dependencies for testing a scanner
+----
+include::pom.xml[tags=testDependencies,indent=0]
+----
+
+Dependency for reading csv files:
 
 com.opencsv:opencsv::
-  A library http://opencsv.sourceforge.net['opencsv'] for reading CSV files.
-  This library is already included in the jQAssistant distribution, therefore the scope is `provided`.
+A library http://opencsv.sourceforge.net['opencsv'] for reading CSV files.
+This library is already included in the jQAssistant distribution, therefore the scope is `provided`.
 
-There are also several dependencies defined for implementing tests, see <<Testing>>.
+[source,xml]
+.pom.xml opencsv
+----
+include::pom.xml[tags=opencsv,indent=0]
+----
 
 == Define The Graph Model
 
@@ -111,7 +129,7 @@ include::src/main/java/my/project/plugin/scanner/CSVFileScannerPlugin.java[tags=
 Finally the model and the plugin implementation must be declared in the jQAssistant plugin descriptor:
 
 [source,xml]
-./META-INF/jqassistant-plugin.xml
+.resources//META-INF/jqassistant-plugin.xml
 ----
 include::src/main/resources/META-INF/jqassistant-plugin.xml[]
 ----
@@ -152,7 +170,15 @@ Therefore just start the server from the command line using `mvn jqassistant:ser
 
 // TODO naming rules for Labels, properties and relations, probably in manual instead of here
 
+== Hands On video
+
+WARNING: This video was made for jQAssistant version 1.8, but most of the basic concepts remain the same.
+
+.Hands On: Implementation Of A Scanner Plugin (German language)
+video::577058109[vimeo,width=800,height=450]
+
 == Resources
 
-1. link:tutorial.zip[ZIP archive including the plugin]
+1. link:https://jqassistant.github.io/jqassistant/doc/2.0.0/manual/[jQAssistant manual]
 2. link:https://vimeo.com/577058109[Hands On Video on Vimeo (German language)]
+3. link:http://extended-objects.org[eXtended Objects]
